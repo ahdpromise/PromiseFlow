@@ -37,6 +37,9 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ActivitiesModule } from './activities/activities.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
 
+import { PlansModule } from './plans/plans.module';
+import { FeaturesModule } from './features/features.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -85,6 +88,9 @@ import { AuditLogsModule } from './audit-logs/audit-logs.module';
     NotificationsModule,
     ActivitiesModule,
     AuditLogsModule,
+
+    PlansModule,
+    FeaturesModule,
   ],
 
   controllers: [AppController],
