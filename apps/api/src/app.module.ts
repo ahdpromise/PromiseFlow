@@ -44,6 +44,9 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { UsageRecordsModule } from './usage-records/usage-records.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 
+import { WebhooksModule } from './webhooks/webhooks.module';
+import { WebhookDeliveriesModule } from './webhook-deliveries/webhook-deliveries.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -99,6 +102,9 @@ import { ApiKeysModule } from './api-keys/api-keys.module';
     SubscriptionsModule,
     UsageRecordsModule,
     ApiKeysModule,
+
+    WebhooksModule,
+    WebhookDeliveriesModule,
   ],
 
   controllers: [AppController],
