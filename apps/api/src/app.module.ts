@@ -42,6 +42,7 @@ import { FeaturesModule } from './features/features.module';
 import { PlanFeaturesModule } from './plan-features/plan-features.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { UsageRecordsModule } from './usage-records/usage-records.module';
+import { ApiKeysModule } from './api-keys/api-keys.module';
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { UsageRecordsModule } from './usage-records/usage-records.module';
     PlanFeaturesModule,
     SubscriptionsModule,
     UsageRecordsModule,
+    ApiKeysModule,
   ],
 
   controllers: [AppController],
