@@ -40,6 +40,7 @@ import { AuditLogsModule } from './audit-logs/audit-logs.module';
 import { PlansModule } from './plans/plans.module';
 import { FeaturesModule } from './features/features.module';
 import { PlanFeaturesModule } from './plan-features/plan-features.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { PlanFeaturesModule } from './plan-features/plan-features.module';
     PlansModule,
     FeaturesModule,
     PlanFeaturesModule,
+    SubscriptionsModule,
   ],
 
   controllers: [AppController],
