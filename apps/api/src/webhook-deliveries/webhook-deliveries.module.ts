@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from '../auth/auth.module';
 import { Webhook } from '../entities/webhooks.entity';
 import { WebhookDelivery } from '../entities/webhook-deliveries.entity';
 
@@ -13,6 +14,7 @@ import { WebhookDeliveriesService } from './webhook-deliveries.service';
       WebhookDelivery,
       Webhook,
     ]),
+    AuthModule,
   ],
   controllers: [
     WebhookDeliveriesController,

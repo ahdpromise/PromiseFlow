@@ -1,4 +1,5 @@
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -12,6 +13,18 @@ import {
 import { Organization } from './organization.entity';
 
 @Entity('api_keys')
+@Check(
+  'CHK_api_keys_expiry_after_creation',
+  `"expires_at" > "created_at"`,
+)
+@Check(
+  'CHK_api_keys_revoked_after_creation',
+  `"revoked_at" >= "created_at"`,
+)
+@Check(
+  'CHK_api_keys_last_used_after_creation',
+  `"last_used_at" >= "created_at"`,
+)
 @Index(['key_hash'], { unique: true })
 export class ApiKey {
   @PrimaryGeneratedColumn('uuid')

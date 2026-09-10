@@ -2,11 +2,14 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Organization } from './organization.entity';
+
 @Entity('projects')
-@Index(['organization_id'])
 @Index(['organization_id', 'slug'], { unique: true })
 export class Project {
   @PrimaryGeneratedColumn('uuid')
@@ -41,4 +44,12 @@ export class Project {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Organization, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'organization_id',
+  })
+  organization: Organization;
 }

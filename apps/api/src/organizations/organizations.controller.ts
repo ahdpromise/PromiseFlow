@@ -18,15 +18,27 @@ export class OrganizationsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.organizationsService.findAll();
+  findAll(
+    @CurrentUser()
+    user: { userId: string; email: string },
+  ) {
+    return this.organizationsService.findAll(user.userId);
   }
 
   @Post()
   create(
-    @Body() body: { name: string; slug: string },
-    @CurrentUser() user: { userId: string; email: string },
+    @Body()
+    body: {
+      name: string;
+      slug: string;
+    },
+    @CurrentUser()
+    user: { userId: string; email: string },
   ) {
-    return this.organizationsService.create(body.name, body.slug);
+    return this.organizationsService.create(
+      user.userId,
+      body.name,
+      body.slug,
+    );
   }
 }

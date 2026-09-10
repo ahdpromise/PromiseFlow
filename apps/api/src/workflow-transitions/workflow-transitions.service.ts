@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { WorkflowTransition } from '../entities/workflow-transition.entity';
 
 @Injectable()
 export class WorkflowTransitionsService {
   constructor(
-    @InjectRepository(WorkflowTransition)
-    private readonly workflowTransitionsRepository: Repository<WorkflowTransition>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(workflowId: string) {
-    return this.workflowTransitionsRepository.find({
-      where: {
-        workflow_id: workflowId,
-        deleted_at: IsNull(),
+  async findAll(
+    currentUserId: string,
+    workflowId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository =
+          manager.getRepository(WorkflowTransition);
+
+        return repository.find({
+          where: {
+            workflow_id: workflowId,
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'ASC',
+          },
+        });
       },
-    });
+    );
   }
 
   async create(
+    currentUserId: string,
     workflowId: string,
     fromStepId: string,
     toStepId: string,
@@ -28,18 +42,23 @@ export class WorkflowTransitionsService {
     slug: string,
     condition?: string,
   ) {
-    const workflowTransition =
-      this.workflowTransitionsRepository.create({
-        workflow_id: workflowId,
-        from_step_id: fromStepId,
-        to_step_id: toStepId,
-        name,
-        slug,
-        condition: condition ?? null,
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository =
+          manager.getRepository(WorkflowTransition);
 
-    return this.workflowTransitionsRepository.save(
-      workflowTransition,
+        const workflowTransition = repository.create({
+          workflow_id: workflowId,
+          from_step_id: fromStepId,
+          to_step_id: toStepId,
+          name,
+          slug,
+          condition: condition ?? null,
+        });
+
+        return repository.save(workflowTransition);
+      },
     );
   }
 }

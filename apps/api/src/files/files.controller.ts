@@ -20,14 +20,21 @@ export class FilesController {
 
   @Get()
   findAll(
-    @Query('task_id') taskId: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('task_id')
+    taskId: string,
   ) {
-    return this.filesService.findAll(taskId);
+    return this.filesService.findAll(
+      user.userId,
+      taskId,
+    );
   }
 
   @Post()
   create(
-    @CurrentUser() user: { userId: string; email: string },
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       task_id: string;
@@ -38,8 +45,8 @@ export class FilesController {
     },
   ) {
     return this.filesService.create(
-      body.task_id,
       user.userId,
+      body.task_id,
       body.file_name,
       body.storage_key,
       body.mime_type,

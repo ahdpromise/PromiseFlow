@@ -1,11 +1,21 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Task } from './task.entity';
+import { User } from './user.entity';
+
 @Entity('files')
+@Check(
+  'CHK_files_file_size_non_negative',
+  `"file_size" >= 0`,
+)
 @Index(['task_id'])
 @Index(['uploaded_by_user_id'])
 export class File {
@@ -41,4 +51,20 @@ export class File {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Task, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'task_id',
+  })
+  task: Task;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'uploaded_by_user_id',
+  })
+  uploaded_by_user: User;
 }

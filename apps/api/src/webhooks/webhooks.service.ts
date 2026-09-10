@@ -3,118 +3,146 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { randomBytes } from 'crypto';
-import { Repository } from 'typeorm';
 
-import { Webhook } from '../entities/webhooks.entity';
+import { RlsContextService } from '../database/rls-context.service';
 import { Organization } from '../entities/organization.entity';
+import { Webhook } from '../entities/webhooks.entity';
 
 @Injectable()
 export class WebhooksService {
   constructor(
-    @InjectRepository(Webhook)
-    private readonly webhooksRepository: Repository<Webhook>,
-
-    @InjectRepository(Organization)
-    private readonly organizationsRepository: Repository<Organization>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
   async create(
+    currentUserId: string,
     organizationId: string,
     name: string,
     url: string,
     events: string,
   ) {
-    const organization =
-      await this.organizationsRepository.findOne({
-        where: {
-          id: organizationId,
-        },
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const organizationsRepository =
+          manager.getRepository(Organization);
 
-    if (!organization) {
-      throw new NotFoundException(
-        'Organization not found',
-      );
-    }
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    const existingWebhook =
-      await this.webhooksRepository.findOne({
-        where: {
-          organization_id: organizationId,
-          name,
-        },
-      });
+        const organization =
+          await organizationsRepository.findOne({
+            where: {
+              id: organizationId,
+            },
+          });
 
-    if (existingWebhook) {
-      throw new ConflictException(
-        'A webhook with this name already exists for this organization',
-      );
-    }
+        if (!organization) {
+          throw new NotFoundException(
+            'Organization not found',
+          );
+        }
 
-    const secret = `whsec_${randomBytes(32).toString('hex')}`;
+        const existingWebhook =
+          await webhooksRepository.findOne({
+            where: {
+              organization_id: organizationId,
+              name,
+            },
+          });
 
-    const webhook =
-      this.webhooksRepository.create({
-        organization_id: organizationId,
-        name,
-        url,
-        secret,
-        events,
-        is_active: true,
-      });
+        if (existingWebhook) {
+          throw new ConflictException(
+            'A webhook with this name already exists for this organization',
+          );
+        }
 
-    const savedWebhook =
-      await this.webhooksRepository.save(webhook);
+        const secret = `whsec_${randomBytes(32).toString('hex')}`;
 
-    return {
-      id: savedWebhook.id,
-      organization_id:
-        savedWebhook.organization_id,
-      name: savedWebhook.name,
-      url: savedWebhook.url,
-      events: savedWebhook.events,
-      is_active: savedWebhook.is_active,
-      secret,
-      created_at:
-        savedWebhook.created_at,
-      updated_at:
-        savedWebhook.updated_at,
-    };
+        const webhook =
+          webhooksRepository.create({
+            organization_id: organizationId,
+            name,
+            url,
+            secret,
+            events,
+            is_active: true,
+          });
+
+        const savedWebhook =
+          await webhooksRepository.save(webhook);
+
+        return {
+          id: savedWebhook.id,
+          organization_id:
+            savedWebhook.organization_id,
+          name: savedWebhook.name,
+          url: savedWebhook.url,
+          events: savedWebhook.events,
+          is_active: savedWebhook.is_active,
+          secret,
+          created_at:
+            savedWebhook.created_at,
+          updated_at:
+            savedWebhook.updated_at,
+        };
+      },
+    );
   }
 
   async findByOrganizationId(
+    currentUserId: string,
     organizationId: string,
   ) {
-    return this.webhooksRepository.find({
-      where: {
-        organization_id: organizationId,
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
+
+        return webhooksRepository.find({
+          where: {
+            organization_id: organizationId,
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-      order: {
-        created_at: 'DESC',
-      },
-    });
+    );
   }
 
-  async findById(id: string) {
-    const webhook =
-      await this.webhooksRepository.findOne({
-        where: {
-          id,
-        },
-      });
+  async findById(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    if (!webhook) {
-      throw new NotFoundException(
-        'Webhook not found',
-      );
-    }
+        const webhook =
+          await webhooksRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-    return webhook;
+        if (!webhook) {
+          throw new NotFoundException(
+            'Webhook not found',
+          );
+        }
+
+        return webhook;
+      },
+    );
   }
 
   async update(
+    currentUserId: string,
     id: string,
     data: {
       name?: string;
@@ -123,50 +151,89 @@ export class WebhooksService {
       is_active?: boolean;
     },
   ) {
-    const webhook =
-      await this.findById(id);
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    if (
-      data.name !== undefined &&
-      data.name !== webhook.name
-    ) {
-      const existingWebhook =
-        await this.webhooksRepository.findOne({
-          where: {
-            organization_id:
-              webhook.organization_id,
-            name: data.name,
-          },
-        });
+        const webhook =
+          await webhooksRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-      if (existingWebhook) {
-        throw new ConflictException(
-          'A webhook with this name already exists for this organization',
+        if (!webhook) {
+          throw new NotFoundException(
+            'Webhook not found',
+          );
+        }
+
+        if (
+          data.name !== undefined &&
+          data.name !== webhook.name
+        ) {
+          const existingWebhook =
+            await webhooksRepository.findOne({
+              where: {
+                organization_id:
+                  webhook.organization_id,
+                name: data.name,
+              },
+            });
+
+          if (existingWebhook) {
+            throw new ConflictException(
+              'A webhook with this name already exists for this organization',
+            );
+          }
+        }
+
+        Object.assign(webhook, data);
+
+        return webhooksRepository.save(
+          webhook,
         );
-      }
-    }
-
-    Object.assign(webhook, data);
-
-    return this.webhooksRepository.save(
-      webhook,
+      },
     );
   }
 
-  async deactivate(id: string) {
-    const webhook =
-      await this.findById(id);
+  async deactivate(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    if (!webhook.is_active) {
-      throw new ConflictException(
-        'Webhook is already inactive',
-      );
-    }
+        const webhook =
+          await webhooksRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-    webhook.is_active = false;
+        if (!webhook) {
+          throw new NotFoundException(
+            'Webhook not found',
+          );
+        }
 
-    return this.webhooksRepository.save(
-      webhook,
+        if (!webhook.is_active) {
+          throw new ConflictException(
+            'Webhook is already inactive',
+          );
+        }
+
+        webhook.is_active = false;
+
+        return webhooksRepository.save(
+          webhook,
+        );
+      },
     );
   }
 }

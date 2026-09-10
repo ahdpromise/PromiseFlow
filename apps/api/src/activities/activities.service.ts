@@ -1,42 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Activity } from '../entities/activity.entity';
 
 @Injectable()
 export class ActivitiesService {
   constructor(
-    @InjectRepository(Activity)
-    private readonly activitiesRepository: Repository<Activity>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(userId: string) {
-    return this.activitiesRepository.find({
-      where: {
-        user_id: userId,
-      },
-      order: {
-        created_at: 'DESC',
-      },
-    });
-  }
-
-  async create(
-    userId: string,
-    action: string,
-    entityType: string,
-    entityId: string,
-    metadata?: Record<string, unknown>,
+  async findAll(
+    currentUserId: string,
+    organizationId: string,
   ) {
-    const activity = this.activitiesRepository.create({
-      user_id: userId,
-      action,
-      entity_type: entityType,
-      entity_id: entityId,
-      metadata: metadata ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Activity);
 
-    return this.activitiesRepository.save(activity);
+        return repository.find({
+          where: {
+            organization_id: organizationId,
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
+      },
+    );
   }
 }

@@ -1,11 +1,21 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Task } from './task.entity';
+import { User } from './user.entity';
+
 @Entity('approvals')
+@Check(
+  'CHK_approvals_status',
+  `"status" IN ('pending', 'approved', 'rejected')`,
+)
 @Index(['task_id'])
 @Index(['approver_user_id'])
 @Index(['task_id', 'status'])
@@ -49,4 +59,20 @@ export class Approval {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Task, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'task_id',
+  })
+  task: Task;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'approver_user_id',
+  })
+  approver_user: User;
 }

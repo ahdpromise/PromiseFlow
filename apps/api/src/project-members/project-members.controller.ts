@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
 import { ProjectMembersService } from './project-members.service';
 
 @Controller('project-members')
@@ -17,12 +18,19 @@ export class ProjectMembersController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.projectMembersService.findAll();
+  findAll(
+    @CurrentUser()
+    user: { userId: string; email: string },
+  ) {
+    return this.projectMembersService.findAll(
+      user.userId,
+    );
   }
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       project_id: string;
@@ -30,6 +38,7 @@ export class ProjectMembersController {
     },
   ) {
     return this.projectMembersService.create(
+      user.userId,
       body.project_id,
       body.user_id,
     );

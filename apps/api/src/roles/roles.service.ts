@@ -1,37 +1,55 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Role } from '../entities/roles.entity';
 
 @Injectable()
 export class RolesService {
   constructor(
-    @InjectRepository(Role)
-    private readonly rolesRepository: Repository<Role>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(organizationId: string) {
-    return this.rolesRepository.find({
-      where: {
-        organization_id: organizationId,
+  async findAll(
+    currentUserId: string,
+    organizationId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        return manager.getRepository(Role).find({
+          where: {
+            organization_id: organizationId,
+          },
+          order: {
+            created_at: 'ASC',
+          },
+        });
       },
-    });
+    );
   }
 
   async create(
+    currentUserId: string,
     organizationId: string,
     name: string,
     slug: string,
     description?: string,
   ) {
-    const role = this.rolesRepository.create({
-      organization_id: organizationId,
-      name,
-      slug,
-      description: description ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const rolesRepository =
+          manager.getRepository(Role);
 
-    return this.rolesRepository.save(role);
+        const role = rolesRepository.create({
+          organization_id: organizationId,
+          name,
+          slug,
+          description: description ?? null,
+        });
+
+        return rolesRepository.save(role);
+      },
+    );
   }
 }

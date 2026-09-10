@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { ApprovalsService } from './approvals.service';
 
@@ -21,13 +22,21 @@ export class ApprovalsController {
 
   @Get()
   findAll(
-    @Query('task_id') taskId: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('task_id')
+    taskId: string,
   ) {
-    return this.approvalsService.findAll(taskId);
+    return this.approvalsService.findAll(
+      user.userId,
+      taskId,
+    );
   }
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       task_id: string;
@@ -36,6 +45,7 @@ export class ApprovalsController {
     },
   ) {
     return this.approvalsService.create(
+      user.userId,
       body.task_id,
       body.approver_user_id,
       body.comment,
@@ -44,7 +54,10 @@ export class ApprovalsController {
 
   @Patch(':id/decision')
   decide(
-    @Param('id') id: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    id: string,
     @Body()
     body: {
       status: 'approved' | 'rejected';
@@ -52,6 +65,7 @@ export class ApprovalsController {
     },
   ) {
     return this.approvalsService.decide(
+      user.userId,
       id,
       body.status,
       body.comment,

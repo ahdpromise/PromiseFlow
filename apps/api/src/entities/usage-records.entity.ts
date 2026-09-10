@@ -1,4 +1,5 @@
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,6 +14,14 @@ import { Organization } from './organization.entity';
 import { Feature } from './features.entity';
 
 @Entity('usage_records')
+@Check(
+  'CHK_usage_records_usage_non_negative',
+  `"usage" >= 0`,
+)
+@Check(
+  'CHK_usage_records_period',
+  `"period_end" > "period_start"`,
+)
 @Index(
   [
     'organization_id',

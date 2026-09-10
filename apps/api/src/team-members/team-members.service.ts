@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { TeamMember } from '../entities/team-member.entity';
 
 @Injectable()
 export class TeamMembersService {
   constructor(
-    @InjectRepository(TeamMember)
-    private readonly teamMembersRepository: Repository<TeamMember>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll() {
-    return this.teamMembersRepository.find();
+  async findAll(
+    currentUserId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(TeamMember);
+
+        return repository.find({
+          where: {
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
+      },
+    );
   }
 
-  async create(teamId: string, userId: string) {
-    const teamMember = this.teamMembersRepository.create({
-      team_id: teamId,
-      user_id: userId,
-    });
+  async create(
+    currentUserId: string,
+    teamId: string,
+    memberUserId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(TeamMember);
 
-    return this.teamMembersRepository.save(teamMember);
+        const teamMember = repository.create({
+          team_id: teamId,
+          user_id: memberUserId,
+        });
+
+        return repository.save(teamMember);
+      },
+    );
   }
 }

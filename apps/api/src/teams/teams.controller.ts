@@ -3,10 +3,12 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
 import { TeamsService } from './teams.service';
 
 @Controller('teams')
@@ -17,12 +19,22 @@ export class TeamsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.teamsService.findAll();
+  findAll(
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('organization_id')
+    organizationId: string,
+  ) {
+    return this.teamsService.findAll(
+      user.userId,
+      organizationId,
+    );
   }
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       organization_id: string;
@@ -31,6 +43,7 @@ export class TeamsController {
     },
   ) {
     return this.teamsService.create(
+      user.userId,
       body.organization_id,
       body.name,
       body.slug,

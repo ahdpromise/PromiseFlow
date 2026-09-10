@@ -3,9 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Organization } from '../entities/organization.entity';
 import { Plan } from '../entities/plans.entity';
 import { Subscription } from '../entities/subscriptions.entity';
@@ -13,61 +12,75 @@ import { Subscription } from '../entities/subscriptions.entity';
 @Injectable()
 export class SubscriptionsService {
   constructor(
-    @InjectRepository(Subscription)
-    private readonly subscriptionsRepository: Repository<Subscription>,
-
-    @InjectRepository(Organization)
-    private readonly organizationsRepository: Repository<Organization>,
-
-    @InjectRepository(Plan)
-    private readonly plansRepository: Repository<Plan>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findById(id: string) {
-    const subscription =
-      await this.subscriptionsRepository.findOne({
-        where: {
-          id,
-        },
-        relations: {
-          organization: true,
-          plan: true,
-        },
-      });
+  async findById(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const subscriptionsRepository =
+          manager.getRepository(Subscription);
 
-    if (!subscription) {
-      throw new NotFoundException(
-        'Subscription not found',
-      );
-    }
+        const subscription =
+          await subscriptionsRepository.findOne({
+            where: {
+              id,
+            },
+            relations: {
+              organization: true,
+              plan: true,
+            },
+          });
 
-    return subscription;
+        if (!subscription) {
+          throw new NotFoundException(
+            'Subscription not found',
+          );
+        }
+
+        return subscription;
+      },
+    );
   }
 
   async findByOrganizationId(
+    currentUserId: string,
     organizationId: string,
   ) {
-    const subscription =
-      await this.subscriptionsRepository.findOne({
-        where: {
-          organization_id: organizationId,
-        },
-        relations: {
-          organization: true,
-          plan: true,
-        },
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const subscriptionsRepository =
+          manager.getRepository(Subscription);
 
-    if (!subscription) {
-      throw new NotFoundException(
-        'Subscription not found',
-      );
-    }
+        const subscription =
+          await subscriptionsRepository.findOne({
+            where: {
+              organization_id: organizationId,
+            },
+            relations: {
+              organization: true,
+              plan: true,
+            },
+          });
 
-    return subscription;
+        if (!subscription) {
+          throw new NotFoundException(
+            'Subscription not found',
+          );
+        }
+
+        return subscription;
+      },
+    );
   }
 
   async create(
+    currentUserId: string,
     organizationId: string,
     planId: string,
     status: string,
@@ -75,62 +88,78 @@ export class SubscriptionsService {
     currentPeriodEnd: Date,
     cancelAtPeriodEnd = false,
   ) {
-    const organization =
-      await this.organizationsRepository.findOne({
-        where: {
-          id: organizationId,
-        },
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const organizationsRepository =
+          manager.getRepository(Organization);
 
-    if (!organization) {
-      throw new NotFoundException(
-        'Organization not found',
-      );
-    }
+        const plansRepository =
+          manager.getRepository(Plan);
 
-    const plan =
-      await this.plansRepository.findOne({
-        where: {
-          id: planId,
-          is_active: true,
-        },
-      });
+        const subscriptionsRepository =
+          manager.getRepository(Subscription);
 
-    if (!plan) {
-      throw new NotFoundException(
-        'Active plan not found',
-      );
-    }
+        const organization =
+          await organizationsRepository.findOne({
+            where: {
+              id: organizationId,
+            },
+          });
 
-    const existingSubscription =
-      await this.subscriptionsRepository.findOne({
-        where: {
-          organization_id: organizationId,
-        },
-      });
+        if (!organization) {
+          throw new NotFoundException(
+            'Organization not found',
+          );
+        }
 
-    if (existingSubscription) {
-      throw new ConflictException(
-        'Organization already has a subscription',
-      );
-    }
+        const plan =
+          await plansRepository.findOne({
+            where: {
+              id: planId,
+              is_active: true,
+            },
+          });
 
-    const subscription =
-      this.subscriptionsRepository.create({
-        organization_id: organizationId,
-        plan_id: planId,
-        status,
-        current_period_start: currentPeriodStart,
-        current_period_end: currentPeriodEnd,
-        cancel_at_period_end: cancelAtPeriodEnd,
-      });
+        if (!plan) {
+          throw new NotFoundException(
+            'Active plan not found',
+          );
+        }
 
-    return this.subscriptionsRepository.save(
-      subscription,
+        const existingSubscription =
+          await subscriptionsRepository.findOne({
+            where: {
+              organization_id: organizationId,
+            },
+          });
+
+        if (existingSubscription) {
+          throw new ConflictException(
+            'Organization already has a subscription',
+          );
+        }
+
+        const subscription =
+          subscriptionsRepository.create({
+            organization_id: organizationId,
+            plan_id: planId,
+            status,
+            current_period_start: currentPeriodStart,
+            current_period_end: currentPeriodEnd,
+            cancel_at_period_end: cancelAtPeriodEnd,
+            canceled_at: null,
+          });
+
+        return subscriptionsRepository.save(
+          subscription,
+        );
+      },
     );
   }
 
   async update(
+    currentUserId: string,
     id: string,
     data: {
       status?: string;
@@ -140,12 +169,31 @@ export class SubscriptionsService {
       canceled_at?: Date | null;
     },
   ) {
-    const subscription = await this.findById(id);
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const subscriptionsRepository =
+          manager.getRepository(Subscription);
 
-    Object.assign(subscription, data);
+        const subscription =
+          await subscriptionsRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-    return this.subscriptionsRepository.save(
-      subscription,
+        if (!subscription) {
+          throw new NotFoundException(
+            'Subscription not found',
+          );
+        }
+
+        Object.assign(subscription, data);
+
+        return subscriptionsRepository.save(
+          subscription,
+        );
+      },
     );
   }
 }

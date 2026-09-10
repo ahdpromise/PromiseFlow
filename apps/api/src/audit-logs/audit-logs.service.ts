@@ -1,36 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import {
+  Injectable,
+} from '@nestjs/common';
+import { EntityManager } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { AuditLog } from '../entities/audit-log.entity';
 
 @Injectable()
 export class AuditLogsService {
   constructor(
-    @InjectRepository(AuditLog)
-    private readonly auditLogsRepository: Repository<AuditLog>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(userId?: string) {
-    if (userId) {
-      return this.auditLogsRepository.find({
-        where: {
-          user_id: userId,
-        },
-        order: {
-          created_at: 'DESC',
-        },
-      });
-    }
-
-    return this.auditLogsRepository.find({
-      order: {
-        created_at: 'DESC',
+  async findAll(
+    currentUserId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        return manager
+          .getRepository(AuditLog)
+          .find({
+            order: {
+              created_at: 'DESC',
+            },
+          });
       },
-    });
+    );
   }
 
   async create(
+    organizationId: string,
     userId: string | null,
     action: string,
     entityType: string,
@@ -38,8 +38,19 @@ export class AuditLogsService {
     metadata?: Record<string, unknown>,
     ipAddress?: string,
     userAgent?: string,
+    manager?: EntityManager,
   ) {
-    const auditLog = this.auditLogsRepository.create({
+    if (!manager) {
+      throw new Error(
+        'Audit log creation requires an active transaction manager',
+      );
+    }
+
+    const repository =
+      manager.getRepository(AuditLog);
+
+    const auditLog = repository.create({
+      organization_id: organizationId,
       user_id: userId,
       action,
       entity_type: entityType,
@@ -49,6 +60,6 @@ export class AuditLogsService {
       user_agent: userAgent ?? null,
     });
 
-    return this.auditLogsRepository.save(auditLog);
+    return repository.save(auditLog);
   }
 }

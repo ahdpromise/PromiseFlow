@@ -1,39 +1,69 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Membership } from '../entities/membership.entity';
 
 @Injectable()
 export class MembershipsService {
   constructor(
-    @InjectRepository(Membership)
-    private readonly membershipsRepository: Repository<Membership>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll() {
-    return this.membershipsRepository.find();
+  async findAll(userId: string) {
+    return this.rlsContextService.run(
+      userId,
+      async (manager) => {
+        const repository = manager.getRepository(Membership);
+
+        return repository.find({
+          where: {
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
+      },
+    );
   }
 
   async findByUserAndOrganization(
     userId: string,
     organizationId: string,
   ) {
-    return this.membershipsRepository.findOne({
-      where: {
-        user_id: userId,
-        organization_id: organizationId,
-        deleted_at: IsNull(),
+    return this.rlsContextService.run(
+      userId,
+      async (manager) => {
+        const repository = manager.getRepository(Membership);
+
+        return repository.findOne({
+          where: {
+            user_id: userId,
+            organization_id: organizationId,
+            deleted_at: IsNull(),
+          },
+        });
       },
-    });
+    );
   }
 
-  async create(user_id: string, organization_id: string) {
-    const membership = this.membershipsRepository.create({
-      user_id,
-      organization_id,
-    });
+  async create(
+    userId: string,
+    organizationId: string,
+  ) {
+    return this.rlsContextService.run(
+      userId,
+      async (manager) => {
+        const repository = manager.getRepository(Membership);
 
-    return this.membershipsRepository.save(membership);
+        const membership = repository.create({
+          user_id: userId,
+          organization_id: organizationId,
+        });
+
+        return repository.save(membership);
+      },
+    );
   }
 }

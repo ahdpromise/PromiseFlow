@@ -1,58 +1,100 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Session } from '../entities/session.entity';
 
 @Injectable()
 export class SessionsService {
   constructor(
-    @InjectRepository(Session)
-    private readonly sessionsRepository: Repository<Session>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
   async create(
-    userId: string,
+    currentUserId: string,
     refreshTokenHash: string,
     expiresAt: Date,
     userAgent?: string,
     ipAddress?: string,
   ) {
-    const session = this.sessionsRepository.create({
-      user_id: userId,
-      refresh_token_hash: refreshTokenHash,
-      expires_at: expiresAt,
-      user_agent: userAgent ?? null,
-      ip_address: ipAddress ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const sessionsRepository =
+          manager.getRepository(Session);
 
-    return this.sessionsRepository.save(session);
+        const session =
+          sessionsRepository.create({
+            user_id: currentUserId,
+            refresh_token_hash: refreshTokenHash,
+            expires_at: expiresAt,
+            user_agent: userAgent ?? null,
+            ip_address: ipAddress ?? null,
+          });
+
+        return sessionsRepository.save(session);
+      },
+    );
   }
 
-  async findById(id: string) {
-    return this.sessionsRepository.findOne({
-      where: {
-        id,
+  async findById(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        return manager.getRepository(Session).findOne({
+          where: {
+            id,
+            user_id: currentUserId,
+          },
+        });
       },
-    });
+    );
   }
 
-  async findByUserId(userId: string) {
-    return this.sessionsRepository.find({
-      where: {
-        user_id: userId,
-        revoked_at: IsNull(),
+  async findByUserId(
+    currentUserId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        return manager.getRepository(Session).find({
+          where: {
+            user_id: currentUserId,
+            revoked_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-    });
+    );
   }
 
-  async revoke(id: string) {
-    await this.sessionsRepository.update(
-      {
-        id,
-      },
-      {
-        revoked_at: new Date(),
+  async revoke(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const result = await manager
+          .getRepository(Session)
+          .update(
+            {
+              id,
+              user_id: currentUserId,
+            },
+            {
+              revoked_at: new Date(),
+            },
+          );
+
+        return {
+          revoked: result.affected === 1,
+        };
       },
     );
   }

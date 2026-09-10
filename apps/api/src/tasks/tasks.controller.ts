@@ -20,14 +20,27 @@ export class TasksController {
 
   @Get()
   findAll(
-    @Query('project_id') projectId: string,
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Query('project_id')
+    projectId: string,
   ) {
-    return this.tasksService.findAll(projectId);
+    return this.tasksService.findAll(
+      user.userId,
+      projectId,
+    );
   }
 
   @Post()
   create(
-    @CurrentUser() user: { userId: string; email: string },
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
     @Body()
     body: {
       project_id: string;
@@ -49,7 +62,9 @@ export class TasksController {
       body.assigned_to_user_id,
       body.status,
       body.priority,
-      body.due_at ? new Date(body.due_at) : undefined,
+      body.due_at
+        ? new Date(body.due_at)
+        : undefined,
     );
   }
 }

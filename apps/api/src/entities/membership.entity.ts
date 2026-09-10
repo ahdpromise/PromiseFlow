@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -11,8 +12,14 @@ import {
 
 import { User } from './user.entity';
 import { Organization } from './organization.entity';
+import { Role } from './roles.entity';
 
 @Entity('memberships')
+@Index(['user_id', 'organization_id'], {
+  unique: true,
+  where: '"deleted_at" IS NULL',
+})
+@Index(['role_id'])
 export class Membership {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -27,6 +34,11 @@ export class Membership {
   })
   organization_id: string;
 
+  @Column({
+    type: 'uuid',
+  })
+  role_id: string;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
@@ -34,6 +46,12 @@ export class Membership {
   @ManyToOne(() => Organization)
   @JoinColumn({ name: 'organization_id' })
   organization: Organization;
+
+  @ManyToOne(() => Role, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
   @CreateDateColumn({
     type: 'timestamptz',

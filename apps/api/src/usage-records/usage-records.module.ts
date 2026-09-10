@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from '../auth/auth.module';
 import { Feature } from '../entities/features.entity';
 import { Organization } from '../entities/organization.entity';
 import { UsageRecord } from '../entities/usage-records.entity';
@@ -15,6 +16,7 @@ import { UsageRecordsService } from './usage-records.service';
       Organization,
       Feature,
     ]),
+    AuthModule,
   ],
   controllers: [
     UsageRecordsController,

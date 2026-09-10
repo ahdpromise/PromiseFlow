@@ -1,63 +1,89 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Approval } from '../entities/approval.entity';
 
 @Injectable()
 export class ApprovalsService {
   constructor(
-    @InjectRepository(Approval)
-    private readonly approvalsRepository: Repository<Approval>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(taskId: string) {
-    return this.approvalsRepository.find({
-      where: {
-        task_id: taskId,
-        deleted_at: IsNull(),
+  async findAll(
+    currentUserId: string,
+    taskId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Approval);
+
+        return repository.find({
+          where: {
+            task_id: taskId,
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-      order: {
-        created_at: 'DESC',
-      },
-    });
+    );
   }
 
   async create(
+    currentUserId: string,
     taskId: string,
     approverUserId: string,
     comment?: string,
   ) {
-    const approval = this.approvalsRepository.create({
-      task_id: taskId,
-      approver_user_id: approverUserId,
-      status: 'pending',
-      comment: comment ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Approval);
 
-    return this.approvalsRepository.save(approval);
+        const approval = repository.create({
+          task_id: taskId,
+          approver_user_id: approverUserId,
+          status: 'pending',
+          comment: comment ?? null,
+        });
+
+        return repository.save(approval);
+      },
+    );
   }
 
   async decide(
+    currentUserId: string,
     approvalId: string,
     status: 'approved' | 'rejected',
     comment?: string,
   ) {
-    await this.approvalsRepository.update(
-      {
-        id: approvalId,
-      },
-      {
-        status,
-        comment: comment ?? null,
-        decided_at: new Date(),
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Approval);
+
+        await repository.update(
+          {
+            id: approvalId,
+          },
+          {
+            status,
+            comment: comment ?? null,
+            decided_at: new Date(),
+          },
+        );
+
+        return repository.findOne({
+          where: {
+            id: approvalId,
+            deleted_at: IsNull(),
+          },
+        });
       },
     );
-
-    return this.approvalsRepository.findOne({
-      where: {
-        id: approvalId,
-      },
-    });
   }
 }

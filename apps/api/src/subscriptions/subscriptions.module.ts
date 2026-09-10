@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { AuthModule } from '../auth/auth.module';
 import { Organization } from '../entities/organization.entity';
 import { Plan } from '../entities/plans.entity';
 import { Subscription } from '../entities/subscriptions.entity';
@@ -15,6 +16,7 @@ import { SubscriptionsService } from './subscriptions.service';
       Organization,
       Plan,
     ]),
+    AuthModule,
   ],
   controllers: [
     SubscriptionsController,

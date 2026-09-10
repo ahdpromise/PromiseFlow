@@ -3,107 +3,138 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { WebhookDelivery } from '../entities/webhook-deliveries.entity';
 import { Webhook } from '../entities/webhooks.entity';
 
 @Injectable()
 export class WebhookDeliveriesService {
   constructor(
-    @InjectRepository(WebhookDelivery)
-    private readonly deliveriesRepository: Repository<WebhookDelivery>,
-
-    @InjectRepository(Webhook)
-    private readonly webhooksRepository: Repository<Webhook>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
   async create(
+    currentUserId: string,
     webhookId: string,
     event: string,
     payload: string,
   ) {
-    const webhook =
-      await this.webhooksRepository.findOne({
-        where: {
-          id: webhookId,
-        },
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    if (!webhook) {
-      throw new NotFoundException(
-        'Webhook not found',
-      );
-    }
+        const deliveriesRepository =
+          manager.getRepository(WebhookDelivery);
 
-    if (!webhook.is_active) {
-      throw new ConflictException(
-        'Webhook is inactive',
-      );
-    }
+        const webhook =
+          await webhooksRepository.findOne({
+            where: {
+              id: webhookId,
+            },
+          });
 
-    const delivery =
-      this.deliveriesRepository.create({
-        webhook_id: webhookId,
-        event,
-        payload,
-        status: 'pending',
-        attempt: 1,
-        response_status: null,
-        response_body: null,
-        delivered_at: null,
-      });
+        if (!webhook) {
+          throw new NotFoundException(
+            'Webhook not found',
+          );
+        }
 
-    return this.deliveriesRepository.save(
-      delivery,
+        if (!webhook.is_active) {
+          throw new ConflictException(
+            'Webhook is inactive',
+          );
+        }
+
+        const delivery =
+          deliveriesRepository.create({
+            webhook_id: webhookId,
+            event,
+            payload,
+            status: 'pending',
+            attempt: 1,
+            response_status: null,
+            response_body: null,
+            delivered_at: null,
+          });
+
+        return deliveriesRepository.save(
+          delivery,
+        );
+      },
     );
   }
 
   async findByWebhookId(
+    currentUserId: string,
     webhookId: string,
   ) {
-    const webhook =
-      await this.webhooksRepository.findOne({
-        where: {
-          id: webhookId,
-        },
-      });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const webhooksRepository =
+          manager.getRepository(Webhook);
 
-    if (!webhook) {
-      throw new NotFoundException(
-        'Webhook not found',
-      );
-    }
+        const deliveriesRepository =
+          manager.getRepository(WebhookDelivery);
 
-    return this.deliveriesRepository.find({
-      where: {
-        webhook_id: webhookId,
+        const webhook =
+          await webhooksRepository.findOne({
+            where: {
+              id: webhookId,
+            },
+          });
+
+        if (!webhook) {
+          throw new NotFoundException(
+            'Webhook not found',
+          );
+        }
+
+        return deliveriesRepository.find({
+          where: {
+            webhook_id: webhookId,
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-      order: {
-        created_at: 'DESC',
-      },
-    });
+    );
   }
 
-  async findById(id: string) {
-    const delivery =
-      await this.deliveriesRepository.findOne({
-        where: {
-          id,
-        },
-      });
+  async findById(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const deliveriesRepository =
+          manager.getRepository(WebhookDelivery);
 
-    if (!delivery) {
-      throw new NotFoundException(
-        'Webhook delivery not found',
-      );
-    }
+        const delivery =
+          await deliveriesRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-    return delivery;
+        if (!delivery) {
+          throw new NotFoundException(
+            'Webhook delivery not found',
+          );
+        }
+
+        return delivery;
+      },
+    );
   }
 
   async updateStatus(
+    currentUserId: string,
     id: string,
     data: {
       status: string;
@@ -113,13 +144,31 @@ export class WebhookDeliveriesService {
       attempt?: number;
     },
   ) {
-    const delivery =
-      await this.findById(id);
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const deliveriesRepository =
+          manager.getRepository(WebhookDelivery);
 
-    Object.assign(delivery, data);
+        const delivery =
+          await deliveriesRepository.findOne({
+            where: {
+              id,
+            },
+          });
 
-    return this.deliveriesRepository.save(
-      delivery,
+        if (!delivery) {
+          throw new NotFoundException(
+            'Webhook delivery not found',
+          );
+        }
+
+        Object.assign(delivery, data);
+
+        return deliveriesRepository.save(
+          delivery,
+        );
+      },
     );
   }
 }

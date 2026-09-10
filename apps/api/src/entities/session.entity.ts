@@ -1,11 +1,24 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { User } from './user.entity';
+
 @Entity('sessions')
+@Check(
+  'CHK_sessions_expiry_after_creation',
+  `"expires_at" > "created_at"`,
+)
+@Check(
+  'CHK_sessions_revoked_after_creation',
+  `"revoked_at" >= "created_at"`,
+)
 @Index(['user_id'])
 export class Session {
   @PrimaryGeneratedColumn('uuid')
@@ -43,4 +56,12 @@ export class Session {
     nullable: true,
   })
   revoked_at: Date | null;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: User;
 }

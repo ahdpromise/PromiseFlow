@@ -1,4 +1,5 @@
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,6 +14,18 @@ import { Organization } from './organization.entity';
 import { Plan } from './plans.entity';
 
 @Entity('subscriptions')
+@Check(
+  'CHK_subscriptions_status',
+  `"status" IN ('active', 'trialing', 'past_due', 'canceled')`,
+)
+@Check(
+  'CHK_subscriptions_period',
+  `"current_period_end" > "current_period_start"`,
+)
+@Check(
+  'CHK_subscriptions_canceled_after_creation',
+  `"canceled_at" >= "created_at"`,
+)
 @Index(['organization_id'], { unique: true })
 export class Subscription {
   @PrimaryGeneratedColumn('uuid')

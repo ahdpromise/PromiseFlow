@@ -1,38 +1,58 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Workflow } from '../entities/workflow.entity';
 
 @Injectable()
 export class WorkflowsService {
   constructor(
-    @InjectRepository(Workflow)
-    private readonly workflowsRepository: Repository<Workflow>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(projectId: string) {
-    return this.workflowsRepository.find({
-      where: {
-        project_id: projectId,
-        deleted_at: IsNull(),
+  async findAll(
+    currentUserId: string,
+    projectId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Workflow);
+
+        return repository.find({
+          where: {
+            project_id: projectId,
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-    });
+    );
   }
 
   async create(
+    currentUserId: string,
     projectId: string,
     name: string,
     slug: string,
     description?: string,
   ) {
-    const workflow = this.workflowsRepository.create({
-      project_id: projectId,
-      name,
-      slug,
-      description: description ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(Workflow);
 
-    return this.workflowsRepository.save(workflow);
+        const workflow = repository.create({
+          project_id: projectId,
+          name,
+          slug,
+          description: description ?? null,
+        });
+
+        return repository.save(workflow);
+      },
+    );
   }
 }

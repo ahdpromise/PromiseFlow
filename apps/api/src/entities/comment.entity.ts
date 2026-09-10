@@ -2,8 +2,13 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { Task } from './task.entity';
+import { User } from './user.entity';
 
 @Entity('comments')
 @Index(['task_id'])
@@ -39,4 +44,20 @@ export class Comment {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Task, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'task_id',
+  })
+  task: Task;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: User;
 }

@@ -2,8 +2,12 @@ import {
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { User } from './user.entity';
 
 @Entity('notifications')
 @Index(['user_id'])
@@ -41,4 +45,12 @@ export class Notification {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user: User;
 }

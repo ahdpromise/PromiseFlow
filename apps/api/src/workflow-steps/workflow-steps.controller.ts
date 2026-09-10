@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 
 import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
 import { WorkflowStepsService } from './workflow-steps.service';
 
 @Controller('workflow-steps')
@@ -19,13 +20,21 @@ export class WorkflowStepsController {
 
   @Get()
   findAll(
-    @Query('workflow_id') workflowId: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('workflow_id')
+    workflowId: string,
   ) {
-    return this.workflowStepsService.findAll(workflowId);
+    return this.workflowStepsService.findAll(
+      user.userId,
+      workflowId,
+    );
   }
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       workflow_id: string;
@@ -37,6 +46,7 @@ export class WorkflowStepsController {
     },
   ) {
     return this.workflowStepsService.create(
+      user.userId,
       body.workflow_id,
       body.name,
       body.slug,

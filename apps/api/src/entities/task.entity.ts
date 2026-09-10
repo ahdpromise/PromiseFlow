@@ -1,12 +1,26 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Project } from './project.entity';
+import { User } from './user.entity';
+import { WorkflowStep } from './workflow-step.entity';
+
 @Entity('tasks')
-@Index(['project_id'])
+@Check(
+  'CHK_tasks_status',
+  `"status" IN ('pending', 'in_progress', 'completed', 'canceled')`,
+)
+@Check(
+  'CHK_tasks_priority',
+  `"priority" IN ('low', 'medium', 'high', 'urgent')`,
+)
 @Index(['workflow_step_id'])
 @Index(['assigned_to_user_id'])
 @Index(['project_id', 'status'])
@@ -63,4 +77,30 @@ export class Task {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Project, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'project_id',
+  })
+  project: Project;
+
+  @ManyToOne(() => WorkflowStep, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({
+    name: 'workflow_step_id',
+  })
+  workflow_step: WorkflowStep | null;
+
+  @ManyToOne(() => User, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({
+    name: 'assigned_to_user_id',
+  })
+  assigned_to_user: User | null;
 }

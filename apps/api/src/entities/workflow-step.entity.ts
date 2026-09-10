@@ -1,12 +1,20 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Workflow } from './workflow.entity';
+
 @Entity('workflow_steps')
-@Index(['workflow_id'])
+@Check(
+  'CHK_workflow_steps_position_non_negative',
+  `"position" >= 0`,
+)
 @Index(['workflow_id', 'slug'], { unique: true })
 @Index(['workflow_id', 'position'])
 export class WorkflowStep {
@@ -48,4 +56,12 @@ export class WorkflowStep {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Workflow, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'workflow_id',
+  })
+  workflow: Workflow;
 }

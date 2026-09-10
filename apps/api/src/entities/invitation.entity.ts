@@ -1,11 +1,25 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { Organization } from './organization.entity';
+import { Role } from './roles.entity';
+
 @Entity('invitations')
+@Check(
+  'CHK_invitations_expiry_after_creation',
+  `"expires_at" > "created_at"`,
+)
+@Check(
+  'CHK_invitations_accepted_after_creation',
+  `"accepted_at" >= "created_at"`,
+)
 @Index(['organization_id', 'email'])
 @Index(['token'], { unique: true })
 export class Invitation {
@@ -44,4 +58,20 @@ export class Invitation {
     nullable: true,
   })
   deleted_at: Date | null;
+
+  @ManyToOne(() => Organization, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'organization_id',
+  })
+  organization: Organization;
+
+  @ManyToOne(() => Role, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'role_id',
+  })
+  role: Role;
 }

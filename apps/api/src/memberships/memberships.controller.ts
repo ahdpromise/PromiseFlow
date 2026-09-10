@@ -18,14 +18,19 @@ export class MembershipsController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.membershipsService.findAll();
+  findAll(
+    @CurrentUser()
+    user: { userId: string; email: string },
+  ) {
+    return this.membershipsService.findAll(user.userId);
   }
 
   @Post()
   create(
-    @Body() body: { organization_id: string },
-    @CurrentUser() user: { userId: string; email: string },
+    @Body()
+    body: { organization_id: string },
+    @CurrentUser()
+    user: { userId: string; email: string },
   ) {
     return this.membershipsService.create(
       user.userId,

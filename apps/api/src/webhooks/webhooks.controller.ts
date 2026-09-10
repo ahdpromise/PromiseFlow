@@ -5,11 +5,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+
+import { JwtAuthGuard } from '../auth/jwt.guard';
+import { CurrentUser } from '../auth/current-user.decorator';
 
 import { WebhooksService } from './webhooks.service';
 
 @Controller('webhooks')
+@UseGuards(JwtAuthGuard)
 export class WebhooksController {
   constructor(
     private readonly webhooksService: WebhooksService,
@@ -17,6 +22,8 @@ export class WebhooksController {
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       organization_id: string;
@@ -26,6 +33,7 @@ export class WebhooksController {
     },
   ) {
     return this.webhooksService.create(
+      user.userId,
       body.organization_id,
       body.name,
       body.url,
@@ -35,24 +43,36 @@ export class WebhooksController {
 
   @Get('organization/:organizationId')
   findByOrganizationId(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Param('organizationId')
     organizationId: string,
   ) {
     return this.webhooksService.findByOrganizationId(
+      user.userId,
       organizationId,
     );
   }
 
   @Get(':id')
   findById(
-    @Param('id') id: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    id: string,
   ) {
-    return this.webhooksService.findById(id);
+    return this.webhooksService.findById(
+      user.userId,
+      id,
+    );
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    id: string,
     @Body()
     body: {
       name?: string;
@@ -62,6 +82,7 @@ export class WebhooksController {
     },
   ) {
     return this.webhooksService.update(
+      user.userId,
       id,
       body,
     );
@@ -69,9 +90,13 @@ export class WebhooksController {
 
   @Patch(':id/deactivate')
   deactivate(
-    @Param('id') id: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    id: string,
   ) {
     return this.webhooksService.deactivate(
+      user.userId,
       id,
     );
   }

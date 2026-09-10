@@ -20,14 +20,21 @@ export class CommentsController {
 
   @Get()
   findAll(
-    @Query('task_id') taskId: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('task_id')
+    taskId: string,
   ) {
-    return this.commentsService.findAll(taskId);
+    return this.commentsService.findAll(
+      user.userId,
+      taskId,
+    );
   }
 
   @Post()
   create(
-    @CurrentUser() user: { userId: string; email: string },
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       task_id: string;
@@ -35,8 +42,8 @@ export class CommentsController {
     },
   ) {
     return this.commentsService.create(
-      body.task_id,
       user.userId,
+      body.task_id,
       body.content,
     );
   }

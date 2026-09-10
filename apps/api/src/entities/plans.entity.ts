@@ -1,4 +1,5 @@
 import {
+  Check,
   Column,
   Entity,
   Index,
@@ -6,6 +7,14 @@ import {
 } from 'typeorm';
 
 @Entity('plans')
+@Check(
+  'CHK_plans_price_non_negative',
+  `"price" >= 0`,
+)
+@Check(
+  'CHK_plans_billing_interval',
+  `"billing_interval" IN ('month', 'year')`,
+)
 @Index(['slug'], { unique: true })
 export class Plan {
   @PrimaryGeneratedColumn('uuid')

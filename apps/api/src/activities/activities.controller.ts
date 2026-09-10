@@ -1,13 +1,12 @@
 import {
-  Body,
   Controller,
   Get,
-  Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { ActivitiesService } from './activities.service';
 
 @Controller('activities')
@@ -19,28 +18,14 @@ export class ActivitiesController {
 
   @Get()
   findAll(
-    @CurrentUser() user: { userId: string; email: string },
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('organization_id')
+    organizationId: string,
   ) {
-    return this.activitiesService.findAll(user.userId);
-  }
-
-  @Post()
-  create(
-    @CurrentUser() user: { userId: string; email: string },
-    @Body()
-    body: {
-      action: string;
-      entity_type: string;
-      entity_id: string;
-      metadata?: Record<string, unknown>;
-    },
-  ) {
-    return this.activitiesService.create(
+    return this.activitiesService.findAll(
       user.userId,
-      body.action,
-      body.entity_type,
-      body.entity_id,
-      body.metadata,
+      organizationId,
     );
   }
 }

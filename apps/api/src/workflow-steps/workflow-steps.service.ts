@@ -1,29 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { WorkflowStep } from '../entities/workflow-step.entity';
 
 @Injectable()
 export class WorkflowStepsService {
   constructor(
-    @InjectRepository(WorkflowStep)
-    private readonly workflowStepsRepository: Repository<WorkflowStep>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(workflowId: string) {
-    return this.workflowStepsRepository.find({
-      where: {
-        workflow_id: workflowId,
-        deleted_at: IsNull(),
+  async findAll(
+    currentUserId: string,
+    workflowId: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(WorkflowStep);
+
+        return repository.find({
+          where: {
+            workflow_id: workflowId,
+            deleted_at: IsNull(),
+          },
+          order: {
+            position: 'ASC',
+          },
+        });
       },
-      order: {
-        position: 'ASC',
-      },
-    });
+    );
   }
 
   async create(
+    currentUserId: string,
     workflowId: string,
     name: string,
     slug: string,
@@ -31,15 +41,22 @@ export class WorkflowStepsService {
     position: number,
     description?: string,
   ) {
-    const workflowStep = this.workflowStepsRepository.create({
-      workflow_id: workflowId,
-      name,
-      slug,
-      step_type: stepType,
-      position,
-      description: description ?? null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository = manager.getRepository(WorkflowStep);
 
-    return this.workflowStepsRepository.save(workflowStep);
+        const workflowStep = repository.create({
+          workflow_id: workflowId,
+          name,
+          slug,
+          step_type: stepType,
+          position,
+          description: description ?? null,
+        });
+
+        return repository.save(workflowStep);
+      },
+    );
   }
 }

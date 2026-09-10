@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
+import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { WorkflowTransitionsService } from './workflow-transitions.service';
 
@@ -19,13 +20,21 @@ export class WorkflowTransitionsController {
 
   @Get()
   findAll(
-    @Query('workflow_id') workflowId: string,
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Query('workflow_id')
+    workflowId: string,
   ) {
-    return this.workflowTransitionsService.findAll(workflowId);
+    return this.workflowTransitionsService.findAll(
+      user.userId,
+      workflowId,
+    );
   }
 
   @Post()
   create(
+    @CurrentUser()
+    user: { userId: string; email: string },
     @Body()
     body: {
       workflow_id: string;
@@ -37,6 +46,7 @@ export class WorkflowTransitionsController {
     },
   ) {
     return this.workflowTransitionsService.create(
+      user.userId,
       body.workflow_id,
       body.from_step_id,
       body.to_step_id,

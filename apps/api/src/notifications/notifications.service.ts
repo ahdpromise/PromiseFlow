@@ -1,60 +1,67 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { IsNull } from 'typeorm';
 
+import { RlsContextService } from '../database/rls-context.service';
 import { Notification } from '../entities/notification.entity';
 
 @Injectable()
 export class NotificationsService {
   constructor(
-    @InjectRepository(Notification)
-    private readonly notificationsRepository: Repository<Notification>,
+    private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(userId: string) {
-    return this.notificationsRepository.find({
-      where: {
-        user_id: userId,
-        deleted_at: IsNull(),
+  async findAll(currentUserId: string) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository =
+          manager.getRepository(Notification);
+
+        return repository.find({
+          where: {
+            user_id: currentUserId,
+            deleted_at: IsNull(),
+          },
+          order: {
+            created_at: 'DESC',
+          },
+        });
       },
-      order: {
-        created_at: 'DESC',
-      },
-    });
+    );
   }
 
-  async create(
-    userId: string,
-    type: string,
-    title: string,
-    message: string,
+  async markAsRead(
+    currentUserId: string,
+    id: string,
   ) {
-    const notification = this.notificationsRepository.create({
-      user_id: userId,
-      type,
-      title,
-      message,
-      read_at: null,
-    });
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const repository =
+          manager.getRepository(Notification);
 
-    return this.notificationsRepository.save(notification);
-  }
+        const notification =
+          await repository.findOne({
+            where: {
+              id,
+              user_id: currentUserId,
+              deleted_at: IsNull(),
+            },
+          });
 
-  async markAsRead(id: string, userId: string) {
-    const notification = await this.notificationsRepository.findOne({
-      where: {
-        id,
-        user_id: userId,
-        deleted_at: IsNull(),
+        if (!notification) {
+          throw new NotFoundException(
+            'Notification not found',
+          );
+        }
+
+        notification.read_at = new Date();
+
+        return repository.save(notification);
       },
-    });
-
-    if (!notification) {
-      throw new NotFoundException('Notification not found');
-    }
-
-    notification.read_at = new Date();
-
-    return this.notificationsRepository.save(notification);
+    );
   }
 }
