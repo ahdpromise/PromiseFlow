@@ -23,20 +23,48 @@ export class ApprovalsController {
   @Get()
   findAll(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Query('task_id')
-    taskId: string,
+    taskId?: string,
+    @Query('status')
+    status?: string,
+    @Query('project_id')
+    projectId?: string,
   ) {
     return this.approvalsService.findAll(
       user.userId,
       taskId,
+      status,
+      projectId,
+    );
+  }
+
+  @Get(':id')
+  findOne(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    id: string,
+  ) {
+    return this.approvalsService.findOne(
+      user.userId,
+      id,
     );
   }
 
   @Post()
   create(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Body()
     body: {
       task_id: string;
@@ -55,20 +83,25 @@ export class ApprovalsController {
   @Patch(':id/decision')
   decide(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Param('id')
     id: string,
     @Body()
     body: {
-      status: 'approved' | 'rejected';
-      comment?: string;
+      status:
+        | 'approved'
+        | 'rejected';
+      decision_comment?: string;
     },
   ) {
     return this.approvalsService.decide(
       user.userId,
       id,
       body.status,
-      body.comment,
+      body.decision_comment,
     );
   }
 }

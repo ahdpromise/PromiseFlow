@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -55,6 +58,47 @@ export class ProjectsController {
       body.name,
       body.slug,
       body.description,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    projectId: string,
+    @Body()
+    body: {
+      name: string;
+      slug: string;
+      description?: string;
+    },
+  ) {
+    return this.projectsService.update(
+      user.userId,
+      projectId,
+      body.name,
+      body.slug,
+      body.description,
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    projectId: string,
+  ) {
+    return this.projectsService.remove(
+      user.userId,
+      projectId,
     );
   }
 }

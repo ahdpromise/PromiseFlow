@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -31,6 +34,22 @@ export class TasksController {
     return this.tasksService.findAll(
       user.userId,
       projectId,
+    );
+  }
+
+  @Get(':id')
+  findOne(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    taskId: string,
+  ) {
+    return this.tasksService.findOne(
+      user.userId,
+      taskId,
     );
   }
 
@@ -65,6 +84,58 @@ export class TasksController {
       body.due_at
         ? new Date(body.due_at)
         : undefined,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    taskId: string,
+    @Body()
+    body: {
+      title?: string;
+      description?: string | null;
+      status?: string;
+      priority?: string;
+      due_at?: string | null;
+    },
+  ) {
+    return this.tasksService.update(
+      user.userId,
+      taskId,
+      {
+        title: body.title,
+        description: body.description,
+        status: body.status,
+        priority: body.priority,
+        due_at:
+          body.due_at === null
+            ? null
+            : body.due_at
+              ? new Date(body.due_at)
+              : undefined,
+      },
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    taskId: string,
+  ) {
+    return this.tasksService.remove(
+      user.userId,
+      taskId,
     );
   }
 }

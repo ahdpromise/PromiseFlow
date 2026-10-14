@@ -49,6 +49,12 @@ export class Invitation {
 
   @Column({
     type: 'timestamptz',
+    nullable: true,
+  })
+  revoked_at: Date | null;
+
+  @Column({
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   created_at: Date;

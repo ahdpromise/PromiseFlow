@@ -38,6 +38,9 @@ import { FilesModule } from './files/files.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ActivitiesModule } from './activities/activities.module';
 import { AuditLogsModule } from './audit-logs/audit-logs.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { ReportsModule } from './reports/reports.module';
+import { AutomationsModule } from './automations/automations.module';
 
 import { PlansModule } from './plans/plans.module';
 import { FeaturesModule } from './features/features.module';
@@ -99,6 +102,9 @@ import { WebhookDeliveriesModule } from './webhook-deliveries/webhook-deliveries
     NotificationsModule,
     ActivitiesModule,
     AuditLogsModule,
+    DashboardModule,
+    ReportsModule,
+    AutomationsModule,
 
     PlansModule,
     FeaturesModule,

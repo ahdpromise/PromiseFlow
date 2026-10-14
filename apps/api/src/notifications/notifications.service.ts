@@ -2,7 +2,10 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { IsNull } from 'typeorm';
+import {
+  EntityManager,
+  IsNull,
+} from 'typeorm';
 
 import { RlsContextService } from '../database/rls-context.service';
 import { Notification } from '../entities/notification.entity';
@@ -13,7 +16,9 @@ export class NotificationsService {
     private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(currentUserId: string) {
+  async findAll(
+    currentUserId: string,
+  ) {
     return this.rlsContextService.run(
       currentUserId,
       async (manager) => {
@@ -33,6 +38,86 @@ export class NotificationsService {
     );
   }
 
+  async create(
+    currentUserId: string,
+    organizationId: string,
+    recipientUserId: string,
+    type: string,
+    title: string,
+    message: string,
+    targetPath?: string,
+    metadata?: Record<string, unknown>,
+    manager?: EntityManager,
+  ) {
+    const createNotification =
+      async (
+        entityManager:
+          EntityManager,
+      ) => {
+        const result: Array<{
+          notification_id: string;
+        }> =
+          await entityManager.query(
+            `
+              SELECT
+                public.create_notification(
+                  $1,
+                  $2,
+                  $3,
+                  $4,
+                  $5,
+                  $6::jsonb
+                ) AS notification_id
+            `,
+            [
+              organizationId,
+              recipientUserId,
+              type,
+              title,
+              message,
+              metadata
+                ? JSON.stringify(
+                    metadata,
+                  )
+                : null,
+            ],
+          );
+
+        const notificationId =
+          result[0]?.notification_id;
+
+        if (
+          notificationId &&
+          targetPath
+        ) {
+          await entityManager.query(
+            `
+              UPDATE public.notifications
+              SET target_path = $1
+              WHERE id = $2
+            `,
+            [
+              targetPath,
+              notificationId,
+            ],
+          );
+        }
+
+        return result[0];
+      };
+
+    if (manager) {
+      return createNotification(
+        manager,
+      );
+    }
+
+    return this.rlsContextService.run(
+      currentUserId,
+      createNotification,
+    );
+  }
+
   async markAsRead(
     currentUserId: string,
     id: string,
@@ -47,8 +132,10 @@ export class NotificationsService {
           await repository.findOne({
             where: {
               id,
-              user_id: currentUserId,
-              deleted_at: IsNull(),
+              user_id:
+                currentUserId,
+              deleted_at:
+                IsNull(),
             },
           });
 
@@ -58,9 +145,45 @@ export class NotificationsService {
           );
         }
 
-        notification.read_at = new Date();
+        notification.read_at =
+          new Date();
 
-        return repository.save(notification);
+        return repository.save(
+          notification,
+        );
+      },
+    );
+  }
+
+  async remove(
+    currentUserId: string,
+    id: string,
+  ) {
+    return this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        const result: Array<{
+          deleted: boolean;
+        }> =
+          await manager.query(
+            `
+              SELECT
+                public.soft_delete_notification(
+                  $1
+                ) AS deleted
+            `,
+            [id],
+          );
+
+        if (!result[0]?.deleted) {
+          throw new NotFoundException(
+            'Notification not found',
+          );
+        }
+
+        return {
+          success: true,
+        };
       },
     );
   }

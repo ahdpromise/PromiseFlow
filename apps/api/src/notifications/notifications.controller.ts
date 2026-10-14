@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -35,6 +36,19 @@ export class NotificationsController {
     id: string,
   ) {
     return this.notificationsService.markAsRead(
+      user.userId,
+      id,
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    id: string,
+  ) {
+    return this.notificationsService.remove(
       user.userId,
       id,
     );

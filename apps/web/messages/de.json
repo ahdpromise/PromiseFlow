@@ -1,0 +1,1121 @@
+{
+  "common": {
+    "loading": "Wird geladen...",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "close": "Schließen",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "projects": "Projekte",
+    "tasks": "Aufgaben",
+    "teams": "Teams",
+    "workflows": "Workflows",
+    "approvals": "Freigaben",
+    "reports": "Berichte",
+    "settings": "Einstellungen",
+    "automations": "Automatisierungen",
+    "invitations": "Einladungen",
+    "activityAudit": "Aktivitäten & Audit"
+  },
+  "sidebar": {
+    "workspace": "Arbeitsbereich",
+    "openNavigation": "Navigation öffnen",
+    "closeNavigation": "Navigation schließen"
+  },
+  "workspaceSwitcher": {
+    "loading": "Arbeitsbereich wird geladen...",
+    "empty": "Kein Arbeitsbereich",
+    "select": "Arbeitsbereich auswählen"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "unread": "{count} ungelesen",
+    "loading": "Benachrichtigungen werden geladen...",
+    "empty": "Noch keine Benachrichtigungen.",
+    "open": "Benachrichtigungen",
+    "loadError": "Benachrichtigungen konnten nicht geladen werden",
+    "openError": "Benachrichtigung konnte nicht geöffnet werden",
+    "content": {
+      "approvalApproved": {
+        "title": "Aufgabe genehmigt",
+        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde genehmigt."
+      },
+      "approvalRejected": {
+        "title": "Aufgabe abgelehnt",
+        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde abgelehnt."
+      }
+    },
+    "delete": "Benachrichtigung löschen",
+    "deleteError": "Benachrichtigung konnte nicht gelöscht werden",
+    "deleteSuccess": "Benachrichtigung erfolgreich gelöscht."
+  },
+  "userMenu": {
+    "user": "Benutzer",
+    "member": "Mitglied",
+    "settings": "Einstellungen",
+    "logout": "Abmelden",
+    "menu": "Benutzermenü"
+  },
+  "language": {
+    "label": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch"
+  },
+  "login": {
+    "welcomeBack": "Willkommen zurück",
+    "title": "Bei PromiseFlow anmelden",
+    "description": "Verwalte deine Projekte, Teams, Aufgaben und Workflows in einem Arbeitsbereich.",
+    "email": {
+      "label": "E-Mail-Adresse",
+      "placeholder": "du@unternehmen.de"
+    },
+    "password": {
+      "label": "Passwort",
+      "placeholder": "Passwort eingeben"
+    },
+    "forgotPassword": "Passwort vergessen?",
+    "signingIn": "Anmeldung läuft...",
+    "signIn": "Anmelden",
+    "newToPromiseFlow": "Neu bei PromiseFlow?",
+    "createAccount": "Konto erstellen",
+    "errors": {
+      "signIn": "Anmeldung nicht möglich"
+    }
+  },
+  "approvals": {
+    "workspace": "Arbeitsbereich",
+    "title": "Freigaben",
+    "description": "Prüfe Freigabeanfragen für Aufgaben im ausgewählten Arbeitsbereich.",
+    "loading": "Freigaben werden geladen...",
+    "loadError": "Freigaben konnten nicht geladen werden",
+    "authenticationMissing": "Authentifizierung fehlt",
+    "updateError": "Freigabe konnte nicht aktualisiert werden",
+    "approvedSuccess": "Freigabe wurde erfolgreich genehmigt.",
+    "rejectedSuccess": "Freigabe wurde erfolgreich abgelehnt.",
+    "totalApprovals": "Freigaben insgesamt",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "requestsTitle": "Freigabeanfragen",
+    "requestsDescription": "Freigaben aus Aufgaben im aktuellen Arbeitsbereich.",
+    "project": "Projekt",
+    "approver": "Genehmiger",
+    "comment": "Kommentar",
+    "saving": "Wird gespeichert...",
+    "approve": "Genehmigen",
+    "reject": "Ablehnen",
+    "emptyTitle": "Noch keine Freigaben",
+    "emptyDescription": "Freigabeanfragen aus Aufgaben werden hier angezeigt.",
+    "requestedBy": "Angefordert von",
+    "viewTask": "Aufgabe anzeigen",
+    "confirmation": {
+      "approveTitle": "Anfrage genehmigen?",
+      "approveDescription": "Möchten Sie \"{task}\" wirklich genehmigen?",
+      "rejectTitle": "Anfrage ablehnen?",
+      "rejectDescription": "Möchten Sie \"{task}\" wirklich ablehnen?",
+      "cancel": "Abbrechen",
+      "confirmApprove": "Genehmigen",
+      "confirmReject": "Ablehnen",
+      "reasonLabel": "Begründung",
+      "reasonPlaceholder": "Begründung für die Entscheidung eingeben...",
+      "reasonHelp": "Optional. Diese Begründung wird mit der Entscheidung gespeichert."
+    },
+    "decisionComment": "Entscheidungsgrund",
+    "filters": {
+      "status": "Status",
+      "project": "Projekt",
+      "allStatuses": "Alle Status",
+      "allProjects": "Alle Projekte",
+      "clear": "Filter zurücksetzen",
+      "noResults": "Keine passenden Freigaben",
+      "noResultsDescription": "Keine Freigabeanfragen entsprechen den ausgewählten Filtern."
+    }
+  },
+  "dashboard": {
+    "overview": "Übersicht",
+    "title": "Dashboard",
+    "description": "Überwache {organization}, Projekte, Teams, Aufgaben und Freigaben.",
+    "newProject": "Neues Projekt",
+    "loading": "Dashboard wird geladen...",
+    "loadError": "Dashboard konnte nicht geladen werden",
+    "noData": "Keine Dashboard-Daten verfügbar.",
+    "activeProjects": "Aktive Projekte",
+    "totalProjects": "{count} Projekte insgesamt",
+    "openTasks": "Offene Aufgaben",
+    "totalTasks": "{count} Aufgaben insgesamt",
+    "teams": "Teams",
+    "activeTeams": "{count} aktive Teams",
+    "pendingApprovals": "Ausstehende Freigaben",
+    "totalApprovals": "{count} Freigaben insgesamt",
+    "recentProjects": "Letzte Projekte",
+    "recentProjectsDescription": "Projekte im aktuellen Arbeitsbereich.",
+    "viewAll": "Alle anzeigen",
+    "noDescription": "Keine Beschreibung",
+    "noProjects": "Noch keine Projekte.",
+    "workspaceSummary": "Arbeitsbereich-Zusammenfassung",
+    "liveData": "Live-Daten von {organization}.",
+    "projects": "Projekte",
+    "tasks": "Aufgaben"
+  },
+  "projects": {
+    "workspace": "Arbeitsbereich",
+    "title": "Projekte",
+    "description": "Verwalte Projekte im ausgewählten Arbeitsbereich.",
+    "loading": "Projekte werden geladen...",
+    "loadError": "Projekte konnten nicht geladen werden",
+    "authenticationMissing": "Authentifizierung oder Arbeitsbereich fehlt",
+    "newProject": "Neues Projekt",
+    "cancel": "Abbrechen",
+    "createTitle": "Projekt erstellen",
+    "createDescription": "Füge dem aktuellen Arbeitsbereich ein neues Projekt hinzu.",
+    "projectName": "Projektname",
+    "projectNamePlaceholder": "Kundenportal",
+    "slug": "Slug",
+    "slugPlaceholder": "kundenportal",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Beschreibe den Zweck dieses Projekts...",
+    "creating": "Wird erstellt...",
+    "createProject": "Projekt erstellen",
+    "createError": "Projekt konnte nicht erstellt werden",
+    "edit": "Bearbeiten",
+    "editTitle": "Projekt bearbeiten",
+    "editDescription": "Aktualisiere die Projektdetails.",
+    "saving": "Wird gespeichert...",
+    "saveChanges": "Änderungen speichern",
+    "updateError": "Projekt konnte nicht aktualisiert werden",
+    "delete": "Löschen",
+    "deleteTitle": "Projekt löschen",
+    "deleteConfirmation": "Möchten Sie dieses Projekt wirklich löschen?",
+    "deleting": "Wird gelöscht...",
+    "deleteError": "Projekt konnte nicht gelöscht werden",
+    "noDescription": "Keine Beschreibung",
+    "emptyTitle": "Noch keine Projekte",
+    "emptyDescription": "Erstelle das erste Projekt in diesem Arbeitsbereich."
+  },
+  "projectDetails": {
+    "loading": "Projekt wird geladen...",
+    "backToProjects": "Zurück zu den Projekten",
+    "project": "Projekt",
+    "noDescription": "Keine Beschreibung",
+    "cancel": "Abbrechen",
+    "newTask": "Neue Aufgabe",
+    "errors": {
+      "loadProject": "Projekt konnte nicht geladen werden",
+      "missingAuthentication": "Authentifizierung oder Projekt fehlt",
+      "createTask": "Aufgabe konnte nicht erstellt werden"
+    },
+    "createTask": {
+      "title": "Aufgabe erstellen",
+      "description": "Füge diesem Projekt eine neue Aufgabe hinzu.",
+      "taskTitle": "Aufgabentitel",
+      "titlePlaceholder": "Dashboard-Filter implementieren",
+      "taskDescription": "Beschreibung",
+      "descriptionPlaceholder": "Beschreibe die Arbeit, die erledigt werden muss...",
+      "status": "Status",
+      "priority": "Priorität",
+      "dueDate": "Fälligkeitsdatum",
+      "creating": "Wird erstellt...",
+      "submit": "Aufgabe erstellen"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "canceled": "Abgebrochen"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "urgent": "Dringend"
+    },
+    "stats": {
+      "totalTasks": "Aufgaben insgesamt",
+      "openTasks": "Offene Aufgaben",
+      "projectSlug": "Projekt-Slug"
+    },
+    "tasks": {
+      "title": "Aufgaben",
+      "description": "Aufgaben, die zu diesem Projekt gehören.",
+      "due": "Fällig",
+      "empty": "Noch keine Aufgaben in diesem Projekt."
+    }
+  },
+  "tasks": {
+    "workspace": "Arbeitsbereich",
+    "title": "Aufgaben",
+    "description": "Zeige Aufgaben aus allen Projekten im ausgewählten Arbeitsbereich.",
+    "loading": "Aufgaben werden geladen...",
+    "loadError": "Aufgaben konnten nicht geladen werden",
+    "deleteError": "Aufgabe konnte nicht gelöscht werden",
+    "totalTasks": "Aufgaben insgesamt",
+    "openTasks": "Offene Aufgaben",
+    "completedTasks": "Abgeschlossen",
+    "allTasks": "Alle Aufgaben",
+    "allTasksDescription": "Aufgaben aus Projekten im aktuellen Arbeitsbereich.",
+    "noDescription": "Keine Beschreibung",
+    "empty": "Noch keine Aufgaben in diesem Arbeitsbereich.",
+    "delete": "Löschen",
+    "deleting": "Wird gelöscht...",
+    "cancel": "Abbrechen",
+    "deleteTitle": "Aufgabe löschen",
+    "deleteConfirmation": "Möchten Sie diese Aufgabe wirklich löschen?",
+    "status": {
+      "pending": "Ausstehend",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "canceled": "Abgebrochen"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "urgent": "Dringend"
+    },
+    "newTask": "Neue Aufgabe",
+    "authenticationMissing": "Authentifizierung fehlt",
+    "createRequired": "Projekt und Aufgabentitel sind erforderlich",
+    "createError": "Aufgabe konnte nicht erstellt werden",
+    "create": {
+      "title": "Aufgabe erstellen",
+      "description": "Füge einem Projekt im aktuellen Arbeitsbereich eine neue Aufgabe hinzu.",
+      "project": "Projekt",
+      "taskTitle": "Aufgabentitel",
+      "titlePlaceholder": "Dashboard-Filter implementieren",
+      "taskDescription": "Beschreibung",
+      "descriptionPlaceholder": "Beschreibe die Arbeit, die erledigt werden muss...",
+      "status": "Status",
+      "priority": "Priorität",
+      "dueDate": "Fälligkeitsdatum",
+      "creating": "Wird erstellt...",
+      "submit": "Aufgabe erstellen"
+    },
+    "filters": {
+      "project": "Projekt",
+      "allProjects": "Alle Projekte",
+      "status": "Status",
+      "allStatuses": "Alle Status",
+      "priority": "Priorität",
+      "allPriorities": "Alle Prioritäten",
+      "clear": "Filter zurücksetzen",
+      "noResults": "Keine Aufgaben entsprechen den ausgewählten Filtern."
+    }
+  },
+  "taskDetails": {
+    "loading": "Aufgabe wird geladen...",
+    "backToTasks": "Zurück zu den Aufgaben",
+    "task": "Aufgabe",
+    "subtitle": "Bearbeite Aufgabendetails, Freigaben, Dateien und Kommentare.",
+    "cancel": "Abbrechen",
+    "requestApproval": "Freigabe anfordern",
+    "workspaceMember": "Mitglied des Arbeitsbereichs",
+    "errors": {
+      "loadTask": "Aufgabe konnte nicht geladen werden",
+      "updateTask": "Aufgabe konnte nicht aktualisiert werden",
+      "selectApprover": "Bitte wähle einen Genehmiger aus",
+      "createApproval": "Freigabeanfrage konnte nicht erstellt werden",
+      "emptyComment": "Kommentar darf nicht leer sein",
+      "addComment": "Kommentar konnte nicht hinzugefügt werden",
+      "fileSize": "Die Datei ist zu groß. Die maximale Größe beträgt 10 MB.",
+      "uploadFile": "Datei konnte nicht hochgeladen werden"
+    },
+    "success": {
+      "taskUpdated": "Aufgabe wurde erfolgreich aktualisiert.",
+      "approvalCreated": "Freigabeanfrage wurde erfolgreich erstellt.",
+      "commentAdded": "Kommentar wurde erfolgreich hinzugefügt.",
+      "fileUploaded": "Datei wurde erfolgreich hochgeladen."
+    },
+    "approvalForm": {
+      "title": "Freigabe anfordern",
+      "description": "Wähle ein Mitglied des Arbeitsbereichs aus, das diese Aufgabe prüfen soll.",
+      "approver": "Genehmiger",
+      "selectApprover": "Genehmiger auswählen",
+      "comment": "Kommentar",
+      "commentPlaceholder": "Optionale Nachricht für den Genehmiger...",
+      "creating": "Wird erstellt...",
+      "create": "Freigabe erstellen"
+    },
+    "form": {
+      "title": "Aufgabentitel",
+      "description": "Beschreibung",
+      "status": "Status",
+      "priority": "Priorität",
+      "dueDate": "Fälligkeitsdatum",
+      "saving": "Wird gespeichert...",
+      "saveChanges": "Änderungen speichern"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "canceled": "Abgebrochen",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "urgent": "Dringend"
+    },
+    "approvals": {
+      "title": "Freigaben",
+      "description": "Freigabeanfragen, die mit dieser Aufgabe verbunden sind.",
+      "empty": "Noch keine Freigaben",
+      "emptyDescription": "Erstelle die erste Freigabeanfrage für diese Aufgabe."
+    },
+    "files": {
+      "title": "Dateien",
+      "description": "Lade Dateien hoch und prüfe die an diese Aufgabe angehängten Dateien.",
+      "uploading": "Wird hochgeladen...",
+      "upload": "Datei hochladen",
+      "maxSize": "Maximale Dateigröße: 10 MB.",
+      "unknownSize": "Unbekannte Größe",
+      "uploadedBy": "Hochgeladen von",
+      "empty": "Noch keine Dateien",
+      "emptyDescription": "Lade die erste Datei für diese Aufgabe hoch."
+    },
+    "comments": {
+      "title": "Kommentare",
+      "description": "Diskussionen und Notizen zu dieser Aufgabe.",
+      "empty": "Noch keine Kommentare",
+      "emptyDescription": "Starte die Diskussion mit dem ersten Kommentar.",
+      "add": "Kommentar hinzufügen",
+      "placeholder": "Kommentar schreiben...",
+      "adding": "Wird hinzugefügt..."
+    }
+  },
+  "teams": {
+    "loading": "Teams werden geladen...",
+    "workspace": "Arbeitsbereich",
+    "title": "Teams",
+    "description": "Verwalte Teams im ausgewählten Arbeitsbereich.",
+    "cancel": "Abbrechen",
+    "newTeam": "Neues Team",
+    "noDescription": "Keine Beschreibung",
+    "slug": "Slug",
+    "errors": {
+      "loadTeams": "Teams konnten nicht geladen werden",
+      "authenticationMissing": "Authentifizierung oder Arbeitsbereich fehlt",
+      "required": "Teamname und Slug sind erforderlich",
+      "createTeam": "Team konnte nicht erstellt werden"
+    },
+    "success": {
+      "created": "Team wurde erfolgreich erstellt.",
+      "deleted": "Team wurde erfolgreich gelöscht"
+    },
+    "create": {
+      "title": "Team erstellen",
+      "description": "Füge diesem Arbeitsbereich ein neues Team hinzu.",
+      "teamName": "Teamname",
+      "namePlaceholder": "Frontend-Team",
+      "slug": "Slug",
+      "slugPlaceholder": "frontend-team",
+      "creating": "Wird erstellt...",
+      "submit": "Team erstellen"
+    },
+    "empty": {
+      "title": "Noch keine Teams",
+      "description": "Erstelle das erste Team in diesem Arbeitsbereich."
+    }
+  },
+  "teamDetails": {
+    "loading": "Team wird geladen...",
+    "backToTeams": "Zurück zu den Teams",
+    "team": "Team",
+    "noDescription": "Keine Beschreibung",
+    "cancel": "Abbrechen",
+    "addMember": "Mitglied hinzufügen",
+    "errors": {
+      "authenticationMissing": "Authentifizierung oder Arbeitsbereich fehlt",
+      "notFound": "Team wurde in diesem Arbeitsbereich nicht gefunden",
+      "loadTeam": "Team konnte nicht geladen werden",
+      "authenticationOrTeamMissing": "Authentifizierung oder Team fehlt",
+      "selectMember": "Bitte wähle ein Mitglied aus",
+      "addMember": "Mitglied konnte nicht hinzugefügt werden",
+      "updateTeam": "Team konnte nicht aktualisiert werden",
+      "updateRequired": "Teamname und Slug sind erforderlich",
+      "deleteTeam": "Team konnte nicht gelöscht werden",
+      "removeMember": "Mitglied konnte nicht entfernt werden"
+    },
+    "success": {
+      "memberAdded": "Mitglied wurde erfolgreich hinzugefügt.",
+      "updated": "Team wurde erfolgreich aktualisiert",
+      "memberRemoved": "Mitglied wurde erfolgreich entfernt."
+    },
+    "addMemberForm": {
+      "title": "Teammitglied hinzufügen",
+      "description": "Wähle ein Mitglied des aktuellen Arbeitsbereichs aus.",
+      "workspaceMember": "Mitglied des Arbeitsbereichs",
+      "selectMember": "Mitglied auswählen",
+      "adding": "Wird hinzugefügt...",
+      "submit": "Mitglied hinzufügen",
+      "allMembersAdded": "Alle Mitglieder des Arbeitsbereichs sind bereits in diesem Team."
+    },
+    "stats": {
+      "members": "Mitglieder",
+      "teamSlug": "Team-Slug"
+    },
+    "members": {
+      "title": "Teammitglieder",
+      "description": "Mitglieder, die diesem Team zugewiesen sind.",
+      "workspaceMember": "Mitglied des Arbeitsbereichs",
+      "emptyTitle": "Noch keine Mitglieder",
+      "emptyDescription": "Füge das erste Mitglied zu diesem Team hinzu."
+    },
+    "editTeam": "Team bearbeiten",
+    "edit": {
+      "title": "Team bearbeiten",
+      "description": "Name, Slug und Beschreibung des Teams bearbeiten.",
+      "teamName": "Teamname",
+      "namePlaceholder": "Engineering-Team",
+      "slug": "Slug",
+      "slugPlaceholder": "engineering-team",
+      "teamDescription": "Beschreibung",
+      "descriptionPlaceholder": "Beschreibe die Aufgaben dieses Teams...",
+      "saving": "Wird gespeichert...",
+      "submit": "Änderungen speichern"
+    },
+    "deleteTeam": "Team löschen",
+    "delete": {
+      "title": "Team löschen",
+      "description": "Möchtest du dieses Team wirklich löschen? Es wird aus dem Arbeitsbereich entfernt.",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht...",
+      "confirm": "Team löschen"
+    },
+    "removeMember": {
+      "button": "Entfernen",
+      "title": "Mitglied entfernen",
+      "description": "Möchtest du dieses Mitglied wirklich aus dem Team entfernen?",
+      "cancel": "Abbrechen",
+      "removing": "Wird entfernt...",
+      "confirm": "Mitglied entfernen"
+    }
+  },
+  "workflows": {
+    "loading": "Workflows werden geladen...",
+    "workspace": "Arbeitsbereich",
+    "title": "Workflows",
+    "description": "Verwalte Workflows für Projekte im ausgewählten Arbeitsbereich.",
+    "cancel": "Abbrechen",
+    "newWorkflow": "Neuer Workflow",
+    "project": "Projekt",
+    "slug": "Slug",
+    "noDescription": "Keine Beschreibung",
+    "errors": {
+      "loadWorkflows": "Workflows konnten nicht geladen werden",
+      "authenticationMissing": "Authentifizierung fehlt",
+      "required": "Projekt, Workflow-Name und Slug sind erforderlich",
+      "createWorkflow": "Workflow konnte nicht erstellt werden"
+    },
+    "success": {
+      "created": "Workflow wurde erfolgreich erstellt.",
+      "deleted": "Workflow wurde erfolgreich gelöscht."
+    },
+    "create": {
+      "title": "Workflow erstellen",
+      "description": "Füge einem Projekt im aktuellen Arbeitsbereich einen Workflow hinzu.",
+      "project": "Projekt",
+      "workflowName": "Workflow-Name",
+      "namePlaceholder": "Freigabe-Workflow",
+      "slug": "Slug",
+      "slugPlaceholder": "freigabe-workflow",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Optionale Beschreibung",
+      "creating": "Wird erstellt...",
+      "submit": "Workflow erstellen"
+    },
+    "empty": {
+      "title": "Noch keine Workflows",
+      "description": "Erstelle den ersten Workflow für ein Projekt in diesem Arbeitsbereich."
+    }
+  },
+  "workflowDetails": {
+    "loading": "Workflow wird geladen...",
+    "backToWorkflows": "Zurück zu den Workflows",
+    "workflow": "Workflow",
+    "project": "Projekt",
+    "noDescription": "Keine Beschreibung",
+    "cancel": "Abbrechen",
+    "newStep": "Neuer Schritt",
+    "errors": {
+      "authenticationMissing": "Authentifizierung oder Arbeitsbereich fehlt",
+      "notFound": "Workflow wurde in diesem Arbeitsbereich nicht gefunden",
+      "loadWorkflow": "Workflow konnte nicht geladen werden",
+      "authenticationOrWorkflowMissing": "Authentifizierung oder Workflow fehlt",
+      "required": "Schrittname und Slug sind erforderlich",
+      "createStep": "Workflow-Schritt konnte nicht erstellt werden",
+      "updateWorkflow": "Workflow konnte nicht aktualisiert werden",
+      "updateRequired": "Workflow-Name und Slug sind erforderlich",
+      "deleteWorkflow": "Workflow konnte nicht gelöscht werden",
+      "updateStep": "Workflow-Schritt konnte nicht aktualisiert werden",
+      "updateStepRequired": "Schrittname und Slug sind erforderlich",
+      "deleteStep": "Workflow-Schritt konnte nicht gelöscht werden",
+      "reorderSteps": "Workflow-Schritte konnten nicht neu sortiert werden"
+    },
+    "success": {
+      "stepCreated": "Workflow-Schritt wurde erfolgreich erstellt.",
+      "updated": "Workflow wurde erfolgreich aktualisiert.",
+      "stepUpdated": "Workflow-Schritt wurde erfolgreich aktualisiert.",
+      "stepDeleted": "Workflow-Schritt wurde erfolgreich gelöscht.",
+      "stepsReordered": "Workflow-Schritte wurden erfolgreich neu sortiert."
+    },
+    "create": {
+      "title": "Workflow-Schritt erstellen",
+      "description": "Füge diesem Workflow den nächsten Schritt hinzu.",
+      "stepName": "Schrittname",
+      "namePlaceholder": "Prüfung",
+      "slug": "Slug",
+      "slugPlaceholder": "pruefung",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Optionale Beschreibung",
+      "creating": "Wird erstellt...",
+      "submit": "Schritt erstellen"
+    },
+    "stats": {
+      "steps": "Schritte",
+      "project": "Projekt",
+      "workflowSlug": "Workflow-Slug"
+    },
+    "steps": {
+      "title": "Workflow-Schritte",
+      "description": "Schritte werden nach ihrer Position ausgeführt.",
+      "emptyTitle": "Noch keine Workflow-Schritte",
+      "emptyDescription": "Erstelle den ersten Schritt für diesen Workflow."
+    },
+    "stepTypes": {
+      "approval": "Freigabe"
+    },
+    "editWorkflow": "Workflow bearbeiten",
+    "edit": {
+      "title": "Workflow bearbeiten",
+      "description": "Name, Slug und Beschreibung des Workflows bearbeiten.",
+      "workflowName": "Workflow-Name",
+      "namePlaceholder": "Freigabe-Workflow",
+      "slug": "Slug",
+      "slugPlaceholder": "freigabe-workflow",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Beschreibe diesen Workflow...",
+      "saving": "Wird gespeichert...",
+      "submit": "Änderungen speichern"
+    },
+    "deleteWorkflow": "Workflow löschen",
+    "delete": {
+      "title": "Workflow löschen?",
+      "description": "Dieser Workflow wird aus dem aktiven Arbeitsbereich entfernt. Diese Aktion kann über die Oberfläche nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht...",
+      "confirm": "Workflow löschen"
+    },
+    "editStep": {
+      "button": "Bearbeiten",
+      "title": "Workflow-Schritt bearbeiten",
+      "description": "Name, Slug, Beschreibung und Typ des Schritts bearbeiten.",
+      "stepName": "Schrittname",
+      "namePlaceholder": "Manager-Freigabe",
+      "slug": "Slug",
+      "slugPlaceholder": "manager-freigabe",
+      "descriptionLabel": "Beschreibung",
+      "descriptionPlaceholder": "Beschreibe diesen Schritt...",
+      "stepType": "Schritttyp",
+      "approval": "Freigabe",
+      "cancel": "Abbrechen",
+      "saving": "Wird gespeichert...",
+      "submit": "Änderungen speichern"
+    },
+    "deleteStep": {
+      "button": "Löschen",
+      "title": "Workflow-Schritt löschen?",
+      "description": "Dieser Workflow-Schritt wird aus dem aktiven Workflow entfernt. Diese Aktion kann über die Oberfläche nicht rückgängig gemacht werden.",
+      "cancel": "Abbrechen",
+      "deleting": "Wird gelöscht...",
+      "confirm": "Schritt löschen"
+    },
+    "reorder": {
+      "moveUp": "Nach oben",
+      "moveDown": "Nach unten"
+    }
+  },
+  "reports": {
+    "loading": "Berichte werden geladen...",
+    "workspace": "Arbeitsbereich",
+    "title": "Berichte",
+    "description": "Überprüfe Aktivitäten und den Audit-Verlauf des Arbeitsbereichs.",
+    "errors": {
+      "loadReports": "Berichte konnten nicht geladen werden"
+    },
+    "stats": {
+      "activities": "Aktivitäten",
+      "auditEvents": "Audit-Ereignisse",
+      "created": "Erstellt",
+      "updated": "Aktualisiert"
+    },
+    "activity": {
+      "title": "Letzte Aktivitäten",
+      "description": "Letzte Aktivitäten im Arbeitsbereich.",
+      "empty": "Noch keine Aktivitäten."
+    },
+    "audit": {
+      "title": "Audit-Protokoll",
+      "description": "Letzte nachvollziehbare Änderungen in diesem Arbeitsbereich.",
+      "entityId": "Entitäts-ID",
+      "empty": "Noch keine Audit-Ereignisse."
+    },
+    "actions": {
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "deleted": "Gelöscht"
+    },
+    "entities": {
+      "project": "Projekt",
+      "task": "Aufgabe",
+      "team": "Team",
+      "workflow": "Workflow",
+      "workflowStep": "Workflow-Schritt",
+      "approval": "Freigabe",
+      "comment": "Kommentar",
+      "file": "Datei",
+      "organization": "Organisation",
+      "membership": "Mitgliedschaft"
+    },
+    "overview": {
+      "title": "Übersicht",
+      "description": "Wichtige Projekt- und Aufgabenkennzahlen für deinen Arbeitsbereich.",
+      "totalProjects": "Projekte insgesamt",
+      "totalTasks": "Aufgaben insgesamt",
+      "completedTasks": "Abgeschlossene Aufgaben",
+      "activeTasks": "Offen / In Bearbeitung",
+      "completionRate": "Abschlussrate"
+    },
+    "tasksByStatus": {
+      "title": "Aufgaben nach Status",
+      "description": "Verteilung der Aufgaben im Arbeitsbereich nach ihrem aktuellen Status.",
+      "status": {
+        "pending": "Offen",
+        "inProgress": "In Bearbeitung",
+        "completed": "Abgeschlossen",
+        "canceled": "Abgebrochen"
+      }
+    },
+    "tasksByPriority": {
+      "title": "Aufgaben nach Priorität",
+      "description": "Verteilung der Aufgaben im Arbeitsbereich nach ihrer Priorität.",
+      "priority": {
+        "low": "Niedrig",
+        "medium": "Mittel",
+        "high": "Hoch",
+        "urgent": "Dringend"
+      }
+    },
+    "projectPerformance": {
+      "title": "Projektleistung",
+      "description": "Aufgabenfortschritt und Abschlussrate für jedes Projekt.",
+      "columns": {
+        "project": "Projekt",
+        "totalTasks": "Aufgaben gesamt",
+        "completed": "Abgeschlossen",
+        "active": "Offen / In Bearbeitung",
+        "completionRate": "Abschlussrate"
+      },
+      "empty": "Keine Projekte gefunden."
+    },
+    "approvalStatistics": {
+      "title": "Genehmigungsstatistik",
+      "description": "Übersicht über Genehmigungsentscheidungen und ihren aktuellen Status.",
+      "total": "Genehmigungen gesamt",
+      "approvalRate": "Genehmigungsrate",
+      "status": {
+        "pending": "Offen",
+        "approved": "Genehmigt",
+        "rejected": "Abgelehnt"
+      }
+    },
+    "dateRange": {
+      "title": "Zeitraum",
+      "description": "Berichtsdaten nach Erstellungsdatum filtern.",
+      "from": "Von",
+      "to": "Bis",
+      "apply": "Anwenden",
+      "clear": "Zurücksetzen",
+      "invalid": "Das Startdatum muss vor oder am Enddatum liegen."
+    },
+    "exportCsv": {
+      "title": "Bericht exportieren",
+      "description": "Aktuelle Berichtsdaten als CSV-Datei herunterladen.",
+      "button": "CSV exportieren",
+      "report": "PromiseFlow Bericht",
+      "dateRange": "Zeitraum",
+      "allDates": "Alle Daten"
+    },
+    "exportPdf": {
+      "button": "PDF exportieren",
+      "report": "PromiseFlow Bericht",
+      "dateRange": "Zeitraum",
+      "allDates": "Alle Daten"
+    }
+  },
+  "settings": {
+    "loading": "Einstellungen werden geladen...",
+    "account": "Konto",
+    "title": "Einstellungen",
+    "description": "Verwalte dein Profil, die Informationen zum Arbeitsbereich und die Kontosicherheit.",
+    "errors": {
+      "loadSettings": "Einstellungen konnten nicht geladen werden",
+      "authenticationMissing": "Authentifizierung fehlt",
+      "passwordLength": "Das Passwort muss mindestens 8 Zeichen lang sein",
+      "passwordMismatch": "Die Passwörter stimmen nicht überein",
+      "updatePassword": "Passwort konnte nicht aktualisiert werden"
+    },
+    "success": {
+      "passwordUpdated": "Passwort wurde erfolgreich aktualisiert."
+    },
+    "profile": {
+      "title": "Profil",
+      "description": "Deine aktuellen Kontoinformationen.",
+      "name": "Name",
+      "email": "E-Mail",
+      "emailVerified": "E-Mail bestätigt",
+      "yes": "Ja",
+      "no": "Nein"
+    },
+    "workspace": {
+      "title": "Arbeitsbereich",
+      "description": "Informationen zum ausgewählten Arbeitsbereich.",
+      "name": "Name des Arbeitsbereichs",
+      "slug": "Slug",
+      "members": "Mitglieder",
+      "role": "Rolle"
+    },
+    "security": {
+      "title": "Sicherheit",
+      "description": "Ändere dein Kontopasswort.",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "updating": "Wird aktualisiert...",
+      "updatePassword": "Passwort aktualisieren"
+    }
+  },
+  "approvalDetails": {
+    "loading": "Freigabe wird geladen...",
+    "authenticationMissing": "Eine Anmeldung ist erforderlich.",
+    "loadError": "Freigabedetails konnten nicht geladen werden.",
+    "back": "Zurück zu Freigaben",
+    "workspace": "Arbeitsbereich",
+    "title": "Freigabedetails",
+    "description": "Prüfen Sie die Freigabeanfrage und die zugehörige Aufgabe.",
+    "notAvailable": "Nicht verfügbar",
+    "noComment": "Kein Kommentar vorhanden.",
+    "status": {
+      "pending": "Ausstehend",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt"
+    },
+    "request": {
+      "title": "Freigabeanfrage",
+      "project": "Projekt",
+      "approver": "Genehmiger",
+      "requestedBy": "Angefordert von",
+      "createdAt": "Angefordert am",
+      "decidedAt": "Entschieden am",
+      "comment": "Kommentar"
+    },
+    "task": {
+      "title": "Zugehörige Aufgabe",
+      "name": "Aufgabe",
+      "status": "Status",
+      "priority": "Priorität",
+      "dueAt": "Fälligkeitsdatum",
+      "description": "Beschreibung",
+      "noDescription": "Keine Beschreibung vorhanden."
+    },
+    "taskStatus": {
+      "pending": "Ausstehend",
+      "inProgress": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "canceled": "Abgebrochen"
+    },
+    "priority": {
+      "low": "Niedrig",
+      "medium": "Mittel",
+      "high": "Hoch",
+      "urgent": "Dringend"
+    }
+  },
+  "automations": {
+    "workspace": "Arbeitsbereich",
+    "title": "Automatisierungen",
+    "description": "Verwalte automatisierte Abläufe und Aktionen für deinen Arbeitsbereich.",
+    "totalAutomations": "Automatisierungen gesamt",
+    "enabled": "Aktiv",
+    "disabled": "Inaktiv",
+    "listTitle": "Automatisierungen",
+    "listDescription": "Automatisierungen für den aktuellen Arbeitsbereich.",
+    "trigger": "Auslöser",
+    "action": "Aktion",
+    "createdBy": "Erstellt von",
+    "loading": "Automatisierungen werden geladen...",
+    "emptyTitle": "Noch keine Automatisierungen",
+    "emptyDescription": "Für diesen Arbeitsbereich sind noch keine Automatisierungen eingerichtet.",
+    "loadError": "Automatisierungen konnten nicht geladen werden.",
+    "authenticationMissing": "Anmeldung oder Arbeitsbereichsinformationen fehlen.",
+    "createAutomation": "Automatisierung erstellen",
+    "createError": "Automatisierung konnte nicht erstellt werden.",
+    "triggers": {
+      "taskCreated": "Aufgabe erstellt",
+      "taskStatusChanged": "Aufgabenstatus geändert",
+      "approvalApproved": "Genehmigung erteilt",
+      "approvalRejected": "Genehmigung abgelehnt"
+    },
+    "actions": {
+      "createNotification": "Benachrichtigung erstellen",
+      "updateTaskStatus": "Aufgabenstatus aktualisieren",
+      "createApprovalRequest": "Genehmigungsanfrage erstellen"
+    },
+    "create": {
+      "title": "Automatisierung erstellen",
+      "description": "Wähle aus, wann die Automatisierung ausgeführt wird und welche Aktion sie ausführen soll.",
+      "name": "Name",
+      "automationDescription": "Beschreibung",
+      "trigger": "Auslöser",
+      "action": "Aktion",
+      "cancel": "Abbrechen",
+      "submit": "Automatisierung erstellen",
+      "creating": "Wird erstellt..."
+    },
+    "edit": "Bearbeiten",
+    "editError": "Automatisierung konnte nicht aktualisiert werden.",
+    "saving": "Wird gespeichert...",
+    "editForm": {
+      "title": "Automatisierung bearbeiten",
+      "description": "Ändere Name, Beschreibung, Auslöser oder Aktion der Automatisierung.",
+      "submit": "Änderungen speichern"
+    },
+    "enable": "Aktivieren",
+    "disable": "Deaktivieren",
+    "updatingStatus": "Wird aktualisiert...",
+    "toggleError": "Der Status der Automatisierung konnte nicht aktualisiert werden.",
+    "delete": "Löschen",
+    "deleteError": "Automatisierung konnte nicht gelöscht werden.",
+    "deleteConfirmation": {
+      "title": "Automatisierung löschen",
+      "description": "Möchtest du \"{name}\" wirklich löschen? Diese Automatisierung wird anschließend nicht mehr im Workspace angezeigt.",
+      "cancel": "Abbrechen",
+      "confirm": "Löschen",
+      "deleting": "Wird gelöscht..."
+    },
+    "configuration": {
+      "project": "Projekt",
+      "allProjects": "Alle Projekte",
+      "projectHelp": "Wähle ein bestimmtes Projekt oder wende diese Automatisierung auf alle Projekte an.",
+      "newStatus": "Neuer Status",
+      "statusPending": "Ausstehend",
+      "statusInProgress": "In Bearbeitung",
+      "statusCompleted": "Abgeschlossen",
+      "statusHelp": "Führe diese Automatisierung aus, wenn eine Aufgabe zum ausgewählten Status wechselt.",
+      "notificationTitle": "Benachrichtigungstitel",
+      "notificationMessage": "Benachrichtigungstext",
+      "notificationHelp": "Gib die Benachrichtigung ein, die beim Ausführen dieser Automatisierung erstellt wird.",
+      "updateTaskStatusHelp": "Setze die Aufgabe auf den ausgewählten Status, wenn diese Automatisierung ausgeführt wird.",
+      "approver": "Genehmiger",
+      "selectApprover": "Genehmiger auswählen",
+      "approverHelp": "Wähle das Organisationsmitglied aus, das die Anfrage genehmigen soll."
+    },
+    "createSuccess": "Automatisierung wurde erfolgreich erstellt.",
+    "editSuccess": "Automatisierung wurde erfolgreich aktualisiert.",
+    "deleteSuccess": "Automatisierung wurde erfolgreich gelöscht.",
+    "history": "Verlauf",
+    "runHistory": {
+      "title": "Automatisierungsverlauf",
+      "description": "Zeige frühere Ausführungen und deren Ergebnisse an.",
+      "loading": "Ausführungsverlauf wird geladen...",
+      "loadError": "Der Automatisierungsverlauf konnte nicht geladen werden.",
+      "emptyTitle": "Noch keine Ausführungen",
+      "emptyDescription": "Diese Automatisierung wurde noch nicht ausgeführt.",
+      "status": "Status",
+      "startedAt": "Gestartet",
+      "finishedAt": "Beendet",
+      "duration": "Dauer",
+      "result": "Ergebnis",
+      "error": "Fehler",
+      "triggerPayload": "Trigger-Daten",
+      "close": "Schließen",
+      "statuses": {
+        "pending": "Ausstehend",
+        "running": "Läuft",
+        "succeeded": "Erfolgreich",
+        "failed": "Fehlgeschlagen"
+      }
+    }
+  },
+  "invitations": {
+    "workspace": "Arbeitsbereich",
+    "title": "Einladungen",
+    "description": "Einladungen für Ihre Organisation anzeigen und verwalten.",
+    "loading": "Einladungen werden geladen...",
+    "unknownRole": "Unbekannte Rolle",
+    "table": {
+      "email": "E-Mail",
+      "role": "Rolle",
+      "status": "Status",
+      "sent": "Gesendet",
+      "expires": "Läuft ab",
+      "actions": "Aktionen"
+    },
+    "status": {
+      "pending": "Ausstehend",
+      "accepted": "Angenommen",
+      "expired": "Abgelaufen",
+      "revoked": "Widerrufen"
+    },
+    "empty": {
+      "title": "Noch keine Einladungen",
+      "description": "Einladungen an neue Organisationsmitglieder werden hier angezeigt."
+    },
+    "errors": {
+      "load": "Einladungen konnten nicht geladen werden."
+    },
+    "create": {
+      "button": "Mitglied einladen",
+      "cancel": "Abbrechen",
+      "title": "Mitglied einladen",
+      "description": "Senden Sie eine Einladung zum Beitritt zu dieser Organisation.",
+      "email": "E-Mail",
+      "emailPlaceholder": "name@example.com",
+      "role": "Rolle",
+      "expiration": "Die Einladung läuft automatisch nach 7 Tagen ab.",
+      "submit": "Einladung senden",
+      "creating": "Wird gesendet...",
+      "success": "Einladung wurde erfolgreich erstellt.",
+      "errors": {
+        "authenticationMissing": "Authentifizierungs- oder Arbeitsbereichsinformationen fehlen.",
+        "required": "E-Mail und Rolle sind erforderlich.",
+        "create": "Einladung konnte nicht erstellt werden."
+      }
+    },
+    "revoke": {
+      "button": "Widerrufen",
+      "revoking": "Wird widerrufen...",
+      "success": "Einladung wurde erfolgreich widerrufen.",
+      "errors": {
+        "authenticationMissing": "Eine Anmeldung ist erforderlich.",
+        "revoke": "Diese Einladung konnte nicht widerrufen werden."
+      }
+    },
+    "resend": {
+      "button": "Erneut senden",
+      "resending": "Wird erneut gesendet...",
+      "success": "Einladung wurde erfolgreich erneut gesendet.",
+      "errors": {
+        "authenticationMissing": "Eine Anmeldung ist erforderlich.",
+        "resend": "Diese Einladung konnte nicht erneut gesendet werden."
+      }
+    }
+  },
+  "acceptInvitation": {
+    "title": "Einladung annehmen",
+    "description": "Nehmen Sie diese Einladung an, um der Organisation in PromiseFlow beizutreten.",
+    "accept": "Einladung annehmen",
+    "accepting": "Wird angenommen...",
+    "success": {
+      "title": "Einladung angenommen",
+      "description": "Sie sind jetzt Mitglied der Organisation.",
+      "message": "Einladung wurde erfolgreich angenommen.",
+      "continue": "Weiter zum Dashboard"
+    },
+    "errors": {
+      "missingToken": "Dieser Einladungslink ist ungültig oder unvollständig.",
+      "accept": "Diese Einladung konnte nicht angenommen werden. Sie ist möglicherweise abgelaufen, bereits angenommen oder einer anderen E-Mail-Adresse zugeordnet."
+    },
+    "loading": "Einladung wird geladen..."
+  },
+  "activityAudit": {
+    "workspace": "Arbeitsbereich",
+    "title": "Aktivitäten & Audit",
+    "description": "Aktivitäten und Audit-Einträge des Arbeitsbereichs an einem Ort anzeigen.",
+    "tabs": {
+      "label": "Aktivitäten- und Audit-Ansichten",
+      "activity": "Aktivitäten",
+      "audit": "Audit-Protokoll"
+    },
+    "loading": "Aktivitäten und Audit-Einträge werden geladen...",
+    "error": "Aktivitäten und Audit-Einträge konnten nicht geladen werden.",
+    "columns": {
+      "action": "Aktion",
+      "entity": "Element",
+      "entityId": "Element-ID",
+      "date": "Datum"
+    },
+    "empty": {
+      "activity": "Keine Aktivitäten gefunden.",
+      "audit": "Keine Audit-Einträge gefunden."
+    },
+    "actions": {
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "deleted": "Gelöscht",
+      "approved": "Genehmigt",
+      "rejected": "Abgelehnt",
+      "invited": "Eingeladen",
+      "accepted": "Angenommen",
+      "revoked": "Widerrufen",
+      "resent": "Erneut gesendet",
+      "added": "Hinzugefügt",
+      "removed": "Entfernt",
+      "reordered": "Neu angeordnet",
+      "enabled": "Aktiviert",
+      "disabled": "Deaktiviert"
+    },
+    "entities": {
+      "project": "Projekt",
+      "task": "Aufgabe",
+      "team": "Team",
+      "workflow": "Workflow",
+      "workflowStep": "Workflow-Schritt",
+      "approval": "Genehmigung",
+      "comment": "Kommentar",
+      "file": "Datei",
+      "organization": "Organisation",
+      "membership": "Mitgliedschaft",
+      "invitation": "Einladung",
+      "automation": "Automatisierung",
+      "notification": "Benachrichtigung",
+      "teamMember": "Teammitglied"
+    },
+    "details": {
+      "title": "Eintragsdetails",
+      "activityLabel": "Aktivität",
+      "auditLabel": "Audit-Protokoll",
+      "close": "Details schließen",
+      "userId": "Benutzer-ID",
+      "systemUser": "System",
+      "ipAddress": "IP-Adresse",
+      "userAgent": "User-Agent",
+      "metadata": "Metadaten",
+      "noMetadata": "Keine Metadaten gespeichert.",
+      "notAvailable": "Nicht verfügbar"
+    },
+    "filters": {
+      "action": "Aktion",
+      "allActions": "Alle Aktionen",
+      "user": "Benutzer",
+      "allUsers": "Alle Benutzer",
+      "entityType": "Elementtyp",
+      "allEntityTypes": "Alle Elementtypen",
+      "clear": "Filter zurücksetzen",
+      "from": "Von",
+      "to": "Bis",
+      "search": "Suchen",
+      "searchPlaceholder": "Aktion, Elementtyp oder Element-ID suchen..."
+    },
+    "pagination": {
+      "page": "Seite",
+      "records": "Einträge",
+      "previous": "Zurück",
+      "next": "Weiter"
+    }
+  }
+}

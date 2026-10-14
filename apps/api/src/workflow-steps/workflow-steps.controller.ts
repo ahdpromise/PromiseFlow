@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -21,7 +24,10 @@ export class WorkflowStepsController {
   @Get()
   findAll(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Query('workflow_id')
     workflowId: string,
   ) {
@@ -34,7 +40,10 @@ export class WorkflowStepsController {
   @Post()
   create(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Body()
     body: {
       workflow_id: string;
@@ -53,6 +62,66 @@ export class WorkflowStepsController {
       body.step_type,
       body.position,
       body.description,
+    );
+  }
+
+  @Patch('reorder')
+  reorder(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Body()
+    body: {
+      workflow_id: string;
+      step_ids: string[];
+    },
+  ) {
+    return this.workflowStepsService.reorder(
+      user.userId,
+      body.workflow_id,
+      body.step_ids,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    workflowStepId: string,
+    @Body()
+    body: {
+      name?: string;
+      slug?: string;
+      description?: string | null;
+      step_type?: string;
+    },
+  ) {
+    return this.workflowStepsService.update(
+      user.userId,
+      workflowStepId,
+      body,
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    workflowStepId: string,
+  ) {
+    return this.workflowStepsService.remove(
+      user.userId,
+      workflowStepId,
     );
   }
 }

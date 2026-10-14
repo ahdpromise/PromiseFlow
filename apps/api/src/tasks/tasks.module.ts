@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { ActivitiesModule } from '../activities/activities.module';
 import { AuthModule } from '../auth/auth.module';
+import { AutomationsModule } from '../automations/automations.module';
 import { AuditLogsModule } from '../audit-logs/audit-logs.module';
 import { Task } from '../entities/task.entity';
 
@@ -13,6 +15,8 @@ import { TasksService } from './tasks.service';
     TypeOrmModule.forFeature([Task]),
     AuthModule,
     AuditLogsModule,
+    ActivitiesModule,
+    AutomationsModule,
   ],
 
   controllers: [TasksController],

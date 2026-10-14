@@ -1,0 +1,1121 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "tasks": "Tasks",
+    "teams": "Teams",
+    "workflows": "Workflows",
+    "approvals": "Approvals",
+    "reports": "Reports",
+    "settings": "Settings",
+    "automations": "Automations",
+    "invitations": "Invitations",
+    "activityAudit": "Activity & Audit"
+  },
+  "sidebar": {
+    "workspace": "Workspace",
+    "openNavigation": "Open navigation",
+    "closeNavigation": "Close navigation"
+  },
+  "workspaceSwitcher": {
+    "loading": "Loading workspace...",
+    "empty": "No workspace",
+    "select": "Select workspace"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "{count} unread",
+    "loading": "Loading notifications...",
+    "empty": "No notifications yet.",
+    "open": "Notifications",
+    "loadError": "Unable to load notifications",
+    "openError": "Unable to open notification",
+    "content": {
+      "approvalApproved": {
+        "title": "Task approved",
+        "message": "Your approval request for \"{taskTitle}\" was approved."
+      },
+      "approvalRejected": {
+        "title": "Task rejected",
+        "message": "Your approval request for \"{taskTitle}\" was rejected."
+      }
+    },
+    "delete": "Delete notification",
+    "deleteError": "Unable to delete notification",
+    "deleteSuccess": "Notification deleted successfully."
+  },
+  "userMenu": {
+    "user": "User",
+    "member": "Member",
+    "settings": "Settings",
+    "logout": "Log out",
+    "menu": "User menu"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "german": "German"
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "title": "Sign in to PromiseFlow",
+    "description": "Manage your projects, teams, tasks, and workflows from one workspace.",
+    "email": {
+      "label": "Email address",
+      "placeholder": "you@company.com"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "forgotPassword": "Forgot password?",
+    "signingIn": "Signing in...",
+    "signIn": "Sign in",
+    "newToPromiseFlow": "New to PromiseFlow?",
+    "createAccount": "Create an account",
+    "errors": {
+      "signIn": "Unable to sign in"
+    }
+  },
+  "approvals": {
+    "workspace": "Workspace",
+    "title": "Approvals",
+    "description": "Review approval requests across tasks in the selected workspace.",
+    "loading": "Loading approvals...",
+    "loadError": "Unable to load approvals",
+    "authenticationMissing": "Authentication is missing",
+    "updateError": "Unable to update approval",
+    "approvedSuccess": "Approval approved successfully.",
+    "rejectedSuccess": "Approval rejected successfully.",
+    "totalApprovals": "Total approvals",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "requestsTitle": "Approval requests",
+    "requestsDescription": "Approvals from tasks in the current workspace.",
+    "project": "Project",
+    "approver": "Approver",
+    "comment": "Comment",
+    "saving": "Saving...",
+    "approve": "Approve",
+    "reject": "Reject",
+    "emptyTitle": "No approvals yet",
+    "emptyDescription": "Approval requests from tasks will appear here.",
+    "requestedBy": "Requested by",
+    "viewTask": "View task",
+    "confirmation": {
+      "approveTitle": "Approve request?",
+      "approveDescription": "Are you sure you want to approve \"{task}\"?",
+      "rejectTitle": "Reject request?",
+      "rejectDescription": "Are you sure you want to reject \"{task}\"?",
+      "cancel": "Cancel",
+      "confirmApprove": "Approve",
+      "confirmReject": "Reject",
+      "reasonLabel": "Reason",
+      "reasonPlaceholder": "Add a reason for your decision...",
+      "reasonHelp": "Optional. This will be saved with the approval decision."
+    },
+    "decisionComment": "Decision reason",
+    "filters": {
+      "status": "Status",
+      "project": "Project",
+      "allStatuses": "All statuses",
+      "allProjects": "All projects",
+      "clear": "Clear filters",
+      "noResults": "No matching approvals",
+      "noResultsDescription": "No approval requests match the selected filters."
+    }
+  },
+  "dashboard": {
+    "overview": "Overview",
+    "title": "Dashboard",
+    "description": "Monitor {organization}, projects, teams, tasks, and approvals.",
+    "newProject": "New project",
+    "loading": "Loading dashboard...",
+    "loadError": "Unable to load dashboard",
+    "noData": "No dashboard data available.",
+    "activeProjects": "Active projects",
+    "totalProjects": "{count} total projects",
+    "openTasks": "Open tasks",
+    "totalTasks": "{count} total tasks",
+    "teams": "Teams",
+    "activeTeams": "{count} active teams",
+    "pendingApprovals": "Pending approvals",
+    "totalApprovals": "{count} total approvals",
+    "recentProjects": "Recent projects",
+    "recentProjectsDescription": "Projects in the current workspace.",
+    "viewAll": "View all",
+    "noDescription": "No description",
+    "noProjects": "No projects yet.",
+    "workspaceSummary": "Workspace summary",
+    "liveData": "Live data from {organization}.",
+    "projects": "Projects",
+    "tasks": "Tasks"
+  },
+  "projects": {
+    "workspace": "Workspace",
+    "title": "Projects",
+    "description": "Manage projects in the selected workspace.",
+    "loading": "Loading projects...",
+    "loadError": "Unable to load projects",
+    "authenticationMissing": "Authentication or workspace is missing",
+    "newProject": "New project",
+    "cancel": "Cancel",
+    "createTitle": "Create project",
+    "createDescription": "Add a new project to the current workspace.",
+    "projectName": "Project name",
+    "projectNamePlaceholder": "Customer Portal",
+    "slug": "Slug",
+    "slugPlaceholder": "customer-portal",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe the purpose of this project...",
+    "creating": "Creating...",
+    "createProject": "Create project",
+    "createError": "Unable to create project",
+    "edit": "Edit",
+    "editTitle": "Edit project",
+    "editDescription": "Update the project details.",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "updateError": "Unable to update project",
+    "delete": "Delete",
+    "deleteTitle": "Delete project",
+    "deleteConfirmation": "Are you sure you want to delete this project?",
+    "deleting": "Deleting...",
+    "deleteError": "Unable to delete project",
+    "noDescription": "No description",
+    "emptyTitle": "No projects yet",
+    "emptyDescription": "Create the first project in this workspace."
+  },
+  "projectDetails": {
+    "loading": "Loading project...",
+    "backToProjects": "Back to projects",
+    "project": "Project",
+    "noDescription": "No description",
+    "cancel": "Cancel",
+    "newTask": "New task",
+    "errors": {
+      "loadProject": "Unable to load project",
+      "missingAuthentication": "Authentication or project is missing",
+      "createTask": "Unable to create task"
+    },
+    "createTask": {
+      "title": "Create task",
+      "description": "Add a new task to this project.",
+      "taskTitle": "Task title",
+      "titlePlaceholder": "Implement dashboard filters",
+      "taskDescription": "Description",
+      "descriptionPlaceholder": "Describe the work that needs to be done...",
+      "status": "Status",
+      "priority": "Priority",
+      "dueDate": "Due date",
+      "creating": "Creating...",
+      "submit": "Create task"
+    },
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "stats": {
+      "totalTasks": "Total tasks",
+      "openTasks": "Open tasks",
+      "projectSlug": "Project slug"
+    },
+    "tasks": {
+      "title": "Tasks",
+      "description": "Tasks belonging to this project.",
+      "due": "Due",
+      "empty": "No tasks in this project yet."
+    }
+  },
+  "tasks": {
+    "workspace": "Workspace",
+    "title": "Tasks",
+    "description": "View tasks across all projects in the selected workspace.",
+    "loading": "Loading tasks...",
+    "loadError": "Unable to load tasks",
+    "deleteError": "Unable to delete task",
+    "totalTasks": "Total tasks",
+    "openTasks": "Open tasks",
+    "completedTasks": "Completed",
+    "allTasks": "All tasks",
+    "allTasksDescription": "Tasks from projects in the current workspace.",
+    "noDescription": "No description",
+    "empty": "No tasks in this workspace yet.",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete task",
+    "deleteConfirmation": "Are you sure you want to delete this task?",
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "newTask": "New task",
+    "authenticationMissing": "Authentication is missing",
+    "createRequired": "Project and task title are required",
+    "createError": "Unable to create task",
+    "create": {
+      "title": "Create task",
+      "description": "Add a new task to a project in the current workspace.",
+      "project": "Project",
+      "taskTitle": "Task title",
+      "titlePlaceholder": "Implement dashboard filters",
+      "taskDescription": "Description",
+      "descriptionPlaceholder": "Describe the work that needs to be done...",
+      "status": "Status",
+      "priority": "Priority",
+      "dueDate": "Due date",
+      "creating": "Creating...",
+      "submit": "Create task"
+    },
+    "filters": {
+      "project": "Project",
+      "allProjects": "All projects",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "priority": "Priority",
+      "allPriorities": "All priorities",
+      "clear": "Clear filters",
+      "noResults": "No tasks match the selected filters."
+    }
+  },
+  "taskDetails": {
+    "loading": "Loading task...",
+    "backToTasks": "Back to tasks",
+    "task": "Task",
+    "subtitle": "Update task details, approvals, files, and comments.",
+    "cancel": "Cancel",
+    "requestApproval": "Request approval",
+    "workspaceMember": "Workspace member",
+    "errors": {
+      "loadTask": "Unable to load task",
+      "updateTask": "Unable to update task",
+      "selectApprover": "Please select an approver",
+      "createApproval": "Unable to create approval",
+      "emptyComment": "Comment cannot be empty",
+      "addComment": "Unable to add comment",
+      "fileSize": "File is too large. Maximum size is 10 MB.",
+      "uploadFile": "Unable to upload file"
+    },
+    "success": {
+      "taskUpdated": "Task updated successfully.",
+      "approvalCreated": "Approval request created successfully.",
+      "commentAdded": "Comment added successfully.",
+      "fileUploaded": "File uploaded successfully."
+    },
+    "approvalForm": {
+      "title": "Request approval",
+      "description": "Choose a workspace member to review this task.",
+      "approver": "Approver",
+      "selectApprover": "Select an approver",
+      "comment": "Comment",
+      "commentPlaceholder": "Optional note for the approver...",
+      "creating": "Creating...",
+      "create": "Create approval"
+    },
+    "form": {
+      "title": "Task title",
+      "description": "Description",
+      "status": "Status",
+      "priority": "Priority",
+      "dueDate": "Due date",
+      "saving": "Saving...",
+      "saveChanges": "Save changes"
+    },
+    "status": {
+      "pending": "Pending",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "canceled": "Canceled",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "approvals": {
+      "title": "Approvals",
+      "description": "Approval requests connected to this task.",
+      "empty": "No approvals yet",
+      "emptyDescription": "Create the first approval request for this task."
+    },
+    "files": {
+      "title": "Files",
+      "description": "Upload and review files attached to this task.",
+      "uploading": "Uploading...",
+      "upload": "Upload file",
+      "maxSize": "Maximum file size: 10 MB.",
+      "unknownSize": "Unknown size",
+      "uploadedBy": "Uploaded by",
+      "empty": "No files yet",
+      "emptyDescription": "Upload the first file for this task."
+    },
+    "comments": {
+      "title": "Comments",
+      "description": "Discussion and notes related to this task.",
+      "empty": "No comments yet",
+      "emptyDescription": "Start the discussion by adding the first comment.",
+      "add": "Add comment",
+      "placeholder": "Write a comment...",
+      "adding": "Adding..."
+    }
+  },
+  "teams": {
+    "loading": "Loading teams...",
+    "workspace": "Workspace",
+    "title": "Teams",
+    "description": "Manage teams in the selected workspace.",
+    "cancel": "Cancel",
+    "newTeam": "New team",
+    "noDescription": "No description",
+    "slug": "Slug",
+    "errors": {
+      "loadTeams": "Unable to load teams",
+      "authenticationMissing": "Authentication or workspace is missing",
+      "required": "Team name and slug are required",
+      "createTeam": "Unable to create team"
+    },
+    "success": {
+      "created": "Team created successfully.",
+      "deleted": "Team deleted successfully"
+    },
+    "create": {
+      "title": "Create team",
+      "description": "Add a new team to this workspace.",
+      "teamName": "Team name",
+      "namePlaceholder": "Frontend Team",
+      "slug": "Slug",
+      "slugPlaceholder": "frontend-team",
+      "creating": "Creating...",
+      "submit": "Create team"
+    },
+    "empty": {
+      "title": "No teams yet",
+      "description": "Create the first team in this workspace."
+    }
+  },
+  "teamDetails": {
+    "loading": "Loading team...",
+    "backToTeams": "Back to teams",
+    "team": "Team",
+    "noDescription": "No description",
+    "cancel": "Cancel",
+    "addMember": "Add member",
+    "errors": {
+      "authenticationMissing": "Authentication or workspace is missing",
+      "notFound": "Team not found in this workspace",
+      "loadTeam": "Unable to load team",
+      "authenticationOrTeamMissing": "Authentication or team is missing",
+      "selectMember": "Please select a member",
+      "addMember": "Unable to add member",
+      "updateTeam": "Unable to update team",
+      "updateRequired": "Team name and slug are required",
+      "deleteTeam": "Unable to delete team",
+      "removeMember": "Unable to remove member"
+    },
+    "success": {
+      "memberAdded": "Member added successfully.",
+      "updated": "Team updated successfully",
+      "memberRemoved": "Member removed successfully."
+    },
+    "addMemberForm": {
+      "title": "Add team member",
+      "description": "Select a member of the current workspace.",
+      "workspaceMember": "Workspace member",
+      "selectMember": "Select a member",
+      "adding": "Adding...",
+      "submit": "Add member",
+      "allMembersAdded": "All workspace members are already in this team."
+    },
+    "stats": {
+      "members": "Members",
+      "teamSlug": "Team slug"
+    },
+    "members": {
+      "title": "Team members",
+      "description": "Members assigned to this team.",
+      "workspaceMember": "Workspace member",
+      "emptyTitle": "No members yet",
+      "emptyDescription": "Add the first member to this team."
+    },
+    "editTeam": "Edit team",
+    "edit": {
+      "title": "Edit team",
+      "description": "Update the team name, slug, and description.",
+      "teamName": "Team name",
+      "namePlaceholder": "Engineering Team",
+      "slug": "Slug",
+      "slugPlaceholder": "engineering-team",
+      "teamDescription": "Description",
+      "descriptionPlaceholder": "Describe this team's responsibilities...",
+      "saving": "Saving...",
+      "submit": "Save changes"
+    },
+    "deleteTeam": "Delete team",
+    "delete": {
+      "title": "Delete team",
+      "description": "Are you sure you want to delete this team? This action will remove it from the workspace.",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "confirm": "Delete team"
+    },
+    "removeMember": {
+      "button": "Remove",
+      "title": "Remove member",
+      "description": "Are you sure you want to remove this member from the team?",
+      "cancel": "Cancel",
+      "removing": "Removing...",
+      "confirm": "Remove member"
+    }
+  },
+  "workflows": {
+    "loading": "Loading workflows...",
+    "workspace": "Workspace",
+    "title": "Workflows",
+    "description": "Manage workflows across projects in the selected workspace.",
+    "cancel": "Cancel",
+    "newWorkflow": "New workflow",
+    "project": "Project",
+    "slug": "Slug",
+    "noDescription": "No description",
+    "errors": {
+      "loadWorkflows": "Unable to load workflows",
+      "authenticationMissing": "Authentication is missing",
+      "required": "Project, workflow name, and slug are required",
+      "createWorkflow": "Unable to create workflow"
+    },
+    "success": {
+      "created": "Workflow created successfully.",
+      "deleted": "Workflow deleted successfully."
+    },
+    "create": {
+      "title": "Create workflow",
+      "description": "Add a workflow to one of the current workspace projects.",
+      "project": "Project",
+      "workflowName": "Workflow name",
+      "namePlaceholder": "Approval Workflow",
+      "slug": "Slug",
+      "slugPlaceholder": "approval-workflow",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Optional description",
+      "creating": "Creating...",
+      "submit": "Create workflow"
+    },
+    "empty": {
+      "title": "No workflows yet",
+      "description": "Create the first workflow for a project in this workspace."
+    }
+  },
+  "workflowDetails": {
+    "loading": "Loading workflow...",
+    "backToWorkflows": "Back to workflows",
+    "workflow": "Workflow",
+    "project": "Project",
+    "noDescription": "No description",
+    "cancel": "Cancel",
+    "newStep": "New step",
+    "errors": {
+      "authenticationMissing": "Authentication or workspace is missing",
+      "notFound": "Workflow not found in this workspace",
+      "loadWorkflow": "Unable to load workflow",
+      "authenticationOrWorkflowMissing": "Authentication or workflow is missing",
+      "required": "Step name and slug are required",
+      "createStep": "Unable to create workflow step",
+      "updateWorkflow": "Unable to update workflow",
+      "updateRequired": "Workflow name and slug are required",
+      "deleteWorkflow": "Unable to delete workflow",
+      "updateStep": "Unable to update workflow step",
+      "updateStepRequired": "Step name and slug are required",
+      "deleteStep": "Unable to delete workflow step",
+      "reorderSteps": "Unable to reorder workflow steps"
+    },
+    "success": {
+      "stepCreated": "Workflow step created successfully.",
+      "updated": "Workflow updated successfully.",
+      "stepUpdated": "Workflow step updated successfully.",
+      "stepDeleted": "Workflow step deleted successfully.",
+      "stepsReordered": "Workflow steps reordered successfully."
+    },
+    "create": {
+      "title": "Create workflow step",
+      "description": "Add the next step to this workflow.",
+      "stepName": "Step name",
+      "namePlaceholder": "Review",
+      "slug": "Slug",
+      "slugPlaceholder": "review",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Optional description",
+      "creating": "Creating...",
+      "submit": "Create step"
+    },
+    "stats": {
+      "steps": "Steps",
+      "project": "Project",
+      "workflowSlug": "Workflow slug"
+    },
+    "steps": {
+      "title": "Workflow steps",
+      "description": "Steps are executed in position order.",
+      "emptyTitle": "No workflow steps yet",
+      "emptyDescription": "Create the first step for this workflow."
+    },
+    "stepTypes": {
+      "approval": "Approval"
+    },
+    "editWorkflow": "Edit workflow",
+    "edit": {
+      "title": "Edit workflow",
+      "description": "Update the workflow name, slug, and description.",
+      "workflowName": "Workflow name",
+      "namePlaceholder": "Approval Workflow",
+      "slug": "Slug",
+      "slugPlaceholder": "approval-workflow",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe this workflow...",
+      "saving": "Saving...",
+      "submit": "Save changes"
+    },
+    "deleteWorkflow": "Delete workflow",
+    "delete": {
+      "title": "Delete workflow?",
+      "description": "This workflow will be removed from the active workspace. This action cannot be undone from the interface.",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "confirm": "Delete workflow"
+    },
+    "editStep": {
+      "button": "Edit",
+      "title": "Edit workflow step",
+      "description": "Update the step name, slug, description, and type.",
+      "stepName": "Step name",
+      "namePlaceholder": "Manager approval",
+      "slug": "Slug",
+      "slugPlaceholder": "manager-approval",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Describe this step...",
+      "stepType": "Step type",
+      "approval": "Approval",
+      "cancel": "Cancel",
+      "saving": "Saving...",
+      "submit": "Save changes"
+    },
+    "deleteStep": {
+      "button": "Delete",
+      "title": "Delete workflow step?",
+      "description": "This workflow step will be removed from the active workflow. This action cannot be undone from the interface.",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "confirm": "Delete step"
+    },
+    "reorder": {
+      "moveUp": "Move up",
+      "moveDown": "Move down"
+    }
+  },
+  "reports": {
+    "loading": "Loading reports...",
+    "workspace": "Workspace",
+    "title": "Reports",
+    "description": "Review workspace activity and audit history.",
+    "errors": {
+      "loadReports": "Unable to load reports"
+    },
+    "stats": {
+      "activities": "Activities",
+      "auditEvents": "Audit events",
+      "created": "Created",
+      "updated": "Updated"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "description": "Recent workspace activity.",
+      "empty": "No activity yet."
+    },
+    "audit": {
+      "title": "Audit log",
+      "description": "Recent auditable changes in this workspace.",
+      "entityId": "Entity ID",
+      "empty": "No audit events yet."
+    },
+    "actions": {
+      "created": "Created",
+      "updated": "Updated",
+      "deleted": "Deleted"
+    },
+    "entities": {
+      "project": "Project",
+      "task": "Task",
+      "team": "Team",
+      "workflow": "Workflow",
+      "workflowStep": "Workflow step",
+      "approval": "Approval",
+      "comment": "Comment",
+      "file": "File",
+      "organization": "Organization",
+      "membership": "Membership"
+    },
+    "overview": {
+      "title": "Overview",
+      "description": "Key project and task metrics for your workspace.",
+      "totalProjects": "Total projects",
+      "totalTasks": "Total tasks",
+      "completedTasks": "Completed tasks",
+      "activeTasks": "Pending / In progress",
+      "completionRate": "Completion rate"
+    },
+    "tasksByStatus": {
+      "title": "Tasks by status",
+      "description": "Distribution of active workspace tasks by their current status.",
+      "status": {
+        "pending": "Pending",
+        "inProgress": "In progress",
+        "completed": "Completed",
+        "canceled": "Canceled"
+      }
+    },
+    "tasksByPriority": {
+      "title": "Tasks by priority",
+      "description": "Distribution of workspace tasks by their priority level.",
+      "priority": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "urgent": "Urgent"
+      }
+    },
+    "projectPerformance": {
+      "title": "Project performance",
+      "description": "Task progress and completion rate for each project.",
+      "columns": {
+        "project": "Project",
+        "totalTasks": "Total tasks",
+        "completed": "Completed",
+        "active": "Pending / In progress",
+        "completionRate": "Completion rate"
+      },
+      "empty": "No projects found."
+    },
+    "approvalStatistics": {
+      "title": "Approval statistics",
+      "description": "Overview of approval decisions and their current status.",
+      "total": "Total approvals",
+      "approvalRate": "Approval rate",
+      "status": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      }
+    },
+    "dateRange": {
+      "title": "Date range",
+      "description": "Filter report data by creation date.",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "clear": "Clear",
+      "invalid": "The start date must be before or equal to the end date."
+    },
+    "exportCsv": {
+      "title": "Export report",
+      "description": "Download the current report data as a CSV file.",
+      "button": "Export CSV",
+      "report": "PromiseFlow Report",
+      "dateRange": "Date range",
+      "allDates": "All dates"
+    },
+    "exportPdf": {
+      "button": "Export PDF",
+      "report": "PromiseFlow Report",
+      "dateRange": "Date range",
+      "allDates": "All dates"
+    }
+  },
+  "settings": {
+    "loading": "Loading settings...",
+    "account": "Account",
+    "title": "Settings",
+    "description": "Manage your profile, workspace information, and account security.",
+    "errors": {
+      "loadSettings": "Unable to load settings",
+      "authenticationMissing": "Authentication is missing",
+      "passwordLength": "Password must be at least 8 characters",
+      "passwordMismatch": "Passwords do not match",
+      "updatePassword": "Unable to update password"
+    },
+    "success": {
+      "passwordUpdated": "Password updated successfully."
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Your current account information.",
+      "name": "Name",
+      "email": "Email",
+      "emailVerified": "Email verified",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "workspace": {
+      "title": "Workspace",
+      "description": "Information about the selected workspace.",
+      "name": "Workspace name",
+      "slug": "Slug",
+      "members": "Members",
+      "role": "Role"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Change your account password.",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "updating": "Updating...",
+      "updatePassword": "Update password"
+    }
+  },
+  "approvalDetails": {
+    "loading": "Loading approval...",
+    "authenticationMissing": "Authentication is required.",
+    "loadError": "Unable to load approval details.",
+    "back": "Back to approvals",
+    "workspace": "Workspace",
+    "title": "Approval details",
+    "description": "Review the approval request and its related task.",
+    "notAvailable": "Not available",
+    "noComment": "No comment provided.",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "request": {
+      "title": "Approval request",
+      "project": "Project",
+      "approver": "Approver",
+      "requestedBy": "Requested by",
+      "createdAt": "Requested at",
+      "decidedAt": "Decided at",
+      "comment": "Comment"
+    },
+    "task": {
+      "title": "Related task",
+      "name": "Task",
+      "status": "Status",
+      "priority": "Priority",
+      "dueAt": "Due date",
+      "description": "Description",
+      "noDescription": "No description provided."
+    },
+    "taskStatus": {
+      "pending": "Pending",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    }
+  },
+  "automations": {
+    "workspace": "Workspace",
+    "title": "Automations",
+    "description": "Manage automated workflows and actions for your workspace.",
+    "totalAutomations": "Total Automations",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "listTitle": "Automations",
+    "listDescription": "Automations configured for the current workspace.",
+    "trigger": "Trigger",
+    "action": "Action",
+    "createdBy": "Created by",
+    "loading": "Loading automations...",
+    "emptyTitle": "No automations yet",
+    "emptyDescription": "There are no automations configured for this workspace yet.",
+    "loadError": "Automations could not be loaded.",
+    "authenticationMissing": "Authentication or workspace information is missing.",
+    "createAutomation": "Create Automation",
+    "createError": "Automation could not be created.",
+    "triggers": {
+      "taskCreated": "Task Created",
+      "taskStatusChanged": "Task Status Changed",
+      "approvalApproved": "Approval Approved",
+      "approvalRejected": "Approval Rejected"
+    },
+    "actions": {
+      "createNotification": "Create Notification",
+      "updateTaskStatus": "Update Task Status",
+      "createApprovalRequest": "Create Approval Request"
+    },
+    "create": {
+      "title": "Create Automation",
+      "description": "Choose when the automation should run and what it should do.",
+      "name": "Name",
+      "automationDescription": "Description",
+      "trigger": "Trigger",
+      "action": "Action",
+      "cancel": "Cancel",
+      "submit": "Create Automation",
+      "creating": "Creating..."
+    },
+    "edit": "Edit",
+    "editError": "Automation could not be updated.",
+    "saving": "Saving...",
+    "editForm": {
+      "title": "Edit Automation",
+      "description": "Update the automation name, description, trigger, or action.",
+      "submit": "Save Changes"
+    },
+    "enable": "Enable",
+    "disable": "Disable",
+    "updatingStatus": "Updating...",
+    "toggleError": "Automation status could not be updated.",
+    "delete": "Delete",
+    "deleteError": "Automation could not be deleted.",
+    "deleteConfirmation": {
+      "title": "Delete Automation",
+      "description": "Are you sure you want to delete \"{name}\"? This automation will no longer appear in the workspace.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "deleting": "Deleting..."
+    },
+    "configuration": {
+      "project": "Project",
+      "allProjects": "All Projects",
+      "projectHelp": "Choose a specific project or apply this automation to all projects.",
+      "newStatus": "New Status",
+      "statusPending": "Pending",
+      "statusInProgress": "In Progress",
+      "statusCompleted": "Completed",
+      "statusHelp": "Run this automation when a task changes to the selected status.",
+      "notificationTitle": "Notification Title",
+      "notificationMessage": "Notification Message",
+      "notificationHelp": "Enter the notification that will be created when this automation runs.",
+      "updateTaskStatusHelp": "Set the task to the selected status when this automation runs.",
+      "approver": "Approver",
+      "selectApprover": "Select an approver",
+      "approverHelp": "Choose the organization member who should approve the request."
+    },
+    "createSuccess": "Automation created successfully.",
+    "editSuccess": "Automation updated successfully.",
+    "deleteSuccess": "Automation deleted successfully.",
+    "history": "History",
+    "runHistory": {
+      "title": "Automation Run History",
+      "description": "View previous runs and their execution results.",
+      "loading": "Loading run history...",
+      "loadError": "Failed to load automation run history.",
+      "emptyTitle": "No runs yet",
+      "emptyDescription": "This automation has not been executed yet.",
+      "status": "Status",
+      "startedAt": "Started",
+      "finishedAt": "Finished",
+      "duration": "Duration",
+      "result": "Result",
+      "error": "Error",
+      "triggerPayload": "Trigger payload",
+      "close": "Close",
+      "statuses": {
+        "pending": "Pending",
+        "running": "Running",
+        "succeeded": "Succeeded",
+        "failed": "Failed"
+      }
+    }
+  },
+  "invitations": {
+    "workspace": "Workspace",
+    "title": "Invitations",
+    "description": "View and manage invitations for your organization.",
+    "loading": "Loading invitations...",
+    "unknownRole": "Unknown role",
+    "table": {
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "sent": "Sent",
+      "expires": "Expires",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "expired": "Expired",
+      "revoked": "Revoked"
+    },
+    "empty": {
+      "title": "No invitations yet",
+      "description": "Invitations sent to new organization members will appear here."
+    },
+    "errors": {
+      "load": "Unable to load invitations."
+    },
+    "create": {
+      "button": "Invite Member",
+      "cancel": "Cancel",
+      "title": "Invite a member",
+      "description": "Send an invitation to join this organization.",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "role": "Role",
+      "expiration": "The invitation will expire automatically after 7 days.",
+      "submit": "Send Invitation",
+      "creating": "Sending...",
+      "success": "Invitation created successfully.",
+      "errors": {
+        "authenticationMissing": "Authentication or workspace information is missing.",
+        "required": "Email and role are required.",
+        "create": "Unable to create invitation."
+      }
+    },
+    "revoke": {
+      "button": "Revoke",
+      "revoking": "Revoking...",
+      "success": "Invitation revoked successfully.",
+      "errors": {
+        "authenticationMissing": "Authentication is required.",
+        "revoke": "Unable to revoke this invitation."
+      }
+    },
+    "resend": {
+      "button": "Resend",
+      "resending": "Resending...",
+      "success": "Invitation resent successfully.",
+      "errors": {
+        "authenticationMissing": "Authentication is required.",
+        "resend": "Unable to resend this invitation."
+      }
+    }
+  },
+  "acceptInvitation": {
+    "title": "Accept invitation",
+    "description": "Accept this invitation to join the organization in PromiseFlow.",
+    "accept": "Accept Invitation",
+    "accepting": "Accepting...",
+    "success": {
+      "title": "Invitation accepted",
+      "description": "You are now a member of the organization.",
+      "message": "Invitation accepted successfully.",
+      "continue": "Continue to Dashboard"
+    },
+    "errors": {
+      "missingToken": "This invitation link is invalid or incomplete.",
+      "accept": "Unable to accept this invitation. It may be expired, already accepted, or assigned to another email address."
+    },
+    "loading": "Loading invitation..."
+  },
+  "activityAudit": {
+    "workspace": "Workspace",
+    "title": "Activity & Audit",
+    "description": "Review workspace activity and audit records in one place.",
+    "tabs": {
+      "label": "Activity and audit views",
+      "activity": "Activity",
+      "audit": "Audit Log"
+    },
+    "loading": "Loading activity and audit records...",
+    "error": "Activity and audit records could not be loaded.",
+    "columns": {
+      "action": "Action",
+      "entity": "Entity",
+      "entityId": "Entity ID",
+      "date": "Date"
+    },
+    "empty": {
+      "activity": "No activity records found.",
+      "audit": "No audit records found."
+    },
+    "actions": {
+      "created": "Created",
+      "updated": "Updated",
+      "deleted": "Deleted",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "invited": "Invited",
+      "accepted": "Accepted",
+      "revoked": "Revoked",
+      "resent": "Resent",
+      "added": "Added",
+      "removed": "Removed",
+      "reordered": "Reordered",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    },
+    "entities": {
+      "project": "Project",
+      "task": "Task",
+      "team": "Team",
+      "workflow": "Workflow",
+      "workflowStep": "Workflow step",
+      "approval": "Approval",
+      "comment": "Comment",
+      "file": "File",
+      "organization": "Organization",
+      "membership": "Membership",
+      "invitation": "Invitation",
+      "automation": "Automation",
+      "notification": "Notification",
+      "teamMember": "Team Member"
+    },
+    "details": {
+      "title": "Record details",
+      "activityLabel": "Activity",
+      "auditLabel": "Audit Log",
+      "close": "Close details",
+      "userId": "User ID",
+      "systemUser": "System",
+      "ipAddress": "IP Address",
+      "userAgent": "User Agent",
+      "metadata": "Metadata",
+      "noMetadata": "No metadata recorded.",
+      "notAvailable": "Not available"
+    },
+    "filters": {
+      "action": "Action",
+      "allActions": "All actions",
+      "user": "User",
+      "allUsers": "All users",
+      "entityType": "Entity type",
+      "allEntityTypes": "All entity types",
+      "clear": "Clear filters",
+      "from": "From",
+      "to": "To",
+      "search": "Search",
+      "searchPlaceholder": "Search action, entity type or entity ID..."
+    },
+    "pagination": {
+      "page": "Page",
+      "records": "records",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  }
+}

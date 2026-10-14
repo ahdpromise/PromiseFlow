@@ -12,11 +12,31 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
     exception: QueryFailedError,
     host: ArgumentsHost,
   ) {
-    const response = host.switchToHttp().getResponse();
+    const response =
+      host.switchToHttp().getResponse();
 
-    const driverError = exception.driverError as {
-      code?: string;
-    };
+    const driverError =
+      exception.driverError as {
+        code?: string;
+        message?: string;
+        detail?: string;
+        constraint?: string;
+        table?: string;
+      };
+
+    console.error(
+      '[DatabaseExceptionFilter]',
+      {
+        message: exception.message,
+        query: exception.query,
+        parameters: exception.parameters,
+        driverCode: driverError.code,
+        driverMessage: driverError.message,
+        detail: driverError.detail,
+        constraint: driverError.constraint,
+        table: driverError.table,
+      },
+    );
 
     if (driverError.code === '42501') {
       return response
@@ -30,7 +50,9 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
     }
 
     return response
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .status(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      )
       .json({
         message: 'Internal server error',
         statusCode:

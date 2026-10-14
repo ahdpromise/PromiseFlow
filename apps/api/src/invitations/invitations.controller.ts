@@ -2,14 +2,15 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { InvitationsService } from './invitations.service';
 
 @Controller('invitations')
@@ -65,6 +66,32 @@ export class InvitationsController {
     return this.invitationsService.accept(
       user.userId,
       body.token,
+    );
+  }
+
+  @Patch(':id/revoke')
+  async revoke(
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    invitationId: string,
+  ) {
+    return this.invitationsService.revoke(
+      user.userId,
+      invitationId,
+    );
+  }
+
+  @Patch(':id/resend')
+  async resend(
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Param('id')
+    invitationId: string,
+  ) {
+    return this.invitationsService.resend(
+      user.userId,
+      invitationId,
     );
   }
 }

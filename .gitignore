@@ -50,3 +50,16 @@ Thumbs.db
 # NestJS / Backend
 **/dist/
 **/.nyc_output/
+
+# Local database backups
+*.sql
+
+# Runtime uploaded files
+/apps/api/storage/
+
+# Local test artifacts
+/apps/api/upload-test.txt
+/activity-audit-check.txt
+# Local code backups
+*.bak
+*.backup

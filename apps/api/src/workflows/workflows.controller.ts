@@ -1,7 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -21,7 +24,10 @@ export class WorkflowsController {
   @Get()
   findAll(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Query('project_id')
     projectId: string,
   ) {
@@ -34,7 +40,10 @@ export class WorkflowsController {
   @Post()
   create(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Body()
     body: {
       project_id: string;
@@ -49,6 +58,45 @@ export class WorkflowsController {
       body.name,
       body.slug,
       body.description,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    workflowId: string,
+    @Body()
+    body: {
+      name?: string;
+      slug?: string;
+      description?: string | null;
+    },
+  ) {
+    return this.workflowsService.update(
+      user.userId,
+      workflowId,
+      body,
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    workflowId: string,
+  ) {
+    return this.workflowsService.remove(
+      user.userId,
+      workflowId,
     );
   }
 }

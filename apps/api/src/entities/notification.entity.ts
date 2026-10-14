@@ -29,6 +29,18 @@ export class Notification {
   message: string;
 
   @Column({
+    type: 'text',
+    nullable: true,
+  })
+  target_path: string | null;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  metadata: Record<string, unknown> | null;
+
+  @Column({
     type: 'timestamptz',
     nullable: true,
   })

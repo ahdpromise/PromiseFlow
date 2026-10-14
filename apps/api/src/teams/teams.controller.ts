@@ -1,14 +1,17 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  Patch,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 import { TeamsService } from './teams.service';
 
 @Controller('teams')
@@ -21,7 +24,10 @@ export class TeamsController {
   @Get()
   findAll(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Query('organization_id')
     organizationId: string,
   ) {
@@ -34,7 +40,10 @@ export class TeamsController {
   @Post()
   create(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
     @Body()
     body: {
       organization_id: string;
@@ -47,6 +56,45 @@ export class TeamsController {
       body.organization_id,
       body.name,
       body.slug,
+    );
+  }
+
+  @Patch(':id')
+  update(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    teamId: string,
+    @Body()
+    body: {
+      name?: string;
+      slug?: string;
+      description?: string | null;
+    },
+  ) {
+    return this.teamsService.update(
+      user.userId,
+      teamId,
+      body,
+    );
+  }
+
+  @Delete(':id')
+  remove(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Param('id')
+    teamId: string,
+  ) {
+    return this.teamsService.remove(
+      user.userId,
+      teamId,
     );
   }
 }

@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 
@@ -20,17 +21,43 @@ export class MembershipsController {
   @Get()
   findAll(
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
   ) {
-    return this.membershipsService.findAll(user.userId);
+    return this.membershipsService.findAll(
+      user.userId,
+    );
+  }
+
+  @Get('directory')
+  getOrganizationMemberDirectory(
+    @CurrentUser()
+    user: {
+      userId: string;
+      email: string;
+    },
+    @Query('organization_id')
+    organizationId: string,
+  ) {
+    return this.membershipsService.getOrganizationMemberDirectory(
+      user.userId,
+      organizationId,
+    );
   }
 
   @Post()
   create(
     @Body()
-    body: { organization_id: string },
+    body: {
+      organization_id: string;
+    },
     @CurrentUser()
-    user: { userId: string; email: string },
+    user: {
+      userId: string;
+      email: string;
+    },
   ) {
     return this.membershipsService.create(
       user.userId,

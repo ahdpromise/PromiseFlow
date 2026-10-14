@@ -6,6 +6,7 @@ import { File } from '../entities/file.entity';
 
 import { FilesController } from './files.controller';
 import { FilesService } from './files.service';
+import { FileStorageService } from './storage/file-storage.service';
 
 @Module({
   imports: [
@@ -15,8 +16,14 @@ import { FilesService } from './files.service';
 
   controllers: [FilesController],
 
-  providers: [FilesService],
+  providers: [
+    FilesService,
+    FileStorageService,
+  ],
 
-  exports: [FilesService],
+  exports: [
+    FilesService,
+    FileStorageService,
+  ],
 })
 export class FilesModule {}

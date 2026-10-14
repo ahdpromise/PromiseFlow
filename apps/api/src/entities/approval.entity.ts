@@ -18,6 +18,7 @@ import { User } from './user.entity';
 )
 @Index(['task_id'])
 @Index(['approver_user_id'])
+@Index(['requested_by_user_id'])
 @Index(['task_id', 'status'])
 export class Approval {
   @PrimaryGeneratedColumn('uuid')
@@ -29,6 +30,9 @@ export class Approval {
   @Column({ type: 'uuid' })
   approver_user_id: string;
 
+  @Column({ type: 'uuid' })
+  requested_by_user_id: string;
+
   @Column({
     type: 'varchar',
     length: 50,
@@ -38,6 +42,9 @@ export class Approval {
 
   @Column({ type: 'text', nullable: true })
   comment: string | null;
+
+  @Column({ type: 'text', nullable: true })
+  decision_comment: string | null;
 
   @Column({ type: 'timestamptz', nullable: true })
   decided_at: Date | null;
@@ -75,4 +82,12 @@ export class Approval {
     name: 'approver_user_id',
   })
   approver_user: User;
+
+  @ManyToOne(() => User, {
+    onDelete: 'RESTRICT',
+  })
+  @JoinColumn({
+    name: 'requested_by_user_id',
+  })
+  requested_by_user: User;
 }
