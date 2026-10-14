@@ -114,6 +114,9 @@ export default function ActivityAuditPage() {
   const [activityPage, setActivityPage] = useState(1);
   const [auditPage, setAuditPage] = useState(1);
 
+  const [activityPageSize, setActivityPageSize] = useState(20);
+  const [auditPageSize, setAuditPageSize] = useState(20);
+
   const [activityPagination, setActivityPagination] =
     useState<Pagination | null>(null);
 
@@ -157,12 +160,12 @@ export default function ActivityAuditPage() {
         getActivities(
           token,
           workspaceId,
-          { ...filters, page: activityPage, limit: 20 },
+          { ...filters, page: activityPage, limit: activityPageSize },
         ),
         getAuditLogs(
           token,
           workspaceId,
-          { ...filters, page: auditPage, limit: 20 },
+          { ...filters, page: auditPage, limit: auditPageSize },
         ),
         getOrganizationMemberDirectory(
           token,
@@ -189,6 +192,8 @@ export default function ActivityAuditPage() {
     searchFilter,
     activityPage,
     auditPage,
+    activityPageSize,
+    auditPageSize,
   ]);
 
   useEffect(() => {
@@ -961,6 +966,30 @@ export default function ActivityAuditPage() {
 
         {!isLoading && !hasError && (
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-4 sm:px-5">
+            <label className="flex items-center gap-2 text-sm text-muted-foreground">
+              <span>{t("pagination.pageSize")}</span>
+              <select
+                value={activeTab === "activity" ? activityPageSize : auditPageSize}
+                onChange={(event) => {
+                  const nextSize = Number(event.target.value);
+
+                  if (activeTab === "activity") {
+                    setActivityPage(1);
+                    setActivityPageSize(nextSize);
+                  } else {
+                    setAuditPage(1);
+                    setAuditPageSize(nextSize);
+                  }
+                }}
+                className="h-9 rounded-lg border border-border bg-background px-2 text-sm text-foreground outline-none transition focus:border-primary"
+              >
+                {[10, 20, 50].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </label>
             <span className="text-sm text-muted-foreground">
               {t("pagination.page")}{" "}
               {activeTab === "activity" ? activityPage : auditPage}

@@ -1115,7 +1115,8 @@
       "page": "Page",
       "records": "records",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "pageSize": "Records per page"
     }
   }
 }
