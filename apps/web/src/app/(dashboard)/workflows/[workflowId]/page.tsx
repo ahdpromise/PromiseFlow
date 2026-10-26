@@ -1,5 +1,7 @@
 "use client";
 
+import CustomSelect from "@/components/ui/custom-select";
+
 import Link from "next/link";
 import {
   useParams,
@@ -1305,31 +1307,19 @@ export default function WorkflowDetailsPage() {
                               )}
                             </label>
 
-                            <select
-                              id={`edit-step-type-${step.id}`}
-                              value={
-                                editStepType
-                              }
-                              disabled={
-                                isUpdatingStep
-                              }
-                              onChange={(
-                                event,
-                              ) =>
-                                setEditStepType(
-                                  event
-                                    .target
-                                    .value,
-                                )
-                              }
-                              className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary disabled:opacity-60"
-                            >
-                              <option value="approval">
-                                {t(
-                                  "editStep.approval",
-                                )}
-                              </option>
-                            </select>
+                            <CustomSelect
+      id={`edit-step-type-${step.id}`}
+      value={editStepType}
+      disabled={isUpdatingStep}
+      className="mt-2"
+      options={[
+        {
+          value: "approval",
+          label: t("editStep.approval"),
+        },
+      ]}
+      onChange={setEditStepType}
+    />
                           </div>
 
                           <div>

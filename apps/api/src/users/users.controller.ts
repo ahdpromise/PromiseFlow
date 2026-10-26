@@ -13,6 +13,7 @@ import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -59,6 +60,20 @@ export class UsersController {
     return this.usersService.updatePassword(
       user.userId,
       dto.password,
+    );
+  }
+
+  @Patch('me/profile')
+  @UseGuards(JwtAuthGuard)
+  updateProfile(
+    @CurrentUser()
+    user: { userId: string; email: string },
+    @Body()
+    dto: UpdateProfileDto,
+  ) {
+    return this.usersService.updateProfile(
+      user.userId,
+      dto,
     );
   }
 }

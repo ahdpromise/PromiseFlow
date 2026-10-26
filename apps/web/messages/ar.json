@@ -1,0 +1,1142 @@
+{
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "close": "إغلاق",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "projects": "المشاريع",
+    "tasks": "المهام",
+    "teams": "الفرق",
+    "workflows": "سير العمل",
+    "approvals": "الموافقات",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "automations": "الأتمتة",
+    "invitations": "الدعوات",
+    "activityAudit": "النشاط وسجل التدقيق"
+  },
+  "sidebar": {
+    "workspace": "مساحة العمل",
+    "openNavigation": "فتح قائمة التنقل",
+    "closeNavigation": "إغلاق قائمة التنقل"
+  },
+  "workspaceSwitcher": {
+    "loading": "جارٍ تحميل مساحة العمل...",
+    "empty": "لا توجد مساحة عمل",
+    "select": "اختيار مساحة العمل"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "unread": "الإشعارات غير المقروءة: {count}",
+    "loading": "جارٍ تحميل الإشعارات...",
+    "empty": "لا توجد إشعارات بعد.",
+    "open": "الإشعارات",
+    "loadError": "تعذّر تحميل الإشعارات",
+    "openError": "تعذّر فتح الإشعار",
+    "content": {
+      "approvalApproved": {
+        "title": "تمت الموافقة على المهمة",
+        "message": "تمت الموافقة على طلبك المتعلق بالمهمة «{taskTitle}».",
+        "messageWithoutTask": "تمت الموافقة على طلبك."
+      },
+      "approvalRejected": {
+        "title": "تم رفض المهمة",
+        "message": "تم رفض طلبك المتعلق بالمهمة «{taskTitle}».",
+        "messageWithoutTask": "تم رفض طلبك."
+      }
+    },
+    "delete": "حذف الإشعار",
+    "deleteError": "تعذّر حذف الإشعار",
+    "deleteSuccess": "تم حذف الإشعار بنجاح."
+  },
+  "userMenu": {
+    "user": "المستخدم",
+    "member": "عضو",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "menu": "قائمة المستخدم"
+  },
+  "language": {
+    "label": "اختيار اللغة",
+    "english": "الإنجليزية",
+    "german": "الألمانية"
+  },
+  "login": {
+    "welcomeBack": "مرحبًا بعودتك",
+    "title": "تسجيل الدخول إلى PromiseFlow",
+    "description": "أدر مشاريعك وفرقك ومهامك وسير العمل من مساحة عمل واحدة.",
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "you@company.com"
+    },
+    "password": {
+      "label": "كلمة المرور",
+      "placeholder": "أدخل كلمة المرور"
+    },
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "signIn": "تسجيل الدخول",
+    "newToPromiseFlow": "جديد في PromiseFlow؟",
+    "createAccount": "إنشاء حساب",
+    "errors": {
+      "signIn": "تعذّر تسجيل الدخول"
+    }
+  },
+  "approvals": {
+    "workspace": "مساحة العمل",
+    "title": "الموافقات",
+    "description": "مراجعة طلبات الموافقة المرتبطة بالمهام ضمن مساحة العمل المحددة.",
+    "loading": "جارٍ تحميل الموافقات...",
+    "loadError": "تعذّر تحميل الموافقات",
+    "authenticationMissing": "معلومات تسجيل الدخول غير متوفرة",
+    "updateError": "تعذّر تحديث الموافقة",
+    "approvedSuccess": "تمت الموافقة على الطلب بنجاح.",
+    "rejectedSuccess": "تم رفض الطلب بنجاح.",
+    "totalApprovals": "إجمالي الموافقات",
+    "pending": "قيد الانتظار",
+    "approved": "تمت الموافقة",
+    "rejected": "مرفوضة",
+    "requestsTitle": "طلبات الموافقة",
+    "requestsDescription": "طلبات الموافقة المرتبطة بمهام مساحة العمل الحالية.",
+    "project": "المشروع",
+    "approver": "المسؤول عن الموافقة",
+    "comment": "التعليق",
+    "saving": "جارٍ الحفظ...",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "emptyTitle": "لا توجد طلبات موافقة بعد",
+    "emptyDescription": "ستظهر هنا طلبات الموافقة المرتبطة بالمهام.",
+    "requestedBy": "مقدّم الطلب",
+    "viewTask": "عرض المهمة",
+    "confirmation": {
+      "approveTitle": "تأكيد الموافقة على الطلب",
+      "approveDescription": "هل أنت متأكد من الموافقة على \"{task}\"؟",
+      "rejectTitle": "تأكيد رفض الطلب",
+      "rejectDescription": "هل أنت متأكد من رفض \"{task}\"؟",
+      "cancel": "إلغاء",
+      "confirmApprove": "تأكيد الموافقة",
+      "confirmReject": "تأكيد الرفض",
+      "reasonLabel": "السبب",
+      "reasonPlaceholder": "أضف سببًا لقرارك...",
+      "reasonHelp": "اختياري. سيتم حفظ هذا السبب مع قرار الموافقة أو الرفض."
+    },
+    "decisionComment": "سبب القرار",
+    "filters": {
+      "status": "الحالة",
+      "project": "المشروع",
+      "allStatuses": "جميع الحالات",
+      "allProjects": "جميع المشاريع",
+      "clear": "مسح الفلاتر",
+      "noResults": "لا توجد موافقات مطابقة",
+      "noResultsDescription": "لا توجد طلبات موافقة تطابق الفلاتر المحددة."
+    }
+  },
+  "dashboard": {
+    "overview": "نظرة عامة",
+    "title": "لوحة التحكم",
+    "description": "تابع {organization} والمشاريع والفرق والمهام والموافقات.",
+    "newProject": "مشروع جديد",
+    "loading": "جارٍ تحميل لوحة التحكم...",
+    "loadError": "تعذّر تحميل لوحة التحكم",
+    "noData": "لا تتوفر بيانات للوحة التحكم.",
+    "activeProjects": "المشاريع النشطة",
+    "totalProjects": "إجمالي المشاريع: {count}",
+    "openTasks": "المهام المفتوحة",
+    "totalTasks": "إجمالي المهام: {count}",
+    "teams": "الفرق",
+    "activeTeams": "الفرق النشطة: {count}",
+    "pendingApprovals": "الموافقات المعلقة",
+    "totalApprovals": "إجمالي الموافقات: {count}",
+    "recentProjects": "المشاريع الأخيرة",
+    "recentProjectsDescription": "المشاريع الموجودة في مساحة العمل الحالية.",
+    "viewAll": "عرض الكل",
+    "noDescription": "لا يوجد وصف",
+    "noProjects": "لا توجد مشاريع بعد.",
+    "workspaceSummary": "ملخص مساحة العمل",
+    "liveData": "بيانات مباشرة من {organization}.",
+    "projects": "المشاريع",
+    "tasks": "المهام"
+  },
+  "projects": {
+    "workspace": "مساحة العمل",
+    "title": "المشاريع",
+    "description": "إدارة المشاريع ضمن مساحة العمل المحددة.",
+    "loading": "جارٍ تحميل المشاريع...",
+    "loadError": "تعذّر تحميل المشاريع",
+    "authenticationMissing": "بيانات تسجيل الدخول أو مساحة العمل غير متوفرة",
+    "newProject": "مشروع جديد",
+    "cancel": "إلغاء",
+    "createTitle": "إنشاء مشروع",
+    "createDescription": "إضافة مشروع جديد إلى مساحة العمل الحالية.",
+    "projectName": "اسم المشروع",
+    "projectNamePlaceholder": "مثال: بوابة العملاء",
+    "slug": "المعرّف المختصر (Slug)",
+    "slugPlaceholder": "customer-portal",
+    "descriptionLabel": "الوصف",
+    "descriptionPlaceholder": "اكتب وصفًا لهدف المشروع...",
+    "creating": "جارٍ الإنشاء...",
+    "createProject": "إنشاء المشروع",
+    "createError": "تعذّر إنشاء المشروع",
+    "edit": "تعديل",
+    "editTitle": "تعديل المشروع",
+    "editDescription": "تحديث تفاصيل المشروع.",
+    "saving": "جارٍ الحفظ...",
+    "saveChanges": "حفظ التغييرات",
+    "updateError": "تعذّر تحديث المشروع",
+    "delete": "حذف",
+    "deleteTitle": "حذف المشروع",
+    "deleteConfirmation": "هل أنت متأكد من رغبتك في حذف هذا المشروع؟",
+    "deleting": "جارٍ الحذف...",
+    "deleteError": "تعذّر حذف المشروع",
+    "noDescription": "لا يوجد وصف",
+    "emptyTitle": "لا توجد مشاريع حتى الآن",
+    "emptyDescription": "أنشئ أول مشروع في مساحة العمل هذه."
+  },
+  "projectDetails": {
+    "loading": "جارٍ تحميل المشروع...",
+    "backToProjects": "العودة إلى المشاريع",
+    "project": "المشروع",
+    "noDescription": "لا يوجد وصف",
+    "cancel": "إلغاء",
+    "newTask": "مهمة جديدة",
+    "errors": {
+      "loadProject": "تعذّر تحميل المشروع",
+      "missingAuthentication": "بيانات تسجيل الدخول أو المشروع غير متوفرة",
+      "createTask": "تعذّر إنشاء المهمة"
+    },
+    "createTask": {
+      "title": "إنشاء مهمة",
+      "description": "إضافة مهمة جديدة إلى هذا المشروع.",
+      "taskTitle": "عنوان المهمة",
+      "titlePlaceholder": "مثال: تنفيذ فلاتر لوحة التحكم",
+      "taskDescription": "الوصف",
+      "descriptionPlaceholder": "اكتب تفاصيل العمل المطلوب تنفيذه...",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "dueDate": "تاريخ الاستحقاق",
+      "creating": "جارٍ الإنشاء...",
+      "submit": "إنشاء المهمة"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "canceled": "ملغاة"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    },
+    "stats": {
+      "totalTasks": "إجمالي المهام",
+      "openTasks": "المهام المفتوحة",
+      "projectSlug": "المعرّف المختصر للمشروع"
+    },
+    "tasks": {
+      "title": "المهام",
+      "description": "المهام التابعة لهذا المشروع.",
+      "due": "تاريخ الاستحقاق",
+      "empty": "لا توجد مهام في هذا المشروع حتى الآن."
+    }
+  },
+  "tasks": {
+    "workspace": "مساحة العمل",
+    "title": "المهام",
+    "description": "عرض المهام من جميع المشاريع ضمن مساحة العمل المحددة.",
+    "loading": "جارٍ تحميل المهام...",
+    "loadError": "تعذّر تحميل المهام",
+    "deleteError": "تعذّر حذف المهمة",
+    "totalTasks": "إجمالي المهام",
+    "openTasks": "المهام المفتوحة",
+    "completedTasks": "المهام المكتملة",
+    "allTasks": "جميع المهام",
+    "allTasksDescription": "المهام التابعة للمشاريع في مساحة العمل الحالية.",
+    "noDescription": "لا يوجد وصف",
+    "empty": "لا توجد مهام في مساحة العمل هذه حتى الآن.",
+    "delete": "حذف",
+    "deleting": "جارٍ الحذف...",
+    "cancel": "إلغاء",
+    "deleteTitle": "حذف المهمة",
+    "deleteConfirmation": "هل أنت متأكد من رغبتك في حذف هذه المهمة؟",
+    "status": {
+      "pending": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "canceled": "ملغاة"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    },
+    "newTask": "مهمة جديدة",
+    "authenticationMissing": "بيانات تسجيل الدخول غير متوفرة",
+    "createRequired": "يجب تحديد المشروع وإدخال عنوان المهمة",
+    "createError": "تعذّر إنشاء المهمة",
+    "create": {
+      "title": "إنشاء مهمة جديدة",
+      "description": "إضافة مهمة جديدة إلى أحد المشاريع في مساحة العمل الحالية.",
+      "project": "المشروع",
+      "taskTitle": "عنوان المهمة",
+      "titlePlaceholder": "مثال: تنفيذ فلاتر لوحة التحكم",
+      "taskDescription": "الوصف",
+      "descriptionPlaceholder": "اكتب تفاصيل العمل المطلوب تنفيذه...",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "dueDate": "تاريخ الاستحقاق",
+      "creating": "جارٍ الإنشاء...",
+      "submit": "إنشاء المهمة"
+    },
+    "filters": {
+      "project": "المشروع",
+      "allProjects": "جميع المشاريع",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات",
+      "priority": "الأولوية",
+      "allPriorities": "جميع الأولويات",
+      "clear": "مسح الفلاتر",
+      "noResults": "لا توجد مهام تطابق الفلاتر المحددة."
+    }
+  },
+  "taskDetails": {
+    "loading": "جارٍ تحميل المهمة...",
+    "backToTasks": "العودة إلى المهام",
+    "task": "المهمة",
+    "subtitle": "تعديل تفاصيل المهمة والموافقات والملفات والتعليقات.",
+    "cancel": "إلغاء",
+    "requestApproval": "طلب موافقة",
+    "workspaceMember": "عضو في مساحة العمل",
+    "errors": {
+      "loadTask": "تعذّر تحميل المهمة",
+      "updateTask": "تعذّر تحديث المهمة",
+      "selectApprover": "يرجى اختيار الشخص المسؤول عن الموافقة",
+      "createApproval": "تعذّر إنشاء طلب الموافقة",
+      "emptyComment": "لا يمكن أن يكون التعليق فارغًا",
+      "addComment": "تعذّر إضافة التعليق",
+      "fileSize": "حجم الملف كبير جدًا. الحد الأقصى هو 10 ميغابايت.",
+      "uploadFile": "تعذّر رفع الملف"
+    },
+    "success": {
+      "taskUpdated": "تم تحديث المهمة بنجاح.",
+      "approvalCreated": "تم إنشاء طلب الموافقة بنجاح.",
+      "commentAdded": "تمت إضافة التعليق بنجاح.",
+      "fileUploaded": "تم رفع الملف بنجاح."
+    },
+    "approvalForm": {
+      "title": "طلب موافقة",
+      "description": "اختر عضوًا من مساحة العمل لمراجعة هذه المهمة.",
+      "approver": "المسؤول عن الموافقة",
+      "selectApprover": "اختر المسؤول عن الموافقة",
+      "comment": "تعليق",
+      "commentPlaceholder": "ملاحظة اختيارية للمسؤول عن الموافقة...",
+      "creating": "جارٍ الإنشاء...",
+      "create": "إنشاء طلب الموافقة"
+    },
+    "form": {
+      "title": "عنوان المهمة",
+      "description": "الوصف",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "dueDate": "تاريخ الاستحقاق",
+      "saving": "جارٍ الحفظ...",
+      "saveChanges": "حفظ التغييرات"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "canceled": "ملغاة",
+      "approved": "تمت الموافقة",
+      "rejected": "مرفوضة"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    },
+    "approvals": {
+      "title": "الموافقات",
+      "description": "طلبات الموافقة المرتبطة بهذه المهمة.",
+      "empty": "لا توجد موافقات حتى الآن",
+      "emptyDescription": "أنشئ أول طلب موافقة لهذه المهمة."
+    },
+    "files": {
+      "title": "الملفات",
+      "description": "رفع الملفات المرفقة بهذه المهمة ومراجعتها.",
+      "uploading": "جارٍ رفع الملف...",
+      "upload": "رفع ملف",
+      "maxSize": "الحد الأقصى لحجم الملف: 10 ميغابايت.",
+      "unknownSize": "حجم غير معروف",
+      "uploadedBy": "تم الرفع بواسطة",
+      "empty": "لا توجد ملفات حتى الآن",
+      "emptyDescription": "ارفع أول ملف لهذه المهمة.",
+      "chooseFile": "اختيار ملف",
+      "noFileSelected": "لم يتم اختيار ملف"
+    },
+    "comments": {
+      "title": "التعليقات",
+      "description": "المناقشات والملاحظات المتعلقة بهذه المهمة.",
+      "empty": "لا توجد تعليقات حتى الآن",
+      "emptyDescription": "ابدأ المناقشة بإضافة أول تعليق.",
+      "add": "إضافة تعليق",
+      "placeholder": "اكتب تعليقًا...",
+      "adding": "جارٍ إضافة التعليق..."
+    }
+  },
+  "teams": {
+    "loading": "جارٍ تحميل الفرق...",
+    "workspace": "مساحة العمل",
+    "title": "الفرق",
+    "description": "إدارة الفرق ضمن مساحة العمل المحددة.",
+    "cancel": "إلغاء",
+    "newTeam": "فريق جديد",
+    "noDescription": "لا يوجد وصف",
+    "slug": "المعرّف المختصر (Slug)",
+    "errors": {
+      "loadTeams": "تعذّر تحميل الفرق",
+      "authenticationMissing": "بيانات تسجيل الدخول أو مساحة العمل غير متوفرة",
+      "required": "اسم الفريق والمعرّف المختصر مطلوبان",
+      "createTeam": "تعذّر إنشاء الفريق"
+    },
+    "success": {
+      "created": "تم إنشاء الفريق بنجاح.",
+      "deleted": "تم حذف الفريق بنجاح."
+    },
+    "create": {
+      "title": "إنشاء فريق",
+      "description": "إضافة فريق جديد إلى مساحة العمل الحالية.",
+      "teamName": "اسم الفريق",
+      "namePlaceholder": "مثال: فريق الواجهة الأمامية",
+      "slug": "المعرّف المختصر (Slug)",
+      "slugPlaceholder": "frontend-team",
+      "creating": "جارٍ الإنشاء...",
+      "submit": "إنشاء الفريق"
+    },
+    "empty": {
+      "title": "لا توجد فرق حتى الآن",
+      "description": "أنشئ أول فريق في مساحة العمل هذه."
+    }
+  },
+  "teamDetails": {
+    "loading": "جارٍ تحميل الفريق...",
+    "backToTeams": "العودة إلى الفرق",
+    "team": "الفريق",
+    "noDescription": "لا يوجد وصف",
+    "cancel": "إلغاء",
+    "addMember": "إضافة عضو",
+    "errors": {
+      "authenticationMissing": "بيانات تسجيل الدخول أو مساحة العمل غير متوفرة",
+      "notFound": "الفريق غير موجود في مساحة العمل هذه",
+      "loadTeam": "تعذّر تحميل الفريق",
+      "authenticationOrTeamMissing": "بيانات تسجيل الدخول أو الفريق غير متوفرة",
+      "selectMember": "يرجى اختيار عضو",
+      "addMember": "تعذّرت إضافة العضو",
+      "updateTeam": "تعذّر تحديث الفريق",
+      "updateRequired": "اسم الفريق والمعرّف المختصر مطلوبان",
+      "deleteTeam": "تعذّر حذف الفريق",
+      "removeMember": "تعذّرت إزالة العضو"
+    },
+    "success": {
+      "memberAdded": "تمت إضافة العضو بنجاح.",
+      "updated": "تم تحديث الفريق بنجاح.",
+      "memberRemoved": "تمت إزالة العضو بنجاح."
+    },
+    "addMemberForm": {
+      "title": "إضافة عضو إلى الفريق",
+      "description": "اختر عضوًا من مساحة العمل الحالية.",
+      "workspaceMember": "عضو مساحة العمل",
+      "selectMember": "اختر عضوًا",
+      "adding": "جارٍ الإضافة...",
+      "submit": "إضافة العضو",
+      "allMembersAdded": "جميع أعضاء مساحة العمل موجودون بالفعل في هذا الفريق."
+    },
+    "stats": {
+      "members": "الأعضاء",
+      "teamSlug": "المعرّف المختصر للفريق"
+    },
+    "members": {
+      "title": "أعضاء الفريق",
+      "description": "الأعضاء المنضمون إلى هذا الفريق.",
+      "workspaceMember": "عضو مساحة العمل",
+      "emptyTitle": "لا يوجد أعضاء حتى الآن",
+      "emptyDescription": "أضف أول عضو إلى هذا الفريق."
+    },
+    "editTeam": "تعديل الفريق",
+    "edit": {
+      "title": "تعديل الفريق",
+      "description": "تحديث اسم الفريق ومعرّفه المختصر ووصفه.",
+      "teamName": "اسم الفريق",
+      "namePlaceholder": "مثال: فريق الهندسة",
+      "slug": "المعرّف المختصر (Slug)",
+      "slugPlaceholder": "engineering-team",
+      "teamDescription": "الوصف",
+      "descriptionPlaceholder": "صف مسؤوليات هذا الفريق...",
+      "saving": "جارٍ الحفظ...",
+      "submit": "حفظ التغييرات"
+    },
+    "deleteTeam": "حذف الفريق",
+    "delete": {
+      "title": "حذف الفريق",
+      "description": "هل أنت متأكد من رغبتك في حذف هذا الفريق؟ ستؤدي هذه العملية إلى إزالته من مساحة العمل.",
+      "cancel": "إلغاء",
+      "deleting": "جارٍ الحذف...",
+      "confirm": "حذف الفريق"
+    },
+    "removeMember": {
+      "button": "إزالة",
+      "title": "إزالة عضو",
+      "description": "هل أنت متأكد من رغبتك في إزالة هذا العضو من الفريق؟",
+      "cancel": "إلغاء",
+      "removing": "جارٍ الإزالة...",
+      "confirm": "إزالة العضو"
+    }
+  },
+  "workflows": {
+    "loading": "جارٍ تحميل سير العمل...",
+    "workspace": "مساحة العمل",
+    "title": "سير العمل",
+    "description": "إدارة سير العمل عبر المشاريع ضمن مساحة العمل المحددة.",
+    "cancel": "إلغاء",
+    "newWorkflow": "سير عمل جديد",
+    "project": "المشروع",
+    "slug": "المعرّف المختصر",
+    "noDescription": "لا يوجد وصف",
+    "errors": {
+      "loadWorkflows": "تعذّر تحميل سير العمل",
+      "authenticationMissing": "بيانات تسجيل الدخول غير متوفرة",
+      "required": "المشروع واسم سير العمل والمعرّف المختصر مطلوبة",
+      "createWorkflow": "تعذّر إنشاء سير العمل"
+    },
+    "success": {
+      "created": "تم إنشاء سير العمل بنجاح.",
+      "deleted": "تم حذف سير العمل بنجاح."
+    },
+    "create": {
+      "title": "إنشاء سير عمل",
+      "description": "إضافة سير عمل إلى أحد مشاريع مساحة العمل الحالية.",
+      "project": "المشروع",
+      "workflowName": "اسم سير العمل",
+      "namePlaceholder": "سير عمل الموافقات",
+      "slug": "المعرّف المختصر",
+      "slugPlaceholder": "approval-workflow",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري",
+      "creating": "جارٍ الإنشاء...",
+      "submit": "إنشاء سير العمل"
+    },
+    "empty": {
+      "title": "لا يوجد سير عمل بعد",
+      "description": "أنشئ أول سير عمل لأحد المشاريع في مساحة العمل هذه."
+    }
+  },
+  "workflowDetails": {
+    "loading": "جارٍ تحميل سير العمل...",
+    "backToWorkflows": "العودة إلى سير العمل",
+    "workflow": "سير العمل",
+    "project": "المشروع",
+    "noDescription": "لا يوجد وصف",
+    "cancel": "إلغاء",
+    "newStep": "خطوة جديدة",
+    "errors": {
+      "authenticationMissing": "بيانات تسجيل الدخول أو مساحة العمل غير متوفرة",
+      "notFound": "سير العمل غير موجود في مساحة العمل هذه",
+      "loadWorkflow": "تعذّر تحميل سير العمل",
+      "authenticationOrWorkflowMissing": "بيانات تسجيل الدخول أو سير العمل غير متوفرة",
+      "required": "اسم الخطوة والمعرّف المختصر مطلوبان",
+      "createStep": "تعذّر إنشاء خطوة سير العمل",
+      "updateWorkflow": "تعذّر تحديث سير العمل",
+      "updateRequired": "اسم سير العمل والمعرّف المختصر مطلوبان",
+      "deleteWorkflow": "تعذّر حذف سير العمل",
+      "updateStep": "تعذّر تحديث خطوة سير العمل",
+      "updateStepRequired": "اسم الخطوة والمعرّف المختصر مطلوبان",
+      "deleteStep": "تعذّر حذف خطوة سير العمل",
+      "reorderSteps": "تعذّر إعادة ترتيب خطوات سير العمل"
+    },
+    "success": {
+      "stepCreated": "تم إنشاء خطوة سير العمل بنجاح.",
+      "updated": "تم تحديث سير العمل بنجاح.",
+      "stepUpdated": "تم تحديث خطوة سير العمل بنجاح.",
+      "stepDeleted": "تم حذف خطوة سير العمل بنجاح.",
+      "stepsReordered": "تم إعادة ترتيب خطوات سير العمل بنجاح."
+    },
+    "create": {
+      "title": "إنشاء خطوة في سير العمل",
+      "description": "إضافة الخطوة التالية إلى سير العمل هذا.",
+      "stepName": "اسم الخطوة",
+      "namePlaceholder": "المراجعة",
+      "slug": "المعرّف المختصر",
+      "slugPlaceholder": "review",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "وصف اختياري",
+      "creating": "جارٍ الإنشاء...",
+      "submit": "إنشاء الخطوة"
+    },
+    "stats": {
+      "steps": "الخطوات",
+      "project": "المشروع",
+      "workflowSlug": "المعرّف المختصر لسير العمل"
+    },
+    "steps": {
+      "title": "خطوات سير العمل",
+      "description": "تُنفّذ الخطوات حسب ترتيبها المحدد.",
+      "emptyTitle": "لا توجد خطوات بعد",
+      "emptyDescription": "أنشئ أول خطوة في سير العمل هذا."
+    },
+    "stepTypes": {
+      "approval": "موافقة"
+    },
+    "editWorkflow": "تعديل سير العمل",
+    "edit": {
+      "title": "تعديل سير العمل",
+      "description": "تحديث اسم سير العمل والمعرّف المختصر والوصف.",
+      "workflowName": "اسم سير العمل",
+      "namePlaceholder": "سير عمل الموافقات",
+      "slug": "المعرّف المختصر",
+      "slugPlaceholder": "approval-workflow",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "صف سير العمل هذا...",
+      "saving": "جارٍ الحفظ...",
+      "submit": "حفظ التغييرات"
+    },
+    "deleteWorkflow": "حذف سير العمل",
+    "delete": {
+      "title": "حذف سير العمل؟",
+      "description": "ستتم إزالة سير العمل هذا من مساحة العمل الحالية. لا يمكن التراجع عن هذا الإجراء من خلال الواجهة.",
+      "cancel": "إلغاء",
+      "deleting": "جارٍ الحذف...",
+      "confirm": "حذف سير العمل"
+    },
+    "editStep": {
+      "button": "تعديل",
+      "title": "تعديل خطوة سير العمل",
+      "description": "تحديث اسم الخطوة والمعرّف المختصر والوصف والنوع.",
+      "stepName": "اسم الخطوة",
+      "namePlaceholder": "موافقة المدير",
+      "slug": "المعرّف المختصر",
+      "slugPlaceholder": "manager-approval",
+      "descriptionLabel": "الوصف",
+      "descriptionPlaceholder": "صف هذه الخطوة...",
+      "stepType": "نوع الخطوة",
+      "approval": "موافقة",
+      "cancel": "إلغاء",
+      "saving": "جارٍ الحفظ...",
+      "submit": "حفظ التغييرات"
+    },
+    "deleteStep": {
+      "button": "حذف",
+      "title": "حذف خطوة سير العمل؟",
+      "description": "ستتم إزالة هذه الخطوة من سير العمل الحالي. لا يمكن التراجع عن هذا الإجراء من خلال الواجهة.",
+      "cancel": "إلغاء",
+      "deleting": "جارٍ الحذف...",
+      "confirm": "حذف الخطوة"
+    },
+    "reorder": {
+      "moveUp": "نقل إلى الأعلى",
+      "moveDown": "نقل إلى الأسفل"
+    }
+  },
+  "reports": {
+    "loading": "جارٍ تحميل التقارير...",
+    "workspace": "مساحة العمل",
+    "title": "التقارير",
+    "description": "راجع أنشطة مساحة العمل وسجل التغييرات والتدقيق.",
+    "errors": {
+      "loadReports": "تعذّر تحميل التقارير"
+    },
+    "stats": {
+      "activities": "الأنشطة",
+      "auditEvents": "أحداث التدقيق",
+      "created": "تم الإنشاء",
+      "updated": "تم التحديث"
+    },
+    "activity": {
+      "title": "النشاط الأخير",
+      "description": "أحدث الأنشطة في مساحة العمل.",
+      "empty": "لا توجد أنشطة حتى الآن."
+    },
+    "audit": {
+      "title": "سجل التدقيق",
+      "description": "أحدث التغييرات المسجّلة في مساحة العمل.",
+      "entityId": "معرّف الكيان",
+      "empty": "لا توجد أحداث تدقيق حتى الآن."
+    },
+    "actions": {
+      "created": "تم الإنشاء",
+      "updated": "تم التحديث",
+      "deleted": "تم الحذف"
+    },
+    "entities": {
+      "project": "مشروع",
+      "task": "مهمة",
+      "team": "فريق",
+      "workflow": "سير عمل",
+      "workflowStep": "خطوة في سير العمل",
+      "approval": "موافقة",
+      "comment": "تعليق",
+      "file": "ملف",
+      "organization": "مؤسسة",
+      "membership": "عضوية"
+    },
+    "overview": {
+      "title": "نظرة عامة",
+      "description": "أهم مؤشرات المشاريع والمهام في مساحة العمل.",
+      "totalProjects": "إجمالي المشاريع",
+      "totalTasks": "إجمالي المهام",
+      "completedTasks": "المهام المكتملة",
+      "activeTasks": "المهام المعلّقة / قيد التنفيذ",
+      "completionRate": "نسبة الإنجاز"
+    },
+    "tasksByStatus": {
+      "title": "المهام حسب الحالة",
+      "description": "توزيع مهام مساحة العمل حسب حالتها الحالية.",
+      "status": {
+        "pending": "معلّقة",
+        "inProgress": "قيد التنفيذ",
+        "completed": "مكتملة",
+        "canceled": "ملغاة"
+      }
+    },
+    "tasksByPriority": {
+      "title": "المهام حسب الأولوية",
+      "description": "توزيع مهام مساحة العمل حسب مستوى الأولوية.",
+      "priority": {
+        "low": "منخفضة",
+        "medium": "متوسطة",
+        "high": "عالية",
+        "urgent": "عاجلة"
+      }
+    },
+    "projectPerformance": {
+      "title": "أداء المشاريع",
+      "description": "تقدّم المهام ونسبة الإنجاز لكل مشروع.",
+      "columns": {
+        "project": "المشروع",
+        "totalTasks": "إجمالي المهام",
+        "completed": "المكتملة",
+        "active": "المعلّقة / قيد التنفيذ",
+        "completionRate": "نسبة الإنجاز"
+      },
+      "empty": "لم يتم العثور على مشاريع."
+    },
+    "approvalStatistics": {
+      "title": "إحصائيات الموافقات",
+      "description": "نظرة عامة على قرارات الموافقة وحالاتها الحالية.",
+      "total": "إجمالي الموافقات",
+      "approvalRate": "نسبة الموافقة",
+      "status": {
+        "pending": "قيد الانتظار",
+        "approved": "تمت الموافقة",
+        "rejected": "مرفوضة"
+      }
+    },
+    "dateRange": {
+      "title": "النطاق الزمني",
+      "description": "تصفية بيانات التقارير حسب تاريخ الإنشاء.",
+      "from": "من",
+      "to": "إلى",
+      "apply": "تطبيق",
+      "clear": "مسح",
+      "invalid": "يجب أن يكون تاريخ البداية قبل تاريخ النهاية أو مساويًا له."
+    },
+    "exportCsv": {
+      "title": "تصدير التقرير",
+      "description": "تنزيل بيانات التقرير الحالية بصيغة CSV.",
+      "button": "تصدير CSV",
+      "report": "تقرير PromiseFlow",
+      "dateRange": "النطاق الزمني",
+      "allDates": "جميع التواريخ"
+    },
+    "exportPdf": {
+      "button": "تصدير PDF",
+      "report": "تقرير PromiseFlow",
+      "dateRange": "النطاق الزمني",
+      "allDates": "جميع التواريخ"
+    }
+  },
+  "settings": {
+    "loading": "جارٍ تحميل الإعدادات...",
+    "account": "الحساب",
+    "title": "الإعدادات",
+    "description": "إدارة ملفك الشخصي ومعلومات مساحة العمل وأمان الحساب.",
+    "errors": {
+      "loadSettings": "تعذّر تحميل الإعدادات",
+      "authenticationMissing": "بيانات المصادقة غير متوفرة",
+      "passwordLength": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "passwordMismatch": "كلمتا المرور غير متطابقتين",
+      "updatePassword": "تعذّر تحديث كلمة المرور",
+      "profileNameRequired": "الاسم الأول واسم العائلة مطلوبان",
+      "profileNameLength": "يجب ألا يتجاوز كل اسم 100 حرف",
+      "updateProfile": "تعذّر تحديث الملف الشخصي",
+      "workspaceNameRequired": "اسم مساحة العمل مطلوب",
+      "workspaceNameLength": "يجب ألا يتجاوز اسم مساحة العمل 150 حرفًا",
+      "workspaceSlugInvalid": "يجب أن يحتوي المعرّف على أحرف إنجليزية صغيرة وأرقام وشرطات مفردة فقط، وبحد أقصى 100 حرف",
+      "updateWorkspace": "تعذّر تحديث مساحة العمل. تحقق من صلاحياتك ومن أن المعرّف غير مستخدم مسبقًا."
+    },
+    "success": {
+      "passwordUpdated": "تم تحديث كلمة المرور بنجاح.",
+      "profileUpdated": "تم تحديث الملف الشخصي بنجاح.",
+      "workspaceUpdated": "تم تحديث مساحة العمل بنجاح."
+    },
+    "profile": {
+      "title": "الملف الشخصي",
+      "description": "معلومات حسابك الحالية.",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "emailVerified": "تم التحقق من البريد الإلكتروني",
+      "yes": "نعم",
+      "no": "لا",
+      "firstName": "الاسم الأول",
+      "lastName": "اسم العائلة",
+      "saveChanges": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ..."
+    },
+    "workspace": {
+      "title": "مساحة العمل",
+      "description": "معلومات مساحة العمل المحددة.",
+      "name": "اسم مساحة العمل",
+      "slug": "المعرّف (Slug)",
+      "members": "الأعضاء",
+      "role": "الدور",
+      "saveChanges": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "editDescription": "تحديث اسم مساحة العمل ومعرّفها."
+    },
+    "security": {
+      "title": "الأمان",
+      "description": "تغيير كلمة مرور حسابك.",
+      "newPassword": "كلمة المرور الجديدة",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "updating": "جارٍ التحديث...",
+      "updatePassword": "تحديث كلمة المرور"
+    }
+  },
+  "approvalDetails": {
+    "loading": "جارٍ تحميل تفاصيل الموافقة...",
+    "authenticationMissing": "يجب تسجيل الدخول.",
+    "loadError": "تعذّر تحميل تفاصيل الموافقة.",
+    "back": "العودة إلى الموافقات",
+    "workspace": "مساحة العمل",
+    "title": "تفاصيل الموافقة",
+    "description": "مراجعة طلب الموافقة والمهمة المرتبطة به.",
+    "notAvailable": "غير متوفر",
+    "noComment": "لم تتم إضافة تعليق.",
+    "status": {
+      "pending": "قيد الانتظار",
+      "approved": "تمت الموافقة",
+      "rejected": "مرفوضة"
+    },
+    "request": {
+      "title": "طلب الموافقة",
+      "project": "المشروع",
+      "approver": "المسؤول عن الموافقة",
+      "requestedBy": "مقدّم الطلب",
+      "createdAt": "تاريخ تقديم الطلب",
+      "decidedAt": "تاريخ اتخاذ القرار",
+      "comment": "التعليق"
+    },
+    "task": {
+      "title": "المهمة المرتبطة",
+      "name": "المهمة",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "dueAt": "تاريخ الاستحقاق",
+      "description": "الوصف",
+      "noDescription": "لا يوجد وصف."
+    },
+    "taskStatus": {
+      "pending": "قيد الانتظار",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "canceled": "ملغاة"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    }
+  },
+  "automations": {
+    "workspace": "مساحة العمل",
+    "title": "الأتمتة",
+    "description": "إدارة سير العمل والإجراءات الآلية ضمن مساحة العمل.",
+    "totalAutomations": "إجمالي الأتمتة",
+    "enabled": "مفعّلة",
+    "disabled": "معطّلة",
+    "listTitle": "قواعد الأتمتة",
+    "listDescription": "قواعد الأتمتة المُعدّة لمساحة العمل الحالية.",
+    "trigger": "المُشغّل",
+    "action": "الإجراء",
+    "createdBy": "أنشأها",
+    "loading": "جارٍ تحميل قواعد الأتمتة...",
+    "emptyTitle": "لا توجد قواعد أتمتة بعد",
+    "emptyDescription": "لم يتم إعداد أي قواعد أتمتة لمساحة العمل هذه بعد.",
+    "loadError": "تعذّر تحميل قواعد الأتمتة.",
+    "authenticationMissing": "بيانات تسجيل الدخول أو مساحة العمل غير متوفرة.",
+    "createAutomation": "إنشاء أتمتة",
+    "createError": "تعذّر إنشاء الأتمتة.",
+    "triggers": {
+      "taskCreated": "عند إنشاء مهمة",
+      "taskStatusChanged": "عند تغيير حالة المهمة",
+      "approvalApproved": "عند الموافقة على طلب",
+      "approvalRejected": "عند رفض طلب"
+    },
+    "actions": {
+      "createNotification": "إنشاء إشعار",
+      "updateTaskStatus": "تحديث حالة المهمة",
+      "createApprovalRequest": "إنشاء طلب موافقة"
+    },
+    "create": {
+      "title": "إنشاء أتمتة",
+      "description": "حدّد متى يجب تشغيل الأتمتة وما الإجراء الذي ستنفّذه.",
+      "name": "الاسم",
+      "automationDescription": "الوصف",
+      "trigger": "المُشغّل",
+      "action": "الإجراء",
+      "cancel": "إلغاء",
+      "submit": "إنشاء الأتمتة",
+      "creating": "جارٍ الإنشاء..."
+    },
+    "edit": "تعديل",
+    "editError": "تعذّر تحديث الأتمتة.",
+    "saving": "جارٍ الحفظ...",
+    "editForm": {
+      "title": "تعديل الأتمتة",
+      "description": "تحديث اسم الأتمتة أو وصفها أو المُشغّل أو الإجراء.",
+      "submit": "حفظ التغييرات"
+    },
+    "enable": "تفعيل",
+    "disable": "تعطيل",
+    "updatingStatus": "جارٍ التحديث...",
+    "toggleError": "تعذّر تحديث حالة الأتمتة.",
+    "delete": "حذف",
+    "deleteError": "تعذّر حذف الأتمتة.",
+    "deleteConfirmation": {
+      "title": "حذف الأتمتة",
+      "description": "هل أنت متأكد من حذف \"{name}\"؟ لن تظهر هذه الأتمتة بعد الآن في مساحة العمل.",
+      "cancel": "إلغاء",
+      "confirm": "حذف",
+      "deleting": "جارٍ الحذف..."
+    },
+    "configuration": {
+      "project": "المشروع",
+      "allProjects": "جميع المشاريع",
+      "projectHelp": "اختر مشروعًا محددًا أو طبّق هذه الأتمتة على جميع المشاريع.",
+      "newStatus": "الحالة الجديدة",
+      "statusPending": "قيد الانتظار",
+      "statusInProgress": "قيد التنفيذ",
+      "statusCompleted": "مكتملة",
+      "statusHelp": "شغّل هذه الأتمتة عندما تتغيّر حالة مهمة إلى الحالة المحددة.",
+      "notificationTitle": "عنوان الإشعار",
+      "notificationMessage": "رسالة الإشعار",
+      "notificationHelp": "أدخل نص الإشعار الذي سيتم إنشاؤه عند تشغيل الأتمتة.",
+      "updateTaskStatusHelp": "غيّر حالة المهمة إلى الحالة المحددة عند تشغيل الأتمتة.",
+      "approver": "صاحب الموافقة",
+      "selectApprover": "اختر صاحب الموافقة",
+      "approverHelp": "اختر عضو المؤسسة المسؤول عن الموافقة على الطلب."
+    },
+    "createSuccess": "تم إنشاء الأتمتة بنجاح.",
+    "editSuccess": "تم تحديث الأتمتة بنجاح.",
+    "deleteSuccess": "تم حذف الأتمتة بنجاح.",
+    "history": "السجل",
+    "runHistory": {
+      "title": "سجل تشغيل الأتمتة",
+      "description": "عرض عمليات التشغيل السابقة ونتائج تنفيذها.",
+      "loading": "جارٍ تحميل سجل التشغيل...",
+      "loadError": "تعذّر تحميل سجل تشغيل الأتمتة.",
+      "emptyTitle": "لا توجد عمليات تشغيل بعد",
+      "emptyDescription": "لم يتم تشغيل هذه الأتمتة بعد.",
+      "status": "الحالة",
+      "startedAt": "وقت البدء",
+      "finishedAt": "وقت الانتهاء",
+      "duration": "المدة",
+      "result": "النتيجة",
+      "error": "الخطأ",
+      "triggerPayload": "بيانات المُشغّل",
+      "close": "إغلاق",
+      "statuses": {
+        "pending": "قيد الانتظار",
+        "running": "قيد التشغيل",
+        "succeeded": "نجحت",
+        "failed": "فشلت"
+      }
+    }
+  },
+  "invitations": {
+    "workspace": "مساحة العمل",
+    "title": "الدعوات",
+    "description": "عرض الدعوات الخاصة بمؤسستك وإدارتها.",
+    "loading": "جارٍ تحميل الدعوات...",
+    "unknownRole": "دور غير معروف",
+    "table": {
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "sent": "تاريخ الإرسال",
+      "expires": "تاريخ انتهاء الصلاحية",
+      "actions": "الإجراءات"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "accepted": "مقبولة",
+      "expired": "منتهية الصلاحية",
+      "revoked": "ملغاة"
+    },
+    "empty": {
+      "title": "لا توجد دعوات بعد",
+      "description": "ستظهر هنا الدعوات المرسلة إلى الأعضاء الجدد في المؤسسة."
+    },
+    "errors": {
+      "load": "تعذّر تحميل الدعوات."
+    },
+    "create": {
+      "button": "دعوة عضو",
+      "cancel": "إلغاء",
+      "title": "دعوة عضو جديد",
+      "description": "إرسال دعوة للانضمام إلى هذه المؤسسة.",
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "name@example.com",
+      "role": "الدور",
+      "expiration": "ستنتهي صلاحية الدعوة تلقائيًا بعد 7 أيام.",
+      "submit": "إرسال الدعوة",
+      "creating": "جارٍ الإرسال...",
+      "success": "تم إنشاء الدعوة بنجاح.",
+      "errors": {
+        "authenticationMissing": "معلومات تسجيل الدخول أو مساحة العمل غير متوفرة.",
+        "required": "البريد الإلكتروني والدور مطلوبان.",
+        "create": "تعذّر إنشاء الدعوة."
+      }
+    },
+    "revoke": {
+      "button": "إلغاء الدعوة",
+      "revoking": "جارٍ الإلغاء...",
+      "success": "تم إلغاء الدعوة بنجاح.",
+      "errors": {
+        "authenticationMissing": "يجب تسجيل الدخول أولًا.",
+        "revoke": "تعذّر إلغاء هذه الدعوة."
+      }
+    },
+    "resend": {
+      "button": "إعادة الإرسال",
+      "resending": "جارٍ إعادة الإرسال...",
+      "success": "تمت إعادة إرسال الدعوة بنجاح.",
+      "errors": {
+        "authenticationMissing": "يجب تسجيل الدخول أولًا.",
+        "resend": "تعذّرت إعادة إرسال هذه الدعوة."
+      }
+    }
+  },
+  "acceptInvitation": {
+    "title": "قبول الدعوة",
+    "description": "اقبل هذه الدعوة للانضمام إلى المؤسسة في PromiseFlow.",
+    "accept": "قبول الدعوة",
+    "accepting": "جارٍ قبول الدعوة...",
+    "success": {
+      "title": "تم قبول الدعوة",
+      "description": "أصبحت الآن عضوًا في المؤسسة.",
+      "message": "تم قبول الدعوة بنجاح.",
+      "continue": "المتابعة إلى لوحة التحكم"
+    },
+    "errors": {
+      "missingToken": "رابط الدعوة غير صالح أو غير مكتمل.",
+      "accept": "تعذّر قبول هذه الدعوة. ربما انتهت صلاحيتها، أو تم قبولها مسبقًا، أو أنها مرتبطة بعنوان بريد إلكتروني آخر."
+    },
+    "loading": "جارٍ تحميل الدعوة..."
+  },
+  "activityAudit": {
+    "workspace": "مساحة العمل",
+    "title": "النشاط وسجل التدقيق",
+    "description": "راجع أنشطة مساحة العمل وسجلات التدقيق في مكان واحد.",
+    "tabs": {
+      "label": "عرض النشاط وسجل التدقيق",
+      "activity": "النشاط",
+      "audit": "سجل التدقيق"
+    },
+    "loading": "جارٍ تحميل سجلات النشاط والتدقيق...",
+    "error": "تعذّر تحميل سجلات النشاط والتدقيق.",
+    "columns": {
+      "action": "الإجراء",
+      "entity": "الكيان",
+      "entityId": "معرّف الكيان",
+      "date": "التاريخ"
+    },
+    "empty": {
+      "activity": "لم يتم العثور على سجلات نشاط.",
+      "audit": "لم يتم العثور على سجلات تدقيق."
+    },
+    "actions": {
+      "created": "تم الإنشاء",
+      "updated": "تم التحديث",
+      "deleted": "تم الحذف",
+      "approved": "تمت الموافقة",
+      "rejected": "تم الرفض",
+      "invited": "تم إرسال دعوة",
+      "accepted": "تم القبول",
+      "revoked": "تم إلغاء الصلاحية",
+      "resent": "تمت إعادة الإرسال",
+      "added": "تمت الإضافة",
+      "removed": "تمت الإزالة",
+      "reordered": "تم تغيير الترتيب",
+      "enabled": "تم التفعيل",
+      "disabled": "تم التعطيل"
+    },
+    "entities": {
+      "project": "مشروع",
+      "task": "مهمة",
+      "team": "فريق",
+      "workflow": "سير عمل",
+      "workflowStep": "خطوة في سير العمل",
+      "approval": "موافقة",
+      "comment": "تعليق",
+      "file": "ملف",
+      "organization": "مؤسسة",
+      "membership": "عضوية",
+      "invitation": "دعوة",
+      "automation": "أتمتة",
+      "notification": "إشعار",
+      "teamMember": "عضو فريق"
+    },
+    "details": {
+      "title": "تفاصيل السجل",
+      "activityLabel": "النشاط",
+      "auditLabel": "سجل التدقيق",
+      "close": "إغلاق التفاصيل",
+      "userId": "معرّف المستخدم",
+      "systemUser": "النظام",
+      "ipAddress": "عنوان IP",
+      "userAgent": "معلومات المتصفح والجهاز",
+      "metadata": "البيانات الوصفية",
+      "noMetadata": "لا توجد بيانات وصفية مسجّلة.",
+      "notAvailable": "غير متوفر"
+    },
+    "filters": {
+      "action": "الإجراء",
+      "allActions": "جميع الإجراءات",
+      "user": "المستخدم",
+      "allUsers": "جميع المستخدمين",
+      "entityType": "نوع الكيان",
+      "allEntityTypes": "جميع أنواع الكيانات",
+      "clear": "مسح الفلاتر",
+      "from": "من",
+      "to": "إلى",
+      "search": "بحث",
+      "searchPlaceholder": "ابحث عن إجراء أو نوع كيان أو معرّف كيان..."
+    },
+    "pagination": {
+      "page": "الصفحة",
+      "records": "سجل",
+      "previous": "السابق",
+      "next": "التالي",
+      "pageSize": "عدد السجلات في الصفحة"
+    }
+  }
+}

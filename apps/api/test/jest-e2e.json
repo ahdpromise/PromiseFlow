@@ -1,9 +1,27 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "moduleFileExtensions": ["ts", "js", "json"],
+  "rootDir": "..",
   "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
+  "testMatch": ["<rootDir>/test/**/*.e2e-spec.ts"],
+  "extensionsToTreatAsEsm": [".ts"],
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
   "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        "useESM": true,
+        "tsconfig": {
+          "module": "ESNext",
+          "moduleResolution": "Bundler",
+          "isolatedModules": true,
+          "rootDir": ".",
+          "esModuleInterop": true,
+          "experimentalDecorators": true,
+          "emitDecoratorMetadata": true
+        }
+      }
+    ]
   }
 }

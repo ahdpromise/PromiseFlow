@@ -21,6 +21,7 @@ import {
 } from "recharts";
 
 import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas-pro";
 
 import { getAccessToken } from "@/lib/auth-storage";
 import { getWorkspaceId } from "@/lib/workspace-storage";
@@ -525,7 +526,212 @@ export default function ReportsPage() {
     URL.revokeObjectURL(url);
   }
 
+
+  async function handleExportArabicPdf() {
+    const today = new Date().toISOString().slice(0, 10);
+
+    const container = document.createElement("div");
+    container.setAttribute("dir", "rtl");
+
+    Object.assign(container.style, {
+      position: "fixed",
+      left: "-10000px",
+      top: "0",
+      width: "760px",
+      padding: "36px",
+      backgroundColor: "#ffffff",
+      color: "#111827",
+      fontFamily: "Arial, Tahoma, sans-serif",
+      fontSize: "15px",
+      lineHeight: "1.8",
+      direction: "rtl",
+      boxSizing: "border-box",
+    });
+
+    function heading(text: string) {
+      const element = document.createElement("h2");
+      element.textContent = text;
+      Object.assign(element.style, {
+        fontSize: "20px",
+        fontWeight: "bold",
+        margin: "24px 0 10px",
+        borderBottom: "1px solid #dddddd",
+        paddingBottom: "6px",
+      });
+      container.appendChild(element);
+    }
+
+    function row(label: string, value: string | number) {
+      const element = document.createElement("div");
+      element.style.padding = "4px 0";
+
+      const labelElement = document.createElement("strong");
+      labelElement.textContent = label + ": ";
+
+      const valueElement = document.createElement("span");
+      valueElement.textContent = String(value);
+
+      element.appendChild(labelElement);
+      element.appendChild(valueElement);
+      container.appendChild(element);
+    }
+
+    const title = document.createElement("h1");
+    title.textContent = t("exportPdf.report");
+    title.style.fontSize = "28px";
+    title.style.fontWeight = "bold";
+    title.style.marginBottom = "12px";
+    container.appendChild(title);
+
+    row(
+      t("exportPdf.dateRange"),
+      (appliedDateRange.from || t("exportPdf.allDates")) +
+        " - " +
+        (appliedDateRange.to || t("exportPdf.allDates"))
+    );
+
+    heading(t("overview.title"));
+    row(t("overview.totalProjects"), overview.totalProjects);
+    row(t("overview.totalTasks"), overview.totalTasks);
+    row(t("overview.completedTasks"), overview.completedTasks);
+    row(t("overview.activeTasks"), overview.activeTasks);
+    row(
+      t("overview.completionRate"),
+      formatPercentage(overview.completionRate) + "%"
+    );
+
+    heading(t("tasksByStatus.title"));
+    row(t("tasksByStatus.status.pending"), tasksByStatus.pending);
+    row(t("tasksByStatus.status.inProgress"), tasksByStatus.inProgress);
+    row(t("tasksByStatus.status.completed"), tasksByStatus.completed);
+    row(t("tasksByStatus.status.canceled"), tasksByStatus.canceled);
+
+    heading(t("tasksByPriority.title"));
+    row(t("tasksByPriority.priority.low"), tasksByPriority.low);
+    row(t("tasksByPriority.priority.medium"), tasksByPriority.medium);
+    row(t("tasksByPriority.priority.high"), tasksByPriority.high);
+    row(t("tasksByPriority.priority.urgent"), tasksByPriority.urgent);
+
+    heading(t("projectPerformance.title"));
+
+    if (projectPerformance.length === 0) {
+      row(t("projectPerformance.empty"), "-");
+    } else {
+      projectPerformance.forEach((project) => {
+        const projectTitle = document.createElement("h3");
+        projectTitle.textContent = project.projectName;
+        projectTitle.style.fontSize = "17px";
+        projectTitle.style.fontWeight = "bold";
+        projectTitle.style.marginTop = "14px";
+        container.appendChild(projectTitle);
+
+        row(t("projectPerformance.columns.totalTasks"), project.totalTasks);
+        row(t("projectPerformance.columns.completed"), project.completedTasks);
+        row(t("projectPerformance.columns.active"), project.activeTasks);
+        row(
+          t("projectPerformance.columns.completionRate"),
+          formatPercentage(project.completionRate) + "%"
+        );
+      });
+    }
+
+    heading(t("approvalStatistics.title"));
+    row(t("approvalStatistics.total"), approvalStatistics.totalApprovals);
+    row(t("approvalStatistics.status.pending"), approvalStatistics.pending);
+    row(t("approvalStatistics.status.approved"), approvalStatistics.approved);
+    row(t("approvalStatistics.status.rejected"), approvalStatistics.rejected);
+    row(
+      t("approvalStatistics.approvalRate"),
+      formatPercentage(approvalStatistics.approvalRate) + "%"
+    );
+
+    document.body.appendChild(container);
+
+    try {
+      await document.fonts.ready;
+
+      const canvas = await html2canvas(container, {
+        backgroundColor: "#ffffff",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 12;
+      const contentWidth = pageWidth - margin * 2;
+      const contentHeight = pageHeight - margin * 2;
+
+      const pixelsPerMm = canvas.width / contentWidth;
+      const pageHeightPixels = Math.floor(
+        contentHeight * pixelsPerMm
+      );
+
+      let offset = 0;
+      let pageIndex = 0;
+
+      while (offset < canvas.height) {
+        const sliceHeight = Math.min(
+          pageHeightPixels,
+          canvas.height - offset
+        );
+
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceHeight;
+
+        const context = pageCanvas.getContext("2d");
+        if (!context) {
+          throw new Error("Could not create PDF canvas context");
+        }
+
+        context.drawImage(
+          canvas,
+          0,
+          offset,
+          canvas.width,
+          sliceHeight,
+          0,
+          0,
+          canvas.width,
+          sliceHeight
+        );
+
+        if (pageIndex > 0) {
+          pdf.addPage();
+        }
+
+        pdf.addImage(
+          pageCanvas.toDataURL("image/png"),
+          "PNG",
+          margin,
+          margin,
+          contentWidth,
+          sliceHeight / pixelsPerMm
+        );
+
+        offset += sliceHeight;
+        pageIndex++;
+      }
+
+      pdf.save("promiseflow-report-" + today + ".pdf");
+    } finally {
+      container.remove();
+    }
+  }
+
   function handleExportPdf() {
+    if (locale === "ar") {
+      void handleExportArabicPdf();
+      return;
+    }
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "mm",

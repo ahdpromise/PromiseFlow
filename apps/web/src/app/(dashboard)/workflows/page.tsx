@@ -1,5 +1,7 @@
 "use client";
 
+import CustomSelect from "@/components/ui/custom-select";
+
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
@@ -384,30 +386,17 @@ export default function WorkflowsPage() {
                 {t("create.project")}
               </label>
 
-              <select
-                id="workflow-project"
-                value={
-                  selectedProjectId
-                }
-                disabled={isCreating}
-                onChange={(event) =>
-                  setSelectedProjectId(
-                    event.target.value,
-                  )
-                }
-                className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary"
-              >
-                {projects.map(
-                  (project) => (
-                    <option
-                      key={project.id}
-                      value={project.id}
-                    >
-                      {project.name}
-                    </option>
-                  ),
-                )}
-              </select>
+              <CustomSelect
+      id="workflow-project"
+      value={selectedProjectId}
+      disabled={isCreating}
+      className="mt-2"
+      options={projects.map((project) => ({
+        value: project.id,
+        label: project.name,
+      }))}
+      onChange={setSelectedProjectId}
+    />
             </div>
 
             <div>

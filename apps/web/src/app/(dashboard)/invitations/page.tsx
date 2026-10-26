@@ -600,29 +600,43 @@ export default function InvitationsPage() {
                 {t("create.role")}
               </label>
 
-              <select
-                id="invitation-role"
-                value={roleId}
-                disabled={
-                  isCreating ||
-                  roles.length === 0
-                }
-                onChange={(event) =>
-                  setRoleId(
-                    event.target.value,
-                  )
-                }
-                className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary disabled:opacity-60"
-              >
-                {roles.map((role) => (
-                  <option
-                    key={role.id}
-                    value={role.id}
-                  >
-                    {role.name}
-                  </option>
-                ))}
-              </select>
+              <details className="group relative mt-2">
+                <summary
+                  className={`flex h-10 w-full cursor-pointer list-none items-center justify-between gap-3 rounded-lg border border-border bg-background px-3 text-sm outline-none focus:border-primary group-open:border-primary [&::-webkit-details-marker]:hidden ${
+                    isCreating || roles.length === 0
+                      ? "pointer-events-none opacity-60"
+                      : ""
+                  }`}
+                >
+                  <span dir="auto">
+                    {roles.find((role) => role.id === roleId)?.name ??
+                      t("unknownRole")}
+                  </span>
+                  <span aria-hidden="true">⌄</span>
+                </summary>
+
+                <div className="absolute inset-x-0 top-full z-50 mt-1 max-h-60 overflow-y-auto rounded-lg border border-border bg-white p-1 text-foreground shadow-lg">
+                  {roles.map((role) => (
+                    <button
+                      key={role.id}
+                      type="button"
+                      disabled={isCreating}
+                      onClick={(event) => {
+                        setRoleId(role.id);
+                        event.currentTarget
+                          .closest("details")
+                          ?.removeAttribute("open");
+                      }}
+                      className={`block w-full rounded-md px-3 py-2 text-start text-sm hover:bg-gray-100 ${
+                        role.id === roleId ? "bg-gray-100 font-semibold" : ""
+                      }`}
+                      dir="auto"
+                    >
+                      {role.name}
+                    </button>
+                  ))}
+                </div>
+              </details>
             </div>
           </div>
 

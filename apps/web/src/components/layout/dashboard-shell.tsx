@@ -3,6 +3,7 @@
 import { Menu } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useLocale } from "@/i18n/locale-provider";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { NotificationBell } from "@/components/layout/notification-bell";
@@ -16,6 +17,8 @@ export function DashboardShell({
   children: React.ReactNode;
 }) {
   const t = useTranslations("sidebar");
+  const { locale } = useLocale();
+  const isRtl = locale === "ar";
 
   const [
     isMobileSidebarOpen,
@@ -33,7 +36,7 @@ export function DashboardShell({
         }
       />
 
-      <div className="lg:pl-64">
+      <div className={isRtl ? "lg:pr-64" : "lg:pl-64"}>
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-border bg-surface/95 px-3 backdrop-blur sm:px-4 lg:px-8">
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
             <button

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -73,6 +73,66 @@ type SuccessMessageKey =
 
 export default function TaskDetailsPage() {
   const t = useTranslations("taskDetails");
+  const locale = useLocale();
+  const isRtl = locale === "ar";
+
+  function formatDate(value: string) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    if (locale === "ar") {
+      const datePart = new Intl.DateTimeFormat("ar", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        numberingSystem: "latn",
+      }).format(date);
+
+      const timePart = new Intl.DateTimeFormat("ar", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        numberingSystem: "latn",
+      }).format(date);
+
+      return `⁧${datePart}، ${timePart}⁩`;
+    }
+
+    return new Intl.DateTimeFormat(locale, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(date);
+  }
+
+  function formatFileType(fileName: string, mimeType: string) {
+    const extension = fileName.split(".").pop()?.toLowerCase();
+
+    const types: Record<string, string> = {
+      pdf: "PDF",
+      md: "Markdown (.md)",
+      txt: "Text (.txt)",
+      doc: "Word (.doc)",
+      docx: "Word (.docx)",
+      xls: "Excel (.xls)",
+      xlsx: "Excel (.xlsx)",
+      csv: "CSV",
+      png: "PNG",
+      jpg: "JPEG",
+      jpeg: "JPEG",
+      gif: "GIF",
+      webp: "WebP",
+      svg: "SVG",
+      zip: "ZIP",
+      json: "JSON",
+    };
+
+    return extension && types[extension]
+      ? types[extension]
+      : mimeType || "File";
+  }
 
   const params = useParams<{
     taskId: string;
@@ -652,7 +712,7 @@ export default function TaskDetailsPage() {
           href="/tasks"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
         >
-          <ArrowLeft size={16} />
+          <ArrowLeft size={16} className={isRtl ? "rotate-180" : ""} />
           {t("backToTasks")}
         </Link>
 
@@ -674,7 +734,7 @@ export default function TaskDetailsPage() {
           href="/tasks"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
         >
-          <ArrowLeft size={16} />
+          <ArrowLeft size={16} className={isRtl ? "rotate-180" : ""} />
           {t("backToTasks")}
         </Link>
 
@@ -1010,6 +1070,7 @@ export default function TaskDetailsPage() {
               <input
                 id="task-due-at"
                 type="datetime-local"
+                dir="ltr"
                 disabled={isSaving}
                 value={dueAt}
                 onChange={(event) =>
@@ -1153,15 +1214,28 @@ export default function TaskDetailsPage() {
           >
             <input
               ref={fileInputRef}
+              id="task-file-upload"
               type="file"
-              disabled={
-                isUploadingFile
-              }
-              onChange={
-                handleFileChange
-              }
-              className="block min-w-0 max-w-full text-sm text-muted-foreground file:mr-3 file:rounded-lg file:border-0 file:bg-surface-muted file:px-3 file:py-2 file:text-sm file:font-medium file:text-foreground hover:file:bg-border disabled:opacity-60"
+              disabled={isUploadingFile}
+              onChange={handleFileChange}
+              className="sr-only"
             />
+
+            <label
+              htmlFor="task-file-upload"
+              className="inline-flex min-h-10 cursor-pointer items-center justify-center rounded-lg border border-border bg-surface-muted px-4 py-2 text-sm font-medium transition hover:bg-border"
+            >
+              {t("files.chooseFile")}
+            </label>
+
+            <span
+              dir="auto"
+              className="min-w-0 break-all text-sm text-muted-foreground"
+            >
+              {selectedFile
+                ? selectedFile.name
+                : t("files.noFileSelected")}
+            </span>
 
             <button
               type="submit"
@@ -1217,9 +1291,7 @@ export default function TaskDetailsPage() {
                       </p>
 
                       <p className="mt-1 break-words text-sm text-muted-foreground">
-                        {
-                          file.mime_type
-                        }{" "}
+                        {formatFileType(file.file_name, file.mime_type)}{" "}
                         ·{" "}
                         {formatFileSize(
                           file.file_size,
@@ -1237,11 +1309,12 @@ export default function TaskDetailsPage() {
                     </div>
                   </div>
 
-                  <p className="shrink-0 text-xs text-muted-foreground">
-                    {new Date(
-                      file.created_at,
-                    ).toLocaleString()}
-                  </p>
+                  <p
+                      dir={isRtl ? "rtl" : "ltr"}
+                      className="shrink-0 text-xs text-muted-foreground [unicode-bidi:isolate]"
+                    >
+                      {formatDate(file.created_at)}
+                    </p>
                 </div>
               );
             })}
@@ -1313,11 +1386,12 @@ export default function TaskDetailsPage() {
                         </p>
                       </div>
 
-                      <p className="shrink-0 text-xs text-muted-foreground">
-                        {new Date(
-                          comment.created_at,
-                        ).toLocaleString()}
-                      </p>
+                      <p
+                      dir={isRtl ? "rtl" : "ltr"}
+                      className="shrink-0 text-xs text-muted-foreground [unicode-bidi:isolate]"
+                    >
+                      {formatDate(comment.created_at)}
+                    </p>
                     </div>
 
                     <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-6">

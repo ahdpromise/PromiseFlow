@@ -1,0 +1,1142 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "navigation": {
+    "dashboard": "Panel de control",
+    "projects": "Proyectos",
+    "tasks": "Tareas",
+    "teams": "Equipos",
+    "workflows": "Flujos de trabajo",
+    "approvals": "Aprobaciones",
+    "reports": "Informes",
+    "settings": "Configuración",
+    "automations": "Automatizaciones",
+    "invitations": "Invitaciones",
+    "activityAudit": "Actividad y auditoría"
+  },
+  "sidebar": {
+    "workspace": "Espacio de trabajo",
+    "openNavigation": "Abrir navegación",
+    "closeNavigation": "Cerrar navegación"
+  },
+  "workspaceSwitcher": {
+    "loading": "Cargando espacio de trabajo...",
+    "empty": "No hay espacios de trabajo",
+    "select": "Seleccionar espacio de trabajo"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "unread": "{count} sin leer",
+    "loading": "Cargando notificaciones...",
+    "empty": "Todavía no hay notificaciones.",
+    "open": "Notificaciones",
+    "loadError": "No se pudieron cargar las notificaciones",
+    "openError": "No se pudo abrir la notificación",
+    "content": {
+      "approvalApproved": {
+        "title": "Tarea aprobada",
+        "message": "Tu solicitud de aprobación para \"{taskTitle}\" ha sido aprobada.",
+        "messageWithoutTask": "Tu solicitud de aprobación ha sido aprobada."
+      },
+      "approvalRejected": {
+        "title": "Tarea rechazada",
+        "message": "Tu solicitud de aprobación para \"{taskTitle}\" ha sido rechazada.",
+        "messageWithoutTask": "Tu solicitud de aprobación ha sido rechazada."
+      }
+    },
+    "delete": "Eliminar notificación",
+    "deleteError": "No se pudo eliminar la notificación",
+    "deleteSuccess": "Notificación eliminada correctamente."
+  },
+  "userMenu": {
+    "user": "Usuario",
+    "member": "Miembro",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+    "menu": "Menú de usuario"
+  },
+  "language": {
+    "label": "Idioma",
+    "english": "Inglés",
+    "german": "Alemán"
+  },
+  "login": {
+    "welcomeBack": "Te damos la bienvenida de nuevo",
+    "title": "Iniciar sesión en PromiseFlow",
+    "description": "Gestiona tus proyectos, equipos, tareas y flujos de trabajo desde un solo espacio de trabajo.",
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "tu@empresa.com"
+    },
+    "password": {
+      "label": "Contraseña",
+      "placeholder": "Introduce tu contraseña"
+    },
+    "forgotPassword": "¿Has olvidado tu contraseña?",
+    "signingIn": "Iniciando sesión...",
+    "signIn": "Iniciar sesión",
+    "newToPromiseFlow": "¿Es tu primera vez en PromiseFlow?",
+    "createAccount": "Crear una cuenta",
+    "errors": {
+      "signIn": "No se pudo iniciar sesión"
+    }
+  },
+  "approvals": {
+    "workspace": "Espacio de trabajo",
+    "title": "Aprobaciones",
+    "description": "Revisa las solicitudes de aprobación de las tareas del espacio seleccionado.",
+    "loading": "Cargando aprobaciones...",
+    "loadError": "No se pudieron cargar las aprobaciones",
+    "authenticationMissing": "Falta la autenticación",
+    "updateError": "No se pudo actualizar la aprobación",
+    "approvedSuccess": "Solicitud aprobada correctamente.",
+    "rejectedSuccess": "Solicitud rechazada correctamente.",
+    "totalApprovals": "Total de aprobaciones",
+    "pending": "Pendiente",
+    "approved": "Aprobada",
+    "rejected": "Rechazada",
+    "requestsTitle": "Solicitudes de aprobación",
+    "requestsDescription": "Aprobaciones de tareas del espacio de trabajo actual.",
+    "project": "Proyecto",
+    "approver": "Responsable de aprobación",
+    "comment": "Comentario",
+    "saving": "Guardando...",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "emptyTitle": "Todavía no hay aprobaciones",
+    "emptyDescription": "Las solicitudes de aprobación de tareas aparecerán aquí.",
+    "requestedBy": "Solicitada por",
+    "viewTask": "Ver tarea",
+    "confirmation": {
+      "approveTitle": "¿Aprobar solicitud?",
+      "approveDescription": "¿Seguro que quieres aprobar \"{task}\"?",
+      "rejectTitle": "¿Rechazar solicitud?",
+      "rejectDescription": "¿Seguro que quieres rechazar \"{task}\"?",
+      "cancel": "Cancelar",
+      "confirmApprove": "Aprobar",
+      "confirmReject": "Rechazar",
+      "reasonLabel": "Motivo",
+      "reasonPlaceholder": "Añade un motivo para tu decisión...",
+      "reasonHelp": "Opcional. Se guardará junto con la decisión de aprobación."
+    },
+    "decisionComment": "Motivo de la decisión",
+    "filters": {
+      "status": "Estado",
+      "project": "Proyecto",
+      "allStatuses": "Todos los estados",
+      "allProjects": "Todos los proyectos",
+      "clear": "Borrar filtros",
+      "noResults": "No hay aprobaciones coincidentes",
+      "noResultsDescription": "Ninguna solicitud de aprobación coincide con los filtros seleccionados."
+    }
+  },
+  "dashboard": {
+    "overview": "Resumen",
+    "title": "Panel de control",
+    "description": "Supervisa {organization}, los proyectos, equipos, tareas y aprobaciones.",
+    "newProject": "Nuevo proyecto",
+    "loading": "Cargando el panel de control...",
+    "loadError": "No se pudo cargar el panel de control",
+    "noData": "No hay datos disponibles.",
+    "activeProjects": "Proyectos activos",
+    "totalProjects": "{count} proyectos en total",
+    "openTasks": "Tareas abiertas",
+    "totalTasks": "{count} tareas en total",
+    "teams": "Equipos",
+    "activeTeams": "{count} equipos activos",
+    "pendingApprovals": "Aprobaciones pendientes",
+    "totalApprovals": "{count} aprobaciones en total",
+    "recentProjects": "Proyectos recientes",
+    "recentProjectsDescription": "Proyectos del espacio de trabajo actual.",
+    "viewAll": "Ver todos",
+    "noDescription": "Sin descripción",
+    "noProjects": "Todavía no hay proyectos.",
+    "workspaceSummary": "Resumen del espacio de trabajo",
+    "liveData": "Datos actualizados de {organization}.",
+    "projects": "Proyectos",
+    "tasks": "Tareas"
+  },
+  "projects": {
+    "workspace": "Espacio de trabajo",
+    "title": "Proyectos",
+    "description": "Gestiona los proyectos del espacio de trabajo seleccionado.",
+    "loading": "Cargando proyectos...",
+    "loadError": "No se pudieron cargar los proyectos",
+    "authenticationMissing": "Falta la autenticación o el espacio de trabajo",
+    "newProject": "Nuevo proyecto",
+    "cancel": "Cancelar",
+    "createTitle": "Crear proyecto",
+    "createDescription": "Añade un nuevo proyecto al espacio de trabajo actual.",
+    "projectName": "Nombre del proyecto",
+    "projectNamePlaceholder": "Portal de clientes",
+    "slug": "Identificador URL",
+    "slugPlaceholder": "portal-clientes",
+    "descriptionLabel": "Descripción",
+    "descriptionPlaceholder": "Describe el propósito de este proyecto...",
+    "creating": "Creando...",
+    "createProject": "Crear proyecto",
+    "createError": "No se pudo crear el proyecto",
+    "edit": "Editar",
+    "editTitle": "Editar proyecto",
+    "editDescription": "Actualiza los detalles del proyecto.",
+    "saving": "Guardando...",
+    "saveChanges": "Guardar cambios",
+    "updateError": "No se pudo actualizar el proyecto",
+    "delete": "Eliminar",
+    "deleteTitle": "Eliminar proyecto",
+    "deleteConfirmation": "¿Seguro que quieres eliminar este proyecto?",
+    "deleting": "Eliminando...",
+    "deleteError": "No se pudo eliminar el proyecto",
+    "noDescription": "Sin descripción",
+    "emptyTitle": "Todavía no hay proyectos",
+    "emptyDescription": "Crea el primer proyecto de este espacio de trabajo."
+  },
+  "projectDetails": {
+    "loading": "Cargando proyecto...",
+    "backToProjects": "Volver a proyectos",
+    "project": "Proyecto",
+    "noDescription": "Sin descripción",
+    "cancel": "Cancelar",
+    "newTask": "Nueva tarea",
+    "errors": {
+      "loadProject": "No se pudo cargar el proyecto",
+      "missingAuthentication": "Falta la autenticación o el proyecto",
+      "createTask": "No se pudo crear la tarea"
+    },
+    "createTask": {
+      "title": "Crear tarea",
+      "description": "Añade una nueva tarea a este proyecto.",
+      "taskTitle": "Título de la tarea",
+      "titlePlaceholder": "Implementar filtros del panel de control",
+      "taskDescription": "Descripción",
+      "descriptionPlaceholder": "Describe el trabajo que debe realizarse...",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "dueDate": "Fecha de vencimiento",
+      "creating": "Creando...",
+      "submit": "Crear tarea"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "inProgress": "En curso",
+      "completed": "Completada",
+      "canceled": "Cancelada"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "stats": {
+      "totalTasks": "Total de tareas",
+      "openTasks": "Tareas abiertas",
+      "projectSlug": "Identificador URL del proyecto"
+    },
+    "tasks": {
+      "title": "Tareas",
+      "description": "Tareas pertenecientes a este proyecto.",
+      "due": "Vencimiento",
+      "empty": "Todavía no hay tareas en este proyecto."
+    }
+  },
+  "tasks": {
+    "workspace": "Espacio de trabajo",
+    "title": "Tareas",
+    "description": "Consulta las tareas de todos los proyectos del espacio de trabajo seleccionado.",
+    "loading": "Cargando tareas...",
+    "loadError": "No se pudieron cargar las tareas",
+    "deleteError": "No se pudo eliminar la tarea",
+    "totalTasks": "Total de tareas",
+    "openTasks": "Tareas abiertas",
+    "completedTasks": "Completadas",
+    "allTasks": "Todas las tareas",
+    "allTasksDescription": "Tareas de los proyectos del espacio de trabajo actual.",
+    "noDescription": "Sin descripción",
+    "empty": "Todavía no hay tareas en este espacio de trabajo.",
+    "delete": "Eliminar",
+    "deleting": "Eliminando...",
+    "cancel": "Cancelar",
+    "deleteTitle": "Eliminar tarea",
+    "deleteConfirmation": "¿Seguro que quieres eliminar esta tarea?",
+    "status": {
+      "pending": "Pendiente",
+      "inProgress": "En curso",
+      "completed": "Completada",
+      "canceled": "Cancelada"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "newTask": "Nueva tarea",
+    "authenticationMissing": "Falta la autenticación",
+    "createRequired": "El proyecto y el título de la tarea son obligatorios",
+    "createError": "No se pudo crear la tarea",
+    "create": {
+      "title": "Crear tarea",
+      "description": "Añade una nueva tarea a un proyecto del espacio de trabajo actual.",
+      "project": "Proyecto",
+      "taskTitle": "Título de la tarea",
+      "titlePlaceholder": "Implementar filtros del panel de control",
+      "taskDescription": "Descripción",
+      "descriptionPlaceholder": "Describe el trabajo que debe realizarse...",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "dueDate": "Fecha de vencimiento",
+      "creating": "Creando...",
+      "submit": "Crear tarea"
+    },
+    "filters": {
+      "project": "Proyecto",
+      "allProjects": "Todos los proyectos",
+      "status": "Estado",
+      "allStatuses": "Todos los estados",
+      "priority": "Prioridad",
+      "allPriorities": "Todas las prioridades",
+      "clear": "Borrar filtros",
+      "noResults": "Ninguna tarea coincide con los filtros seleccionados."
+    }
+  },
+  "taskDetails": {
+    "loading": "Cargando tarea...",
+    "backToTasks": "Volver a tareas",
+    "task": "Tarea",
+    "subtitle": "Actualiza los detalles, las aprobaciones, los archivos y los comentarios de la tarea.",
+    "cancel": "Cancelar",
+    "requestApproval": "Solicitar aprobación",
+    "workspaceMember": "Miembro del espacio de trabajo",
+    "errors": {
+      "loadTask": "No se pudo cargar la tarea",
+      "updateTask": "No se pudo actualizar la tarea",
+      "selectApprover": "Selecciona una persona responsable de aprobar",
+      "createApproval": "No se pudo crear la solicitud de aprobación",
+      "emptyComment": "El comentario no puede estar vacío",
+      "addComment": "No se pudo añadir el comentario",
+      "fileSize": "El archivo es demasiado grande. El tamaño máximo es de 10 MB.",
+      "uploadFile": "No se pudo subir el archivo"
+    },
+    "success": {
+      "taskUpdated": "Tarea actualizada correctamente.",
+      "approvalCreated": "Solicitud de aprobación creada correctamente.",
+      "commentAdded": "Comentario añadido correctamente.",
+      "fileUploaded": "Archivo subido correctamente."
+    },
+    "approvalForm": {
+      "title": "Solicitar aprobación",
+      "description": "Elige a un miembro del espacio de trabajo para revisar esta tarea.",
+      "approver": "Responsable de aprobación",
+      "selectApprover": "Seleccionar responsable",
+      "comment": "Comentario",
+      "commentPlaceholder": "Nota opcional para la persona responsable...",
+      "creating": "Creando...",
+      "create": "Crear solicitud de aprobación"
+    },
+    "form": {
+      "title": "Título de la tarea",
+      "description": "Descripción",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "dueDate": "Fecha de vencimiento",
+      "saving": "Guardando...",
+      "saveChanges": "Guardar cambios"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "inProgress": "En curso",
+      "completed": "Completada",
+      "canceled": "Cancelada",
+      "approved": "Aprobada",
+      "rejected": "Rechazada"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    },
+    "approvals": {
+      "title": "Aprobaciones",
+      "description": "Solicitudes de aprobación relacionadas con esta tarea.",
+      "empty": "Todavía no hay aprobaciones",
+      "emptyDescription": "Crea la primera solicitud de aprobación para esta tarea."
+    },
+    "files": {
+      "title": "Archivos",
+      "description": "Sube y consulta los archivos adjuntos a esta tarea.",
+      "uploading": "Subiendo...",
+      "upload": "Subir archivo",
+      "maxSize": "Tamaño máximo del archivo: 10 MB.",
+      "unknownSize": "Tamaño desconocido",
+      "uploadedBy": "Subido por",
+      "empty": "Todavía no hay archivos",
+      "emptyDescription": "Sube el primer archivo para esta tarea.",
+      "chooseFile": "Seleccionar archivo",
+      "noFileSelected": "Ningún archivo seleccionado"
+    },
+    "comments": {
+      "title": "Comentarios",
+      "description": "Conversaciones y notas relacionadas con esta tarea.",
+      "empty": "Todavía no hay comentarios",
+      "emptyDescription": "Inicia la conversación añadiendo el primer comentario.",
+      "add": "Añadir comentario",
+      "placeholder": "Escribe un comentario...",
+      "adding": "Añadiendo..."
+    }
+  },
+  "teams": {
+    "loading": "Cargando equipos...",
+    "workspace": "Espacio de trabajo",
+    "title": "Equipos",
+    "description": "Gestiona los equipos del espacio de trabajo seleccionado.",
+    "cancel": "Cancelar",
+    "newTeam": "Nuevo equipo",
+    "noDescription": "Sin descripción",
+    "slug": "Identificador URL",
+    "errors": {
+      "loadTeams": "No se pudieron cargar los equipos",
+      "authenticationMissing": "Falta la autenticación o el espacio de trabajo",
+      "required": "El nombre y el identificador del equipo son obligatorios",
+      "createTeam": "No se pudo crear el equipo"
+    },
+    "success": {
+      "created": "Equipo creado correctamente.",
+      "deleted": "Equipo eliminado correctamente."
+    },
+    "create": {
+      "title": "Crear equipo",
+      "description": "Añade un nuevo equipo a este espacio de trabajo.",
+      "teamName": "Nombre del equipo",
+      "namePlaceholder": "Equipo de frontend",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "equipo-frontend",
+      "creating": "Creando...",
+      "submit": "Crear equipo"
+    },
+    "empty": {
+      "title": "Todavía no hay equipos",
+      "description": "Crea el primer equipo de este espacio de trabajo."
+    }
+  },
+  "teamDetails": {
+    "loading": "Cargando equipo...",
+    "backToTeams": "Volver a equipos",
+    "team": "Equipo",
+    "noDescription": "Sin descripción",
+    "cancel": "Cancelar",
+    "addMember": "Añadir miembro",
+    "errors": {
+      "authenticationMissing": "Falta la autenticación o el espacio de trabajo",
+      "notFound": "No se encontró el equipo en este espacio de trabajo",
+      "loadTeam": "No se pudo cargar el equipo",
+      "authenticationOrTeamMissing": "Falta la autenticación o el equipo",
+      "selectMember": "Selecciona un miembro",
+      "addMember": "No se pudo añadir el miembro",
+      "updateTeam": "No se pudo actualizar el equipo",
+      "updateRequired": "El nombre y el identificador del equipo son obligatorios",
+      "deleteTeam": "No se pudo eliminar el equipo",
+      "removeMember": "No se pudo quitar el miembro"
+    },
+    "success": {
+      "memberAdded": "Miembro añadido correctamente.",
+      "updated": "Equipo actualizado correctamente.",
+      "memberRemoved": "Miembro quitado correctamente."
+    },
+    "addMemberForm": {
+      "title": "Añadir miembro al equipo",
+      "description": "Selecciona un miembro del espacio de trabajo actual.",
+      "workspaceMember": "Miembro del espacio de trabajo",
+      "selectMember": "Seleccionar miembro",
+      "adding": "Añadiendo...",
+      "submit": "Añadir miembro",
+      "allMembersAdded": "Todos los miembros del espacio de trabajo ya pertenecen a este equipo."
+    },
+    "stats": {
+      "members": "Miembros",
+      "teamSlug": "Identificador del equipo"
+    },
+    "members": {
+      "title": "Miembros del equipo",
+      "description": "Miembros asignados a este equipo.",
+      "workspaceMember": "Miembro del espacio de trabajo",
+      "emptyTitle": "Todavía no hay miembros",
+      "emptyDescription": "Añade el primer miembro a este equipo."
+    },
+    "editTeam": "Editar equipo",
+    "edit": {
+      "title": "Editar equipo",
+      "description": "Actualiza el nombre, el identificador y la descripción del equipo.",
+      "teamName": "Nombre del equipo",
+      "namePlaceholder": "Equipo de ingeniería",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "equipo-ingenieria",
+      "teamDescription": "Descripción",
+      "descriptionPlaceholder": "Describe las responsabilidades de este equipo...",
+      "saving": "Guardando...",
+      "submit": "Guardar cambios"
+    },
+    "deleteTeam": "Eliminar equipo",
+    "delete": {
+      "title": "Eliminar equipo",
+      "description": "¿Seguro que quieres eliminar este equipo? Se quitará del espacio de trabajo.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando...",
+      "confirm": "Eliminar equipo"
+    },
+    "removeMember": {
+      "button": "Quitar",
+      "title": "Quitar miembro",
+      "description": "¿Seguro que quieres quitar este miembro del equipo?",
+      "cancel": "Cancelar",
+      "removing": "Quitando...",
+      "confirm": "Quitar miembro"
+    }
+  },
+  "workflows": {
+    "loading": "Cargando flujos de trabajo...",
+    "workspace": "Espacio de trabajo",
+    "title": "Flujos de trabajo",
+    "description": "Gestiona los flujos de trabajo de los proyectos del espacio seleccionado.",
+    "cancel": "Cancelar",
+    "newWorkflow": "Nuevo flujo de trabajo",
+    "project": "Proyecto",
+    "slug": "Identificador URL",
+    "noDescription": "Sin descripción",
+    "errors": {
+      "loadWorkflows": "No se pudieron cargar los flujos de trabajo",
+      "authenticationMissing": "Falta la autenticación",
+      "required": "El proyecto, el nombre y el identificador del flujo de trabajo son obligatorios",
+      "createWorkflow": "No se pudo crear el flujo de trabajo"
+    },
+    "success": {
+      "created": "Flujo de trabajo creado correctamente.",
+      "deleted": "Flujo de trabajo eliminado correctamente."
+    },
+    "create": {
+      "title": "Crear flujo de trabajo",
+      "description": "Añade un flujo de trabajo a un proyecto del espacio actual.",
+      "project": "Proyecto",
+      "workflowName": "Nombre del flujo de trabajo",
+      "namePlaceholder": "Flujo de aprobaciones",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "flujo-aprobaciones",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Descripción opcional",
+      "creating": "Creando...",
+      "submit": "Crear flujo de trabajo"
+    },
+    "empty": {
+      "title": "Todavía no hay flujos de trabajo",
+      "description": "Crea el primer flujo de trabajo para un proyecto de este espacio."
+    }
+  },
+  "workflowDetails": {
+    "loading": "Cargando flujo de trabajo...",
+    "backToWorkflows": "Volver a flujos de trabajo",
+    "workflow": "Flujo de trabajo",
+    "project": "Proyecto",
+    "noDescription": "Sin descripción",
+    "cancel": "Cancelar",
+    "newStep": "Nuevo paso",
+    "errors": {
+      "authenticationMissing": "Falta la autenticación o el espacio de trabajo",
+      "notFound": "No se encontró el flujo de trabajo en este espacio",
+      "loadWorkflow": "No se pudo cargar el flujo de trabajo",
+      "authenticationOrWorkflowMissing": "Falta la autenticación o el flujo de trabajo",
+      "required": "El nombre y el identificador del paso son obligatorios",
+      "createStep": "No se pudo crear el paso del flujo de trabajo",
+      "updateWorkflow": "No se pudo actualizar el flujo de trabajo",
+      "updateRequired": "El nombre y el identificador del flujo de trabajo son obligatorios",
+      "deleteWorkflow": "No se pudo eliminar el flujo de trabajo",
+      "updateStep": "No se pudo actualizar el paso del flujo de trabajo",
+      "updateStepRequired": "El nombre y el identificador del paso son obligatorios",
+      "deleteStep": "No se pudo eliminar el paso del flujo de trabajo",
+      "reorderSteps": "No se pudieron reordenar los pasos del flujo de trabajo"
+    },
+    "success": {
+      "stepCreated": "Paso del flujo de trabajo creado correctamente.",
+      "updated": "Flujo de trabajo actualizado correctamente.",
+      "stepUpdated": "Paso actualizado correctamente.",
+      "stepDeleted": "Paso eliminado correctamente.",
+      "stepsReordered": "Pasos reordenados correctamente."
+    },
+    "create": {
+      "title": "Crear paso del flujo de trabajo",
+      "description": "Añade el siguiente paso a este flujo de trabajo.",
+      "stepName": "Nombre del paso",
+      "namePlaceholder": "Revisión",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "revision",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Descripción opcional",
+      "creating": "Creando...",
+      "submit": "Crear paso"
+    },
+    "stats": {
+      "steps": "Pasos",
+      "project": "Proyecto",
+      "workflowSlug": "Identificador del flujo de trabajo"
+    },
+    "steps": {
+      "title": "Pasos del flujo de trabajo",
+      "description": "Los pasos se ejecutan según el orden establecido.",
+      "emptyTitle": "Todavía no hay pasos",
+      "emptyDescription": "Crea el primer paso de este flujo de trabajo."
+    },
+    "stepTypes": {
+      "approval": "Aprobación"
+    },
+    "editWorkflow": "Editar flujo de trabajo",
+    "edit": {
+      "title": "Editar flujo de trabajo",
+      "description": "Actualiza el nombre, el identificador y la descripción del flujo.",
+      "workflowName": "Nombre del flujo de trabajo",
+      "namePlaceholder": "Flujo de aprobaciones",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "flujo-aprobaciones",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Describe este flujo de trabajo...",
+      "saving": "Guardando...",
+      "submit": "Guardar cambios"
+    },
+    "deleteWorkflow": "Eliminar flujo de trabajo",
+    "delete": {
+      "title": "¿Eliminar flujo de trabajo?",
+      "description": "Este flujo de trabajo se quitará del espacio activo. Esta acción no se puede deshacer desde la interfaz.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando...",
+      "confirm": "Eliminar flujo de trabajo"
+    },
+    "editStep": {
+      "button": "Editar",
+      "title": "Editar paso del flujo de trabajo",
+      "description": "Actualiza el nombre, el identificador, la descripción y el tipo de paso.",
+      "stepName": "Nombre del paso",
+      "namePlaceholder": "Aprobación del responsable",
+      "slug": "Identificador URL",
+      "slugPlaceholder": "aprobacion-responsable",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Describe este paso...",
+      "stepType": "Tipo de paso",
+      "approval": "Aprobación",
+      "cancel": "Cancelar",
+      "saving": "Guardando...",
+      "submit": "Guardar cambios"
+    },
+    "deleteStep": {
+      "button": "Eliminar",
+      "title": "¿Eliminar paso del flujo de trabajo?",
+      "description": "Este paso se quitará del flujo de trabajo activo. Esta acción no se puede deshacer desde la interfaz.",
+      "cancel": "Cancelar",
+      "deleting": "Eliminando...",
+      "confirm": "Eliminar paso"
+    },
+    "reorder": {
+      "moveUp": "Subir",
+      "moveDown": "Bajar"
+    }
+  },
+  "reports": {
+    "loading": "Cargando informes...",
+    "workspace": "Espacio de trabajo",
+    "title": "Informes",
+    "description": "Consulta la actividad y el historial de auditoría del espacio de trabajo.",
+    "errors": {
+      "loadReports": "No se pudieron cargar los informes"
+    },
+    "stats": {
+      "activities": "Actividades",
+      "auditEvents": "Eventos de auditoría",
+      "created": "Creados",
+      "updated": "Actualizados"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "description": "Actividad reciente del espacio de trabajo.",
+      "empty": "Todavía no hay actividad."
+    },
+    "audit": {
+      "title": "Registro de auditoría",
+      "description": "Cambios auditables recientes de este espacio de trabajo.",
+      "entityId": "ID de entidad",
+      "empty": "Todavía no hay eventos de auditoría."
+    },
+    "actions": {
+      "created": "Creado",
+      "updated": "Actualizado",
+      "deleted": "Eliminado"
+    },
+    "entities": {
+      "project": "Proyecto",
+      "task": "Tarea",
+      "team": "Equipo",
+      "workflow": "Flujo de trabajo",
+      "workflowStep": "Paso del flujo de trabajo",
+      "approval": "Aprobación",
+      "comment": "Comentario",
+      "file": "Archivo",
+      "organization": "Organización",
+      "membership": "Membresía"
+    },
+    "overview": {
+      "title": "Resumen",
+      "description": "Indicadores principales de proyectos y tareas de tu espacio de trabajo.",
+      "totalProjects": "Total de proyectos",
+      "totalTasks": "Total de tareas",
+      "completedTasks": "Tareas completadas",
+      "activeTasks": "Pendientes / En curso",
+      "completionRate": "Tasa de finalización"
+    },
+    "tasksByStatus": {
+      "title": "Tareas por estado",
+      "description": "Distribución de las tareas según su estado actual.",
+      "status": {
+        "pending": "Pendiente",
+        "inProgress": "En curso",
+        "completed": "Completada",
+        "canceled": "Cancelada"
+      }
+    },
+    "tasksByPriority": {
+      "title": "Tareas por prioridad",
+      "description": "Distribución de las tareas según su nivel de prioridad.",
+      "priority": {
+        "low": "Baja",
+        "medium": "Media",
+        "high": "Alta",
+        "urgent": "Urgente"
+      }
+    },
+    "projectPerformance": {
+      "title": "Rendimiento de proyectos",
+      "description": "Progreso de las tareas y tasa de finalización de cada proyecto.",
+      "columns": {
+        "project": "Proyecto",
+        "totalTasks": "Total de tareas",
+        "completed": "Completadas",
+        "active": "Pendientes / En curso",
+        "completionRate": "Tasa de finalización"
+      },
+      "empty": "No se encontraron proyectos."
+    },
+    "approvalStatistics": {
+      "title": "Estadísticas de aprobaciones",
+      "description": "Resumen de las decisiones de aprobación y su estado actual.",
+      "total": "Total de aprobaciones",
+      "approvalRate": "Tasa de aprobación",
+      "status": {
+        "pending": "Pendiente",
+        "approved": "Aprobada",
+        "rejected": "Rechazada"
+      }
+    },
+    "dateRange": {
+      "title": "Intervalo de fechas",
+      "description": "Filtra los datos del informe por fecha de creación.",
+      "from": "Desde",
+      "to": "Hasta",
+      "apply": "Aplicar",
+      "clear": "Limpiar",
+      "invalid": "La fecha de inicio debe ser anterior o igual a la fecha de fin."
+    },
+    "exportCsv": {
+      "title": "Exportar informe",
+      "description": "Descarga los datos actuales del informe como archivo CSV.",
+      "button": "Exportar CSV",
+      "report": "Informe de PromiseFlow",
+      "dateRange": "Intervalo de fechas",
+      "allDates": "Todas las fechas"
+    },
+    "exportPdf": {
+      "button": "Exportar PDF",
+      "report": "Informe de PromiseFlow",
+      "dateRange": "Intervalo de fechas",
+      "allDates": "Todas las fechas"
+    }
+  },
+  "settings": {
+    "loading": "Cargando configuración...",
+    "account": "Cuenta",
+    "title": "Configuración",
+    "description": "Gestiona tu perfil, el espacio de trabajo y la seguridad de tu cuenta.",
+    "errors": {
+      "loadSettings": "No se pudo cargar la configuración",
+      "authenticationMissing": "Falta la autenticación",
+      "passwordLength": "La contraseña debe tener al menos 8 caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "updatePassword": "No se pudo actualizar la contraseña",
+      "profileNameRequired": "El nombre y los apellidos son obligatorios",
+      "profileNameLength": "Los nombres no deben superar los 100 caracteres",
+      "updateProfile": "No se pudo actualizar el perfil",
+      "workspaceNameRequired": "El nombre del espacio de trabajo es obligatorio",
+      "workspaceNameLength": "El nombre del espacio de trabajo no debe superar los 150 caracteres",
+      "workspaceSlugInvalid": "El identificador solo puede contener letras minúsculas, números y guiones simples (máximo 100 caracteres)",
+      "updateWorkspace": "No se pudo actualizar el espacio de trabajo. Comprueba tus permisos y si el identificador ya está en uso."
+    },
+    "success": {
+      "passwordUpdated": "Contraseña actualizada correctamente.",
+      "profileUpdated": "Perfil actualizado correctamente.",
+      "workspaceUpdated": "Espacio de trabajo actualizado correctamente."
+    },
+    "profile": {
+      "title": "Perfil",
+      "description": "Información actual de tu cuenta.",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "emailVerified": "Correo electrónico verificado",
+      "yes": "Sí",
+      "no": "No",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "saveChanges": "Guardar cambios",
+      "saving": "Guardando..."
+    },
+    "workspace": {
+      "title": "Espacio de trabajo",
+      "description": "Información del espacio de trabajo seleccionado.",
+      "name": "Nombre del espacio de trabajo",
+      "slug": "Identificador URL",
+      "members": "Miembros",
+      "role": "Rol",
+      "saveChanges": "Guardar cambios",
+      "saving": "Guardando...",
+      "editDescription": "Actualiza el nombre y el identificador de tu espacio de trabajo."
+    },
+    "security": {
+      "title": "Seguridad",
+      "description": "Cambia la contraseña de tu cuenta.",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "updating": "Actualizando...",
+      "updatePassword": "Actualizar contraseña"
+    }
+  },
+  "approvalDetails": {
+    "loading": "Cargando aprobación...",
+    "authenticationMissing": "Se requiere autenticación.",
+    "loadError": "No se pudieron cargar los detalles de la aprobación.",
+    "back": "Volver a aprobaciones",
+    "workspace": "Espacio de trabajo",
+    "title": "Detalles de la aprobación",
+    "description": "Revisa la solicitud de aprobación y su tarea relacionada.",
+    "notAvailable": "No disponible",
+    "noComment": "No se proporcionó ningún comentario.",
+    "status": {
+      "pending": "Pendiente",
+      "approved": "Aprobada",
+      "rejected": "Rechazada"
+    },
+    "request": {
+      "title": "Solicitud de aprobación",
+      "project": "Proyecto",
+      "approver": "Responsable de aprobación",
+      "requestedBy": "Solicitada por",
+      "createdAt": "Fecha de solicitud",
+      "decidedAt": "Fecha de decisión",
+      "comment": "Comentario"
+    },
+    "task": {
+      "title": "Tarea relacionada",
+      "name": "Tarea",
+      "status": "Estado",
+      "priority": "Prioridad",
+      "dueAt": "Fecha de vencimiento",
+      "description": "Descripción",
+      "noDescription": "No se proporcionó ninguna descripción."
+    },
+    "taskStatus": {
+      "pending": "Pendiente",
+      "inProgress": "En curso",
+      "completed": "Completada",
+      "canceled": "Cancelada"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "urgent": "Urgente"
+    }
+  },
+  "automations": {
+    "workspace": "Espacio de trabajo",
+    "title": "Automatizaciones",
+    "description": "Gestiona los flujos de trabajo y las acciones automatizadas de tu espacio.",
+    "totalAutomations": "Total de automatizaciones",
+    "enabled": "Activadas",
+    "disabled": "Desactivadas",
+    "listTitle": "Automatizaciones",
+    "listDescription": "Automatizaciones configuradas para el espacio de trabajo actual.",
+    "trigger": "Desencadenante",
+    "action": "Acción",
+    "createdBy": "Creada por",
+    "loading": "Cargando automatizaciones...",
+    "emptyTitle": "Todavía no hay automatizaciones",
+    "emptyDescription": "Aún no hay automatizaciones configuradas para este espacio.",
+    "loadError": "No se pudieron cargar las automatizaciones.",
+    "authenticationMissing": "Falta la autenticación o la información del espacio de trabajo.",
+    "createAutomation": "Crear automatización",
+    "createError": "No se pudo crear la automatización.",
+    "triggers": {
+      "taskCreated": "Tarea creada",
+      "taskStatusChanged": "Estado de tarea modificado",
+      "approvalApproved": "Solicitud aprobada",
+      "approvalRejected": "Solicitud rechazada"
+    },
+    "actions": {
+      "createNotification": "Crear notificación",
+      "updateTaskStatus": "Actualizar estado de tarea",
+      "createApprovalRequest": "Crear solicitud de aprobación"
+    },
+    "create": {
+      "title": "Crear automatización",
+      "description": "Elige cuándo debe ejecutarse la automatización y qué debe hacer.",
+      "name": "Nombre",
+      "automationDescription": "Descripción",
+      "trigger": "Desencadenante",
+      "action": "Acción",
+      "cancel": "Cancelar",
+      "submit": "Crear automatización",
+      "creating": "Creando..."
+    },
+    "edit": "Editar",
+    "editError": "No se pudo actualizar la automatización.",
+    "saving": "Guardando...",
+    "editForm": {
+      "title": "Editar automatización",
+      "description": "Actualiza el nombre, la descripción, el desencadenante o la acción.",
+      "submit": "Guardar cambios"
+    },
+    "enable": "Activar",
+    "disable": "Desactivar",
+    "updatingStatus": "Actualizando...",
+    "toggleError": "No se pudo actualizar el estado de la automatización.",
+    "delete": "Eliminar",
+    "deleteError": "No se pudo eliminar la automatización.",
+    "deleteConfirmation": {
+      "title": "Eliminar automatización",
+      "description": "¿Seguro que quieres eliminar \"{name}\"? Esta automatización dejará de aparecer en el espacio de trabajo.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "deleting": "Eliminando..."
+    },
+    "configuration": {
+      "project": "Proyecto",
+      "allProjects": "Todos los proyectos",
+      "projectHelp": "Selecciona un proyecto específico o aplica esta automatización a todos.",
+      "newStatus": "Nuevo estado",
+      "statusPending": "Pendiente",
+      "statusInProgress": "En curso",
+      "statusCompleted": "Completada",
+      "statusHelp": "Ejecuta esta automatización cuando una tarea cambie al estado seleccionado.",
+      "notificationTitle": "Título de la notificación",
+      "notificationMessage": "Mensaje de la notificación",
+      "notificationHelp": "Introduce la notificación que se creará cuando se ejecute esta automatización.",
+      "updateTaskStatusHelp": "Cambia la tarea al estado seleccionado cuando se ejecute esta automatización.",
+      "approver": "Responsable de aprobación",
+      "selectApprover": "Seleccionar responsable",
+      "approverHelp": "Elige al miembro de la organización que debe aprobar la solicitud."
+    },
+    "createSuccess": "Automatización creada correctamente.",
+    "editSuccess": "Automatización actualizada correctamente.",
+    "deleteSuccess": "Automatización eliminada correctamente.",
+    "history": "Historial",
+    "runHistory": {
+      "title": "Historial de ejecuciones",
+      "description": "Consulta las ejecuciones anteriores y sus resultados.",
+      "loading": "Cargando historial de ejecuciones...",
+      "loadError": "No se pudo cargar el historial de ejecuciones.",
+      "emptyTitle": "Todavía no hay ejecuciones",
+      "emptyDescription": "Esta automatización aún no se ha ejecutado.",
+      "status": "Estado",
+      "startedAt": "Inicio",
+      "finishedAt": "Finalización",
+      "duration": "Duración",
+      "result": "Resultado",
+      "error": "Error",
+      "triggerPayload": "Datos del desencadenante",
+      "close": "Cerrar",
+      "statuses": {
+        "pending": "Pendiente",
+        "running": "En ejecución",
+        "succeeded": "Correcta",
+        "failed": "Fallida"
+      }
+    }
+  },
+  "invitations": {
+    "workspace": "Espacio de trabajo",
+    "title": "Invitaciones",
+    "description": "Consulta y gestiona las invitaciones de tu organización.",
+    "loading": "Cargando invitaciones...",
+    "unknownRole": "Rol desconocido",
+    "table": {
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "status": "Estado",
+      "sent": "Enviada",
+      "expires": "Caduca",
+      "actions": "Acciones"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "accepted": "Aceptada",
+      "expired": "Caducada",
+      "revoked": "Revocada"
+    },
+    "empty": {
+      "title": "Todavía no hay invitaciones",
+      "description": "Las invitaciones enviadas a nuevos miembros aparecerán aquí."
+    },
+    "errors": {
+      "load": "No se pudieron cargar las invitaciones."
+    },
+    "create": {
+      "button": "Invitar miembro",
+      "cancel": "Cancelar",
+      "title": "Invitar a un miembro",
+      "description": "Envía una invitación para unirse a esta organización.",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "role": "Rol",
+      "expiration": "La invitación caducará automáticamente después de 7 días.",
+      "submit": "Enviar invitación",
+      "creating": "Enviando...",
+      "success": "Invitación creada correctamente.",
+      "errors": {
+        "authenticationMissing": "Falta la autenticación o la información del espacio de trabajo.",
+        "required": "El correo electrónico y el rol son obligatorios.",
+        "create": "No se pudo crear la invitación."
+      }
+    },
+    "revoke": {
+      "button": "Revocar",
+      "revoking": "Revocando...",
+      "success": "Invitación revocada correctamente.",
+      "errors": {
+        "authenticationMissing": "Se requiere autenticación.",
+        "revoke": "No se pudo revocar esta invitación."
+      }
+    },
+    "resend": {
+      "button": "Reenviar",
+      "resending": "Reenviando...",
+      "success": "Invitación reenviada correctamente.",
+      "errors": {
+        "authenticationMissing": "Se requiere autenticación.",
+        "resend": "No se pudo reenviar esta invitación."
+      }
+    }
+  },
+  "acceptInvitation": {
+    "title": "Aceptar invitación",
+    "description": "Acepta esta invitación para unirte a la organización en PromiseFlow.",
+    "accept": "Aceptar invitación",
+    "accepting": "Aceptando...",
+    "success": {
+      "title": "Invitación aceptada",
+      "description": "Ahora eres miembro de la organización.",
+      "message": "Invitación aceptada correctamente.",
+      "continue": "Continuar al panel de control"
+    },
+    "errors": {
+      "missingToken": "Este enlace de invitación no es válido o está incompleto.",
+      "accept": "No se pudo aceptar esta invitación. Puede haber caducado, haberse aceptado anteriormente o estar asignada a otro correo electrónico."
+    },
+    "loading": "Cargando invitación..."
+  },
+  "activityAudit": {
+    "workspace": "Espacio de trabajo",
+    "title": "Actividad y auditoría",
+    "description": "Consulta la actividad y los registros de auditoría del espacio de trabajo en un solo lugar.",
+    "tabs": {
+      "label": "Vistas de actividad y auditoría",
+      "activity": "Actividad",
+      "audit": "Registro de auditoría"
+    },
+    "loading": "Cargando registros de actividad y auditoría...",
+    "error": "No se pudieron cargar los registros de actividad y auditoría.",
+    "columns": {
+      "action": "Acción",
+      "entity": "Entidad",
+      "entityId": "ID de entidad",
+      "date": "Fecha"
+    },
+    "empty": {
+      "activity": "No se encontraron registros de actividad.",
+      "audit": "No se encontraron registros de auditoría."
+    },
+    "actions": {
+      "created": "Creado",
+      "updated": "Actualizado",
+      "deleted": "Eliminado",
+      "approved": "Aprobado",
+      "rejected": "Rechazado",
+      "invited": "Invitado",
+      "accepted": "Aceptado",
+      "revoked": "Revocado",
+      "resent": "Reenviado",
+      "added": "Añadido",
+      "removed": "Quitado",
+      "reordered": "Reordenado",
+      "enabled": "Activado",
+      "disabled": "Desactivado"
+    },
+    "entities": {
+      "project": "Proyecto",
+      "task": "Tarea",
+      "team": "Equipo",
+      "workflow": "Flujo de trabajo",
+      "workflowStep": "Paso del flujo de trabajo",
+      "approval": "Aprobación",
+      "comment": "Comentario",
+      "file": "Archivo",
+      "organization": "Organización",
+      "membership": "Membresía",
+      "invitation": "Invitación",
+      "automation": "Automatización",
+      "notification": "Notificación",
+      "teamMember": "Miembro del equipo"
+    },
+    "details": {
+      "title": "Detalles del registro",
+      "activityLabel": "Actividad",
+      "auditLabel": "Registro de auditoría",
+      "close": "Cerrar detalles",
+      "userId": "ID de usuario",
+      "systemUser": "Sistema",
+      "ipAddress": "Dirección IP",
+      "userAgent": "Agente de usuario",
+      "metadata": "Metadatos",
+      "noMetadata": "No se registraron metadatos.",
+      "notAvailable": "No disponible"
+    },
+    "filters": {
+      "action": "Acción",
+      "allActions": "Todas las acciones",
+      "user": "Usuario",
+      "allUsers": "Todos los usuarios",
+      "entityType": "Tipo de entidad",
+      "allEntityTypes": "Todos los tipos de entidad",
+      "clear": "Borrar filtros",
+      "from": "Desde",
+      "to": "Hasta",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar acción, tipo de entidad o ID de entidad..."
+    },
+    "pagination": {
+      "page": "Página",
+      "records": "registros",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageSize": "Registros por página"
+    }
+  }
+}

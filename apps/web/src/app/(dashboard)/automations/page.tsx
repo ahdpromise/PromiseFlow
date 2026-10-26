@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 
+import CustomSelect from "@/components/ui/custom-select";
 import { getAccessToken } from "@/lib/auth-storage";
 import { getWorkspaceId } from "@/lib/workspace-storage";
 import {
@@ -1406,63 +1407,30 @@ export default function AutomationsPage() {
                   )}
                 </label>
 
-                <select
-                  id="automation-trigger"
-                  value={triggerType}
-                  onChange={(event) => {
-                    const nextTrigger =
-                      event.target
-                        .value as AutomationTriggerType;
+                <CustomSelect
+    id="automation-trigger"
+    value={triggerType}
+    disabled={isSaving}
+    className="mt-2"
+    options={[
+      { value: "task_created", label: t("triggers.taskCreated") },
+      { value: "task_status_changed", label: t("triggers.taskStatusChanged") },
+      { value: "approval_approved", label: t("triggers.approvalApproved") },
+      { value: "approval_rejected", label: t("triggers.approvalRejected") },
+    ]}
+    onChange={(value) => {
+      const nextTrigger = value as AutomationTriggerType;
+      setTriggerType(nextTrigger);
 
-                    setTriggerType(
-                      nextTrigger,
-                    );
+      if (nextTrigger !== "task_created") {
+        setSelectedProjectId("");
+      }
 
-                    if (
-                      nextTrigger !==
-                      "task_created"
-                    ) {
-                      setSelectedProjectId(
-                        "",
-                      );
-                    }
-
-                    if (
-                      nextTrigger !==
-                      "task_status_changed"
-                    ) {
-                      setTaskStatusTrigger(
-                        "pending",
-                      );
-                    }
-                  }}
-                  disabled={isSaving}
-                  className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                >
-                  <option value="task_created">
-                    {t(
-                      "triggers.taskCreated",
-                    )}
-                  </option>
-
-                  <option value="task_status_changed">
-                    {t(
-                      "triggers.taskStatusChanged",
-                    )}
-                  </option>
-
-                  <option value="approval_approved">
-                    {t(
-                      "triggers.approvalApproved",
-                    )}
-                  </option>
-
-                  <option value="approval_rejected">
-                    {t(
-                      "triggers.approvalRejected",
-                    )}
-                  </option>
-                </select>
+      if (nextTrigger !== "task_status_changed") {
+        setTaskStatusTrigger("pending");
+      }
+    }}
+  />
               </div>
 
               {triggerType ===
@@ -1477,40 +1445,20 @@ export default function AutomationsPage() {
                     )}
                   </label>
 
-                  <select
-                    id="automation-trigger-project"
-                    value={
-                      selectedProjectId
-                    }
-                    onChange={(event) =>
-                      setSelectedProjectId(
-                        event.target.value,
-                      )
-                    }
-                    disabled={isSaving}
-                    className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                  >
-                    <option value="">
-                      {t(
-                        "configuration.allProjects",
-                      )}
-                    </option>
-
-                    {projects.map(
-                      (project) => (
-                        <option
-                          key={project.id}
-                          value={
-                            project.id
-                          }
-                        >
-                          {
-                            project.name
-                          }
-                        </option>
-                      ),
-                    )}
-                  </select>
+                  <CustomSelect
+    id="automation-trigger-project"
+    value={selectedProjectId}
+    disabled={isSaving}
+    className="mt-2"
+    options={[
+      { value: "", label: t("configuration.allProjects") },
+      ...projects.map((project) => ({
+        value: project.id,
+        label: project.name,
+      })),
+    ]}
+    onChange={setSelectedProjectId}
+  />
 
                   <p className="mt-2 text-xs text-muted-foreground">
                     {t(
@@ -1532,38 +1480,20 @@ export default function AutomationsPage() {
                     )}
                   </label>
 
-                  <select
-                    id="automation-trigger-status"
-                    value={
-                      taskStatusTrigger
-                    }
-                    onChange={(event) =>
-                      setTaskStatusTrigger(
-                        event.target
-                          .value as AutomationTaskStatus,
-                      )
-                    }
-                    disabled={isSaving}
-                    className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                  >
-                    <option value="pending">
-                      {t(
-                        "configuration.statusPending",
-                      )}
-                    </option>
-
-                    <option value="in_progress">
-                      {t(
-                        "configuration.statusInProgress",
-                      )}
-                    </option>
-
-                    <option value="completed">
-                      {t(
-                        "configuration.statusCompleted",
-                      )}
-                    </option>
-                  </select>
+                  <CustomSelect
+    id="automation-trigger-status"
+    value={taskStatusTrigger}
+    disabled={isSaving}
+    className="mt-2"
+    options={[
+      { value: "pending", label: t("configuration.statusPending") },
+      { value: "in_progress", label: t("configuration.statusInProgress") },
+      { value: "completed", label: t("configuration.statusCompleted") },
+    ]}
+    onChange={(value) =>
+      setTaskStatusTrigger(value as AutomationTaskStatus)
+    }
+  />
 
                   <p className="mt-2 text-xs text-muted-foreground">
                     {t(
@@ -1583,69 +1513,34 @@ export default function AutomationsPage() {
                   )}
                 </label>
 
-                <select
-                  id="automation-action"
-                  value={actionType}
-                  onChange={(event) => {
-                    const nextAction =
-                      event.target
-                        .value as AutomationActionType;
+                <CustomSelect
+    id="automation-action"
+    value={actionType}
+    disabled={isSaving}
+    className="mt-2"
+    options={[
+      { value: "create_notification", label: t("actions.createNotification") },
+      { value: "update_task_status", label: t("actions.updateTaskStatus") },
+      { value: "create_approval_request", label: t("actions.createApprovalRequest") },
+    ]}
+    onChange={(value) => {
+      const nextAction = value as AutomationActionType;
+      setActionType(nextAction);
 
-                    setActionType(
-                      nextAction,
-                    );
+      if (nextAction !== "create_notification") {
+        setNotificationTitle("");
+        setNotificationMessage("");
+      }
 
-                    if (
-                      nextAction !==
-                      "create_notification"
-                    ) {
-                      setNotificationTitle(
-                        "",
-                      );
-                      setNotificationMessage(
-                        "",
-                      );
-                    }
+      if (nextAction !== "update_task_status") {
+        setTaskStatusAction("pending");
+      }
 
-                    if (
-                      nextAction !==
-                      "update_task_status"
-                    ) {
-                      setTaskStatusAction(
-                        "pending",
-                      );
-                    }
-
-                    if (
-                      nextAction !==
-                      "create_approval_request"
-                    ) {
-                      setSelectedApproverId(
-                        "",
-                      );
-                    }
-                  }}
-                  disabled={isSaving}
-                  className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                >
-                  <option value="create_notification">
-                    {t(
-                      "actions.createNotification",
-                    )}
-                  </option>
-
-                  <option value="update_task_status">
-                    {t(
-                      "actions.updateTaskStatus",
-                    )}
-                  </option>
-
-                  <option value="create_approval_request">
-                    {t(
-                      "actions.createApprovalRequest",
-                    )}
-                  </option>
-                </select>
+      if (nextAction !== "create_approval_request") {
+        setSelectedApproverId("");
+      }
+    }}
+  />
               </div>
 
               {actionType ===
@@ -1726,38 +1621,20 @@ export default function AutomationsPage() {
                     )}
                   </label>
 
-                  <select
-                    id="automation-action-status"
-                    value={
-                      taskStatusAction
-                    }
-                    onChange={(event) =>
-                      setTaskStatusAction(
-                        event.target
-                          .value as AutomationTaskStatus,
-                      )
-                    }
-                    disabled={isSaving}
-                    className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                  >
-                    <option value="pending">
-                      {t(
-                        "configuration.statusPending",
-                      )}
-                    </option>
-
-                    <option value="in_progress">
-                      {t(
-                        "configuration.statusInProgress",
-                      )}
-                    </option>
-
-                    <option value="completed">
-                      {t(
-                        "configuration.statusCompleted",
-                      )}
-                    </option>
-                  </select>
+                  <CustomSelect
+    id="automation-action-status"
+    value={taskStatusAction}
+    disabled={isSaving}
+    className="mt-2"
+    options={[
+      { value: "pending", label: t("configuration.statusPending") },
+      { value: "in_progress", label: t("configuration.statusInProgress") },
+      { value: "completed", label: t("configuration.statusCompleted") },
+    ]}
+    onChange={(value) =>
+      setTaskStatusAction(value as AutomationTaskStatus)
+    }
+  />
 
                   <p className="mt-2 text-xs text-muted-foreground">
                     {t(
@@ -1779,48 +1656,28 @@ export default function AutomationsPage() {
                     )}
                   </label>
 
-                  <select
-                    id="automation-approver"
-                    value={
-                      selectedApproverId
-                    }
-                    onChange={(event) =>
-                      setSelectedApproverId(
-                        event.target.value,
-                      )
-                    }
-                    required
-                    disabled={isSaving}
-                    className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary disabled:opacity-50"
-                  >
-                    <option value="">
-                      {t(
-                        "configuration.selectApprover",
-                      )}
-                    </option>
+                  <CustomSelect
+    id="automation-approver"
+    value={selectedApproverId}
+    disabled={isSaving}
+    required
+    className="mt-2"
+    options={[
+      { value: "", label: t("configuration.selectApprover") },
+      ...organizationMembers.map((member) => {
+        const fullName =
+          `${member.first_name} ${member.last_name}`.trim();
 
-                    {organizationMembers.map(
-                      (member) => {
-                        const fullName =
-                          `${member.first_name} ${member.last_name}`.trim();
-
-                        return (
-                          <option
-                            key={
-                              member.membership_id
-                            }
-                            value={
-                              member.user_id
-                            }
-                          >
-                            {fullName
-                              ? `${fullName} — ${member.email}`
-                              : member.email}
-                          </option>
-                        );
-                      },
-                    )}
-                  </select>
+        return {
+          value: member.user_id,
+          label: fullName
+            ? `${fullName} — ${member.email}`
+            : member.email,
+        };
+      }),
+    ]}
+    onChange={setSelectedApproverId}
+  />
 
                   <p className="mt-2 text-xs text-muted-foreground">
                     {t(

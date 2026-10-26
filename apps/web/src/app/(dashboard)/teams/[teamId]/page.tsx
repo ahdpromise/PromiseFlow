@@ -1,5 +1,7 @@
 "use client";
 
+import CustomSelect from "@/components/ui/custom-select";
+
 import Link from "next/link";
 import {
   useParams,
@@ -718,44 +720,22 @@ export default function TeamDetailsPage() {
                     )}
                   </label>
 
-                  <select
-                    id="team-member"
-                    value={selectedUserId}
-                    disabled={isAdding}
-                    onChange={(event) =>
-                      setSelectedUserId(
-                        event.target.value,
-                      )
-                    }
-                    className="h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none focus:border-primary disabled:opacity-60"
-                  >
-                    <option value="">
-                      {t(
-                        "addMemberForm.selectMember",
-                      )}
-                    </option>
-
-                    {availableMembers.map(
-                      (member) => (
-                        <option
-                          key={
-                            member.membership_id
-                          }
-                          value={
-                            member.user_id
-                          }
-                        >
-                          {
-                            member.first_name
-                          }{" "}
-                          {
-                            member.last_name
-                          }{" "}
-                          — {member.email}
-                        </option>
-                      ),
-                    )}
-                  </select>
+                  <CustomSelect
+  id="team-member"
+  value={selectedUserId}
+  disabled={isAdding}
+  options={[
+    {
+      value: "",
+      label: t("addMemberForm.selectMember"),
+    },
+    ...availableMembers.map((member) => ({
+      value: member.user_id,
+      label: `${member.first_name} ${member.last_name} — ${member.email}`,
+    })),
+  ]}
+  onChange={setSelectedUserId}
+/>
                 </div>
 
                 <div className="flex justify-end">

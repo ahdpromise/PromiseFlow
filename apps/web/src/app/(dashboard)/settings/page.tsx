@@ -1,7 +1,8 @@
+
 "use client";
 
 import {
-  FormEvent,
+  type FormEvent,
   useEffect,
   useMemo,
   useState,
@@ -20,6 +21,8 @@ import {
   getOrganizations,
   getRoles,
   updateCurrentUserPassword,
+  updateCurrentUserProfile,
+  updateOrganizationSettings,
   type CurrentUser,
   type Membership,
   type Organization,
@@ -31,10 +34,19 @@ type ErrorMessageKey =
   | "authenticationMissing"
   | "passwordLength"
   | "passwordMismatch"
-  | "updatePassword";
+  | "updatePassword"
+  | "profileNameRequired"
+  | "profileNameLength"
+  | "updateProfile"
+  | "workspaceNameRequired"
+  | "workspaceNameLength"
+  | "workspaceSlugInvalid"
+  | "updateWorkspace";
 
 type SuccessMessageKey =
-  "passwordUpdated";
+  | "passwordUpdated"
+  | "profileUpdated"
+  | "workspaceUpdated";
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
@@ -57,6 +69,18 @@ export default function SettingsPage() {
   const [workspaceId, setWorkspaceId] =
     useState("");
 
+  const [firstName, setFirstName] =
+    useState("");
+
+  const [lastName, setLastName] =
+    useState("");
+
+  const [workspaceName, setWorkspaceName] =
+    useState("");
+
+  const [workspaceSlug, setWorkspaceSlug] =
+    useState("");
+
   const [password, setPassword] =
     useState("");
 
@@ -66,30 +90,28 @@ export default function SettingsPage() {
   const [isLoading, setIsLoading] =
     useState(true);
 
+  const [isSavingProfile, setIsSavingProfile] =
+    useState(false);
+
+  const [isSavingWorkspace, setIsSavingWorkspace] =
+    useState(false);
+
   const [isSavingPassword, setIsSavingPassword] =
     useState(false);
 
-  const [
-    errorMessageKey,
-    setErrorMessageKey,
-  ] = useState<ErrorMessageKey | null>(
-    null,
-  );
+  const [errorMessageKey, setErrorMessageKey] =
+    useState<ErrorMessageKey | null>(null);
 
-  const [
-    successMessageKey,
-    setSuccessMessageKey,
-  ] = useState<SuccessMessageKey | null>(
-    null,
-  );
+  const [successMessageKey, setSuccessMessageKey] =
+    useState<SuccessMessageKey | null>(null);
 
   useEffect(() => {
     async function loadSettings() {
       const token = getAccessToken();
-      const currentWorkspaceId =
-        getWorkspaceId();
+      const currentWorkspaceId = getWorkspaceId();
 
       if (!token || !currentWorkspaceId) {
+        setErrorMessageKey("authenticationMissing");
         setIsLoading(false);
         return;
       }
@@ -109,35 +131,27 @@ export default function SettingsPage() {
             token,
             currentWorkspaceId,
           ),
-          getRoles(
-            token,
-            currentWorkspaceId,
-          ),
+          getRoles(token, currentWorkspaceId),
         ]);
 
+        const selectedOrganization =
+          organizationItems.find(
+            (organization) =>
+              organization.id === currentWorkspaceId,
+          );
+
         setUser(currentUser);
-
-        setOrganizations(
-          organizationItems,
-        );
-
-        setMemberships(
-          membershipItems,
-        );
-
-        setDirectory(
-          memberDirectory,
-        );
-
+        setFirstName(currentUser.first_name);
+        setLastName(currentUser.last_name);
+        setOrganizations(organizationItems);
+        setMemberships(membershipItems);
+        setDirectory(memberDirectory);
         setRoles(roleItems);
-
-        setWorkspaceId(
-          currentWorkspaceId,
-        );
+        setWorkspaceId(currentWorkspaceId);
+        setWorkspaceName(selectedOrganization?.name ?? "");
+        setWorkspaceSlug(selectedOrganization?.slug ?? "");
       } catch {
-        setErrorMessageKey(
-          "loadSettings",
-        );
+        setErrorMessageKey("loadSettings");
       } finally {
         setIsLoading(false);
       }
@@ -146,80 +160,200 @@ export default function SettingsPage() {
     void loadSettings();
   }, []);
 
-  const currentOrganization =
-    useMemo(
-      () =>
-        organizations.find(
-          (organization) =>
-            organization.id ===
-            workspaceId,
-        ) ?? null,
-      [organizations, workspaceId],
-    );
+  const currentOrganization = useMemo(
+    () =>
+      organizations.find(
+        (organization) =>
+          organization.id === workspaceId,
+      ) ?? null,
+    [organizations, workspaceId],
+  );
 
-  const currentMembership =
-    useMemo(
-      () =>
-        memberships.find(
-          (membership) =>
-            membership.organization_id ===
-            workspaceId,
-        ) ?? null,
-      [memberships, workspaceId],
-    );
+  const currentMembership = useMemo(
+    () =>
+      memberships.find(
+        (membership) =>
+          membership.organization_id === workspaceId &&
+          membership.user_id === user?.id &&
+          membership.deleted_at === null,
+      ) ?? null,
+    [memberships, workspaceId, user?.id],
+  );
 
-  const currentRole =
-    useMemo(
-      () =>
-        roles.find(
-          (role) =>
-            role.id ===
-            currentMembership?.role_id,
-        ) ?? null,
-      [roles, currentMembership],
-    );
+  const currentRole = useMemo(
+    () =>
+      roles.find(
+        (role) =>
+          role.id === currentMembership?.role_id,
+      ) ?? null,
+    [roles, currentMembership],
+  );
+
+  const canEditWorkspace =
+    currentRole?.slug === "administrator";
 
   const errorMessage = errorMessageKey
     ? t(`errors.${errorMessageKey}`)
     : "";
 
-  const successMessage =
-    successMessageKey
-      ? t(
-          `success.${successMessageKey}`,
-        )
-      : "";
+  const successMessage = successMessageKey
+    ? t(`success.${successMessageKey}`)
+    : "";
+
+  async function handleProfileChange(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
+    setErrorMessageKey(null);
+    setSuccessMessageKey(null);
+
+    const token = getAccessToken();
+
+    if (!token) {
+      setErrorMessageKey("authenticationMissing");
+      return;
+    }
+
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+
+    if (!trimmedFirstName || !trimmedLastName) {
+      setErrorMessageKey("profileNameRequired");
+      return;
+    }
+
+    if (
+      trimmedFirstName.length > 100 ||
+      trimmedLastName.length > 100
+    ) {
+      setErrorMessageKey("profileNameLength");
+      return;
+    }
+
+    setIsSavingProfile(true);
+
+    try {
+      const updatedUser =
+        await updateCurrentUserProfile(
+          token,
+          trimmedFirstName,
+          trimmedLastName,
+        );
+
+      setUser(updatedUser);
+      setFirstName(updatedUser.first_name);
+      setLastName(updatedUser.last_name);
+      setSuccessMessageKey("profileUpdated");
+    } catch {
+      setErrorMessageKey("updateProfile");
+    } finally {
+      setIsSavingProfile(false);
+    }
+  }
+
+  async function handleWorkspaceChange(
+    event: FormEvent<HTMLFormElement>,
+  ) {
+    event.preventDefault();
+
+    setErrorMessageKey(null);
+    setSuccessMessageKey(null);
+
+    const token = getAccessToken();
+
+    if (!token || !workspaceId) {
+      setErrorMessageKey("authenticationMissing");
+      return;
+    }
+
+    if (!canEditWorkspace || !currentOrganization) {
+      setErrorMessageKey("updateWorkspace");
+      return;
+    }
+
+    const trimmedName = workspaceName.trim();
+    const trimmedSlug = workspaceSlug.trim();
+
+    if (!trimmedName) {
+      setErrorMessageKey("workspaceNameRequired");
+      return;
+    }
+
+    if (trimmedName.length > 150) {
+      setErrorMessageKey("workspaceNameLength");
+      return;
+    }
+
+    if (
+      trimmedSlug.length > 100 ||
+      !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(trimmedSlug)
+    ) {
+      setErrorMessageKey("workspaceSlugInvalid");
+      return;
+    }
+
+    if (
+      trimmedName === currentOrganization.name &&
+      trimmedSlug === currentOrganization.slug
+    ) {
+      return;
+    }
+
+    setIsSavingWorkspace(true);
+
+    try {
+      const updatedOrganization =
+        await updateOrganizationSettings(
+          token,
+          workspaceId,
+          trimmedName,
+          trimmedSlug,
+        );
+
+      setOrganizations((previous) =>
+        previous.map((organization) =>
+          organization.id === updatedOrganization.id
+            ? updatedOrganization
+            : organization,
+        ),
+      );
+
+      setWorkspaceName(updatedOrganization.name);
+      setWorkspaceSlug(updatedOrganization.slug);
+      setSuccessMessageKey("workspaceUpdated");
+    } catch {
+      setErrorMessageKey("updateWorkspace");
+    } finally {
+      setIsSavingWorkspace(false);
+    }
+  }
 
   async function handlePasswordChange(
     event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
+    setErrorMessageKey(null);
+    setSuccessMessageKey(null);
+
     const token = getAccessToken();
 
     if (!token) {
-      setErrorMessageKey(
-        "authenticationMissing",
-      );
+      setErrorMessageKey("authenticationMissing");
       return;
     }
 
     if (password.length < 8) {
-      setErrorMessageKey(
-        "passwordLength",
-      );
+      setErrorMessageKey("passwordLength");
       return;
     }
 
     if (password !== confirmPassword) {
-      setErrorMessageKey(
-        "passwordMismatch",
-      );
+      setErrorMessageKey("passwordMismatch");
       return;
     }
 
-    setErrorMessageKey(null);
-    setSuccessMessageKey(null);
     setIsSavingPassword(true);
 
     try {
@@ -230,18 +364,19 @@ export default function SettingsPage() {
 
       setPassword("");
       setConfirmPassword("");
-
-      setSuccessMessageKey(
-        "passwordUpdated",
-      );
+      setSuccessMessageKey("passwordUpdated");
     } catch {
-      setErrorMessageKey(
-        "updatePassword",
-      );
+      setErrorMessageKey("updatePassword");
     } finally {
       setIsSavingPassword(false);
     }
   }
+
+  const inputClassName =
+    "h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60";
+
+  const buttonClassName =
+    "h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50";
 
   if (isLoading) {
     return (
@@ -268,13 +403,19 @@ export default function SettingsPage() {
       </section>
 
       {errorMessage ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div
+          role="alert"
+          className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+        >
           {errorMessage}
         </div>
       ) : null}
 
       {successMessage ? (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+        <div
+          role="status"
+          className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700"
+        >
           {successMessage}
         </div>
       ) : null}
@@ -289,17 +430,54 @@ export default function SettingsPage() {
             {t("profile.description")}
           </p>
 
-          <div className="mt-6 space-y-5">
+          <form
+            onSubmit={handleProfileChange}
+            className="mt-6 space-y-5"
+          >
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                {t("profile.name")}
-              </p>
+              <label
+                htmlFor="profile-first-name"
+                className="mb-2 block text-sm font-medium"
+              >
+                {t("profile.firstName")}
+              </label>
 
-              <p className="mt-1 text-sm font-medium">
-                {user
-                  ? `${user.first_name} ${user.last_name}`
-                  : "—"}
-              </p>
+              <input
+                id="profile-first-name"
+                type="text"
+                autoComplete="given-name"
+                maxLength={100}
+                required
+                value={firstName}
+                disabled={isSavingProfile || !user}
+                onChange={(event) =>
+                  setFirstName(event.target.value)
+                }
+                className={inputClassName}
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="profile-last-name"
+                className="mb-2 block text-sm font-medium"
+              >
+                {t("profile.lastName")}
+              </label>
+
+              <input
+                id="profile-last-name"
+                type="text"
+                autoComplete="family-name"
+                maxLength={100}
+                required
+                value={lastName}
+                disabled={isSavingProfile || !user}
+                onChange={(event) =>
+                  setLastName(event.target.value)
+                }
+                className={inputClassName}
+              />
             </div>
 
             <div>
@@ -323,7 +501,17 @@ export default function SettingsPage() {
                   : t("profile.no")}
               </p>
             </div>
-          </div>
+
+            <button
+              type="submit"
+              disabled={isSavingProfile || !user}
+              className={buttonClassName}
+            >
+              {isSavingProfile
+                ? t("profile.saving")
+                : t("profile.saveChanges")}
+            </button>
+          </form>
         </div>
 
         <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
@@ -335,28 +523,66 @@ export default function SettingsPage() {
             {t("workspace.description")}
           </p>
 
-          <div className="mt-6 space-y-5">
+          <form
+            onSubmit={handleWorkspaceChange}
+            className="mt-6 space-y-5"
+          >
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="workspace-name"
+                className="mb-2 block text-sm font-medium"
+              >
                 {t("workspace.name")}
-              </p>
+              </label>
 
-              <p className="mt-1 text-sm font-medium">
-                {currentOrganization?.name ??
-                  "—"}
-              </p>
+              <input
+                id="workspace-name"
+                type="text"
+                maxLength={150}
+                required
+                value={workspaceName}
+                disabled={
+                  isSavingWorkspace ||
+                  !currentOrganization ||
+                  !canEditWorkspace
+                }
+                onChange={(event) =>
+                  setWorkspaceName(event.target.value)
+                }
+                className={inputClassName}
+              />
             </div>
 
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <label
+                htmlFor="workspace-slug"
+                className="mb-2 block text-sm font-medium"
+              >
                 {t("workspace.slug")}
-              </p>
+              </label>
 
-              <p className="mt-1 text-sm font-medium">
-                {currentOrganization?.slug ??
-                  "—"}
-              </p>
+              <input
+                id="workspace-slug"
+                type="text"
+                maxLength={100}
+                required
+                pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                value={workspaceSlug}
+                disabled={
+                  isSavingWorkspace ||
+                  !currentOrganization ||
+                  !canEditWorkspace
+                }
+                onChange={(event) =>
+                  setWorkspaceSlug(event.target.value)
+                }
+                className={inputClassName}
+              />
             </div>
+
+            <p className="text-xs text-muted-foreground">
+              {t("workspace.editDescription")}
+            </p>
 
             <div>
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -377,20 +603,37 @@ export default function SettingsPage() {
                 {currentRole?.name ?? "—"}
               </p>
             </div>
-          </div>
+
+            {canEditWorkspace ? (
+              <button
+                type="submit"
+                disabled={
+                  isSavingWorkspace ||
+                  !currentOrganization ||
+                  (workspaceName.trim() ===
+                    currentOrganization.name &&
+                    workspaceSlug.trim() ===
+                      currentOrganization.slug)
+                }
+                className={buttonClassName}
+              >
+                {isSavingWorkspace
+                  ? t("workspace.saving")
+                  : t("workspace.saveChanges")}
+              </button>
+            ) : null}
+          </form>
         </div>
       </section>
 
       <section className="rounded-xl border border-border bg-surface p-6 shadow-sm">
-        <div>
-          <h2 className="font-semibold">
-            {t("security.title")}
-          </h2>
+        <h2 className="font-semibold">
+          {t("security.title")}
+        </h2>
 
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("security.description")}
-          </p>
-        </div>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {t("security.description")}
+        </p>
 
         <form
           onSubmit={handlePasswordChange}
@@ -411,11 +654,9 @@ export default function SettingsPage() {
               value={password}
               disabled={isSavingPassword}
               onChange={(event) =>
-                setPassword(
-                  event.target.value,
-                )
+                setPassword(event.target.value)
               }
-              className="h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60"
+              className={inputClassName}
             />
           </div>
 
@@ -434,18 +675,16 @@ export default function SettingsPage() {
               value={confirmPassword}
               disabled={isSavingPassword}
               onChange={(event) =>
-                setConfirmPassword(
-                  event.target.value,
-                )
+                setConfirmPassword(event.target.value)
               }
-              className="h-11 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60"
+              className={inputClassName}
             />
           </div>
 
           <button
             type="submit"
             disabled={isSavingPassword}
-            className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className={buttonClassName}
           >
             {isSavingPassword
               ? t("security.updating")

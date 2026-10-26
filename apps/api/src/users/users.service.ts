@@ -11,6 +11,7 @@ import * as bcrypt from 'bcryptjs';
 import { RlsContextService } from '../database/rls-context.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 type LoginUserRecord = {
   id: string;
@@ -191,5 +192,32 @@ export class UsersService {
       message:
         'Password updated successfully',
     };
+  }
+
+  async updateProfile(
+    currentUserId: string,
+    dto: UpdateProfileDto,
+  ) {
+    await this.rlsContextService.run(
+      currentUserId,
+      async (manager) => {
+        await manager.query(
+          `
+            SELECT public.update_current_user_profile(
+              $1,
+              $2
+            )
+          `,
+          [
+            dto.first_name,
+            dto.last_name,
+          ],
+        );
+      },
+    );
+
+    return this.findCurrentUser(
+      currentUserId,
+    );
   }
 }

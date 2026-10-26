@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import {
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { getAccessToken } from "@/lib/auth-storage";
 import {
@@ -43,6 +39,169 @@ type ProjectOption = {
   id: string;
   name: string;
 };
+
+
+type FilterOption = {
+  value: string;
+  label: string;
+};
+
+function FilterDropdown({
+  id,
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  id: string;
+  label: string;
+  value: string;
+  options: FilterOption[];
+  onChange: (value: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const listId = `${id}-options`;
+
+  const selectedIndex = Math.max(
+    0,
+    options.findIndex((option) => option.value === value),
+  );
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handlePointerDown(event: PointerEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+    };
+  }, [isOpen]);
+
+  function openDropdown() {
+    setActiveIndex(selectedIndex);
+    setIsOpen(true);
+  }
+
+  function chooseOption(index: number) {
+    onChange(options[index].value);
+    setIsOpen(false);
+    containerRef.current
+      ?.querySelector<HTMLButtonElement>('[aria-haspopup="listbox"]')
+      ?.focus();
+  }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setIsOpen(false);
+      return;
+    }
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!isOpen) {
+        openDropdown();
+        return;
+      }
+
+      const delta = event.key === "ArrowDown" ? 1 : -1;
+      const next = (activeIndex + delta + options.length) % options.length;
+      setActiveIndex(next);
+      optionRefs.current[next]?.focus();
+      return;
+    }
+
+    if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      const next = event.key === "Home" ? 0 : options.length - 1;
+      if (!isOpen) setIsOpen(true);
+      setActiveIndex(next);
+      requestAnimationFrame(() => optionRefs.current[next]?.focus());
+      return;
+    }
+
+    if ((event.key === "Enter" || event.key === " ") && isOpen) {
+      event.preventDefault();
+      chooseOption(activeIndex);
+    }
+  }
+
+  return (
+    <div ref={containerRef} className="relative min-w-0 flex-1">
+      <label
+        id={`${id}-label`}
+        className="block text-sm font-medium"
+      >
+        {label}
+      </label>
+
+      <button
+        id={id}
+        type="button"
+        aria-labelledby={`${id}-label ${id}`}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? listId : undefined}
+        onClick={() => isOpen ? setIsOpen(false) : openDropdown()}
+        onKeyDown={handleKeyDown}
+        className="mt-2 flex h-10 w-full items-center justify-between gap-3 rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none transition hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary"
+      >
+        <span className="min-w-0 truncate text-start">
+          {options[selectedIndex]?.label}
+        </span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="h-4 w-4 shrink-0"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div
+          id={listId}
+          role="listbox"
+          aria-labelledby={`${id}-label`}
+          className="absolute inset-x-0 top-full z-30 mt-1 max-h-60 overflow-y-auto rounded-lg border border-border bg-surface p-1 text-foreground shadow-xl"
+        >
+          {options.map((option, index) => (
+            <button
+              key={option.value}
+              ref={(element) => { optionRefs.current[index] = element; }}
+              type="button"
+              role="option"
+              aria-selected={option.value === value}
+              tabIndex={index === activeIndex ? 0 : -1}
+              onFocus={() => setActiveIndex(index)}
+              onClick={() => chooseOption(index)}
+              onKeyDown={handleKeyDown}
+              className={`block w-full rounded-md px-3 py-2 text-start text-sm text-foreground outline-none hover:bg-surface-muted focus:bg-surface-muted ${
+                option.value === value ? "bg-surface-muted font-semibold" : ""
+              }`}
+            >
+              <span dir="auto">{option.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ApprovalsPage() {
   const t = useTranslations("approvals");
@@ -387,81 +546,33 @@ export default function ApprovalsPage() {
 
         <section className="rounded-xl border border-border bg-surface p-5 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-            <div className="flex-1">
-              <label
-                htmlFor="approval-status-filter"
-                className="text-sm font-medium"
-              >
-                {t("filters.status")}
-              </label>
 
-              <select
-                id="approval-status-filter"
-                value={statusFilter}
-                onChange={(event) =>
-                  setStatusFilter(
-                    event.target
-                      .value as StatusFilter,
-                  )
-                }
-                className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary"
-              >
-                <option value="">
-                  {t(
-                    "filters.allStatuses",
-                  )}
-                </option>
+            <FilterDropdown
+              id="approval-status-filter"
+              label={t("filters.status")}
+              value={statusFilter}
+              onChange={(value) => setStatusFilter(value as StatusFilter)}
+              options={[
+                { value: "", label: t("filters.allStatuses") },
+                { value: "pending", label: t("pending") },
+                { value: "approved", label: t("approved") },
+                { value: "rejected", label: t("rejected") },
+              ]}
+            />
 
-                <option value="pending">
-                  {t("pending")}
-                </option>
-
-                <option value="approved">
-                  {t("approved")}
-                </option>
-
-                <option value="rejected">
-                  {t("rejected")}
-                </option>
-              </select>
-            </div>
-
-            <div className="flex-1">
-              <label
-                htmlFor="approval-project-filter"
-                className="text-sm font-medium"
-              >
-                {t("filters.project")}
-              </label>
-
-              <select
-                id="approval-project-filter"
-                value={projectFilter}
-                onChange={(event) =>
-                  setProjectFilter(
-                    event.target.value,
-                  )
-                }
-                className="mt-2 h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary"
-              >
-                <option value="">
-                  {t(
-                    "filters.allProjects",
-                  )}
-                </option>
-
-                {projects.map(
-                  (project) => (
-                    <option
-                      key={project.id}
-                      value={project.id}
-                    >
-                      {project.name}
-                    </option>
-                  ),
-                )}
-              </select>
-            </div>
+            <FilterDropdown
+              id="approval-project-filter"
+              label={t("filters.project")}
+              value={projectFilter}
+              onChange={setProjectFilter}
+              options={[
+                { value: "", label: t("filters.allProjects") },
+                ...projects.map((project) => ({
+                  value: project.id,
+                  label: project.name,
+                })),
+              ]}
+            />
 
             {hasActiveFilters ? (
               <button

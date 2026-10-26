@@ -15,9 +15,8 @@ import {
   useSyncExternalStore,
 } from "react";
 
-import {
-  clearAuthSession,
-} from "@/lib/auth-storage";
+import { useLocale } from "@/i18n/locale-provider";
+import { clearAuthSession } from "@/lib/auth-storage";
 import type { AuthUser } from "@/services/auth.service";
 
 function subscribe() {
@@ -37,11 +36,11 @@ function getServerSnapshot() {
 export function UserMenu() {
   const router = useRouter();
   const t = useTranslations("userMenu");
+  const { locale } = useLocale();
+  const isRtl = locale === "ar";
 
   const containerRef =
-    useRef<HTMLDivElement | null>(
-      null,
-    );
+    useRef<HTMLDivElement | null>(null);
 
   const [isOpen, setIsOpen] =
     useState(false);
@@ -82,14 +81,11 @@ export function UserMenu() {
     function handlePointerDown(
       event: PointerEvent,
     ) {
-      const target =
-        event.target as Node;
+      const target = event.target as Node;
 
       if (
         containerRef.current &&
-        !containerRef.current.contains(
-          target,
-        )
+        !containerRef.current.contains(target)
       ) {
         setIsOpen(false);
       }
@@ -166,15 +162,19 @@ export function UserMenu() {
         <ChevronDown
           size={16}
           className={`hidden text-muted-foreground transition-transform sm:block ${
-            isOpen
-              ? "rotate-180"
-              : ""
+            isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isOpen ? (
-        <div className="fixed right-4 top-16 z-50 w-56 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-border bg-surface shadow-lg sm:absolute sm:right-0 sm:top-12">
+        <div
+          className={`fixed top-16 z-50 w-56 max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-border bg-surface shadow-lg sm:absolute sm:top-12 ${
+            isRtl
+              ? "left-4 sm:left-0"
+              : "right-4 sm:right-0"
+          }`}
+        >
           <div className="border-b border-border px-4 py-3">
             <p className="truncate text-sm font-medium">
               {user
@@ -197,7 +197,6 @@ export function UserMenu() {
                 size={17}
                 strokeWidth={1.8}
               />
-
               {t("settings")}
             </button>
 
@@ -210,7 +209,6 @@ export function UserMenu() {
                 size={17}
                 strokeWidth={1.8}
               />
-
               {t("logout")}
             </button>
           </div>

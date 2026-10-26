@@ -41,11 +41,13 @@
     "content": {
       "approvalApproved": {
         "title": "Aufgabe genehmigt",
-        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde genehmigt."
+        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde genehmigt.",
+        "messageWithoutTask": "Deine Freigabeanfrage wurde genehmigt."
       },
       "approvalRejected": {
         "title": "Aufgabe abgelehnt",
-        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde abgelehnt."
+        "message": "Deine Freigabeanfrage für „{taskTitle}“ wurde abgelehnt.",
+        "messageWithoutTask": "Deine Freigabeanfrage wurde abgelehnt."
       }
     },
     "delete": "Benachrichtigung löschen",
@@ -376,7 +378,9 @@
       "unknownSize": "Unbekannte Größe",
       "uploadedBy": "Hochgeladen von",
       "empty": "Noch keine Dateien",
-      "emptyDescription": "Lade die erste Datei für diese Aufgabe hoch."
+      "emptyDescription": "Lade die erste Datei für diese Aufgabe hoch.",
+      "chooseFile": "Datei auswählen",
+      "noFileSelected": "Keine Datei ausgewählt"
     },
     "comments": {
       "title": "Kommentare",
@@ -768,10 +772,19 @@
       "authenticationMissing": "Authentifizierung fehlt",
       "passwordLength": "Das Passwort muss mindestens 8 Zeichen lang sein",
       "passwordMismatch": "Die Passwörter stimmen nicht überein",
-      "updatePassword": "Passwort konnte nicht aktualisiert werden"
+      "updatePassword": "Passwort konnte nicht aktualisiert werden",
+      "profileNameRequired": "Vorname und Nachname sind erforderlich",
+      "profileNameLength": "Namen dürfen höchstens 100 Zeichen lang sein",
+      "updateProfile": "Profil konnte nicht aktualisiert werden",
+      "workspaceNameRequired": "Der Name des Arbeitsbereichs ist erforderlich",
+      "workspaceNameLength": "Der Name des Arbeitsbereichs darf höchstens 150 Zeichen lang sein",
+      "workspaceSlugInvalid": "Der Slug darf nur Kleinbuchstaben, Zahlen und einzelne Bindestriche enthalten (maximal 100 Zeichen)",
+      "updateWorkspace": "Der Arbeitsbereich konnte nicht aktualisiert werden. Prüfe deine Berechtigungen und ob der Slug bereits vergeben ist."
     },
     "success": {
-      "passwordUpdated": "Passwort wurde erfolgreich aktualisiert."
+      "passwordUpdated": "Passwort wurde erfolgreich aktualisiert.",
+      "profileUpdated": "Profil wurde erfolgreich aktualisiert.",
+      "workspaceUpdated": "Arbeitsbereich erfolgreich aktualisiert."
     },
     "profile": {
       "title": "Profil",
@@ -780,7 +793,11 @@
       "email": "E-Mail",
       "emailVerified": "E-Mail bestätigt",
       "yes": "Ja",
-      "no": "Nein"
+      "no": "Nein",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "saveChanges": "Änderungen speichern",
+      "saving": "Wird gespeichert..."
     },
     "workspace": {
       "title": "Arbeitsbereich",
@@ -788,7 +805,10 @@
       "name": "Name des Arbeitsbereichs",
       "slug": "Slug",
       "members": "Mitglieder",
-      "role": "Rolle"
+      "role": "Rolle",
+      "saveChanges": "Änderungen speichern",
+      "saving": "Wird gespeichert...",
+      "editDescription": "Ändere den Namen und den Slug deines Arbeitsbereichs."
     },
     "security": {
       "title": "Sicherheit",

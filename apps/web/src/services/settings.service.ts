@@ -1,3 +1,4 @@
+
 import { apiRequest } from "@/lib/api";
 
 export type CurrentUser = {
@@ -51,6 +52,24 @@ export function getCurrentUser(
   );
 }
 
+export function updateCurrentUserProfile(
+  token: string,
+  firstName: string,
+  lastName: string,
+) {
+  return apiRequest<CurrentUser>(
+    "/users/me/profile",
+    {
+      method: "PATCH",
+      token,
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+      }),
+    },
+  );
+}
+
 export function updateCurrentUserPassword(
   token: string,
   password: string,
@@ -74,6 +93,25 @@ export function getOrganizations(
     "/organizations",
     {
       token,
+    },
+  );
+}
+
+export function updateOrganizationSettings(
+  token: string,
+  organizationId: string,
+  name: string,
+  slug: string,
+) {
+  return apiRequest<Organization>(
+    `/organizations/${organizationId}/settings`,
+    {
+      method: "PATCH",
+      token,
+      body: JSON.stringify({
+        name,
+        slug,
+      }),
     },
   );
 }

@@ -41,11 +41,13 @@
     "content": {
       "approvalApproved": {
         "title": "Task approved",
-        "message": "Your approval request for \"{taskTitle}\" was approved."
+        "message": "Your approval request for \"{taskTitle}\" was approved.",
+        "messageWithoutTask": "Your approval request was approved."
       },
       "approvalRejected": {
         "title": "Task rejected",
-        "message": "Your approval request for \"{taskTitle}\" was rejected."
+        "message": "Your approval request for \"{taskTitle}\" was rejected.",
+        "messageWithoutTask": "Your approval request was rejected."
       }
     },
     "delete": "Delete notification",
@@ -376,7 +378,9 @@
       "unknownSize": "Unknown size",
       "uploadedBy": "Uploaded by",
       "empty": "No files yet",
-      "emptyDescription": "Upload the first file for this task."
+      "emptyDescription": "Upload the first file for this task.",
+      "chooseFile": "Choose file",
+      "noFileSelected": "No file selected"
     },
     "comments": {
       "title": "Comments",
@@ -768,10 +772,19 @@
       "authenticationMissing": "Authentication is missing",
       "passwordLength": "Password must be at least 8 characters",
       "passwordMismatch": "Passwords do not match",
-      "updatePassword": "Unable to update password"
+      "updatePassword": "Unable to update password",
+      "profileNameRequired": "First name and last name are required",
+      "profileNameLength": "Names must not exceed 100 characters",
+      "updateProfile": "Unable to update profile",
+      "workspaceNameRequired": "Workspace name is required",
+      "workspaceNameLength": "Workspace name must not exceed 150 characters",
+      "workspaceSlugInvalid": "Slug must contain lowercase letters, numbers, and single hyphens (maximum 100 characters)",
+      "updateWorkspace": "Unable to update workspace. Check your permissions and whether the slug is already in use."
     },
     "success": {
-      "passwordUpdated": "Password updated successfully."
+      "passwordUpdated": "Password updated successfully.",
+      "profileUpdated": "Profile updated successfully.",
+      "workspaceUpdated": "Workspace updated successfully."
     },
     "profile": {
       "title": "Profile",
@@ -780,7 +793,11 @@
       "email": "Email",
       "emailVerified": "Email verified",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "saveChanges": "Save changes",
+      "saving": "Saving..."
     },
     "workspace": {
       "title": "Workspace",
@@ -788,7 +805,10 @@
       "name": "Workspace name",
       "slug": "Slug",
       "members": "Members",
-      "role": "Role"
+      "role": "Role",
+      "saveChanges": "Save changes",
+      "saving": "Saving...",
+      "editDescription": "Update the name and slug of your workspace."
     },
     "security": {
       "title": "Security",

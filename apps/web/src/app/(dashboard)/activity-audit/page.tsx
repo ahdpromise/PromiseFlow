@@ -10,6 +10,7 @@ import {
   useTranslations,
 } from "next-intl";
 import { X } from "lucide-react";
+import CustomSelect from "@/components/ui/custom-select";
 
 import { getAccessToken } from "@/lib/auth-storage";
 import { getWorkspaceId } from "@/lib/workspace-storage";
@@ -234,10 +235,15 @@ export default function ActivityAuditPage() {
   }, [selectedRecord]);
 
   function formatDate(value: string) {
+    const dateLocales: Record<string, string> = {
+      en: "en-US",
+      de: "de-DE",
+      es: "es-ES",
+      ar: "ar",
+    };
+
     return new Date(value).toLocaleString(
-      locale === "de"
-        ? "de-DE"
-        : "en-US",
+      dateLocales[locale] ?? "en-US",
     );
   }
 
@@ -414,34 +420,21 @@ export default function ActivityAuditPage() {
                 {t("filters.action")}
               </span>
 
-              <select
-                value={actionFilter}
-                onChange={(event) =>
-                  (
-                    setActivityPage(1),
-                    setAuditPage(1),
-                    setActionFilter(event.target.value)
-                  )
-                }
-                className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary"
-              >
-                <option value="">
-                  {t("filters.allActions")}
-                </option>
-
-                {ACTION_OPTIONS.map(
-                  (action) => (
-                    <option
-                      key={action}
-                      value={action}
-                    >
-                      {translateAction(
-                        action,
-                      )}
-                    </option>
-                  ),
-                )}
-              </select>
+              <CustomSelect
+    value={actionFilter}
+    onChange={(value) => {
+      setActivityPage(1);
+      setAuditPage(1);
+      setActionFilter(value);
+    }}
+    options={[
+      { value: "", label: t("filters.allActions") },
+      ...ACTION_OPTIONS.map((action) => ({
+        value: action,
+        label: translateAction(action),
+      })),
+    ]}
+  />
             </label>
 
             <label className="space-y-2">
@@ -449,30 +442,21 @@ export default function ActivityAuditPage() {
                 {t("filters.user")}
               </span>
 
-              <select
-                value={userFilter}
-                onChange={(event) =>
-                  (
-                    setActivityPage(1),
-                    setAuditPage(1),
-                    setUserFilter(event.target.value)
-                  )
-                }
-                className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary"
-              >
-                <option value="">
-                  {t("filters.allUsers")}
-                </option>
-
-                {members.map((member) => (
-                  <option
-                    key={member.user_id}
-                    value={member.user_id}
-                  >
-                    {`${member.first_name} ${member.last_name} — ${member.email}`}
-                  </option>
-                ))}
-              </select>
+              <CustomSelect
+    value={userFilter}
+    onChange={(value) => {
+      setActivityPage(1);
+      setAuditPage(1);
+      setUserFilter(value);
+    }}
+    options={[
+      { value: "", label: t("filters.allUsers") },
+      ...members.map((member) => ({
+        value: member.user_id,
+        label: `${member.first_name} ${member.last_name} — ${member.email}`,
+      })),
+    ]}
+  />
             </label>
 
             <label className="space-y-2">
@@ -480,36 +464,21 @@ export default function ActivityAuditPage() {
                 {t("filters.entityType")}
               </span>
 
-              <select
-                value={entityTypeFilter}
-                onChange={(event) =>
-                  (
-                    setActivityPage(1),
-                    setAuditPage(1),
-                    setEntityTypeFilter(event.target.value)
-                  )
-                }
-                className="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm outline-none transition focus:border-primary"
-              >
-                <option value="">
-                  {t(
-                    "filters.allEntityTypes",
-                  )}
-                </option>
-
-                {ENTITY_TYPE_OPTIONS.map(
-                  (entityType) => (
-                    <option
-                      key={entityType}
-                      value={entityType}
-                    >
-                      {translateEntityType(
-                        entityType,
-                      )}
-                    </option>
-                  ),
-                )}
-              </select>
+              <CustomSelect
+    value={entityTypeFilter}
+    onChange={(value) => {
+      setActivityPage(1);
+      setAuditPage(1);
+      setEntityTypeFilter(value);
+    }}
+    options={[
+      { value: "", label: t("filters.allEntityTypes") },
+      ...ENTITY_TYPE_OPTIONS.map((entityType) => ({
+        value: entityType,
+        label: translateEntityType(entityType),
+      })),
+    ]}
+  />
             </label>
 
             <label className="space-y-2">
@@ -968,27 +937,29 @@ export default function ActivityAuditPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-4 sm:px-5">
             <label className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>{t("pagination.pageSize")}</span>
-              <select
-                value={activeTab === "activity" ? activityPageSize : auditPageSize}
-                onChange={(event) => {
-                  const nextSize = Number(event.target.value);
+              <CustomSelect
+    value={String(
+      activeTab === "activity"
+        ? activityPageSize
+        : auditPageSize
+    )}
+    onChange={(value) => {
+      const nextSize = Number(value);
 
-                  if (activeTab === "activity") {
-                    setActivityPage(1);
-                    setActivityPageSize(nextSize);
-                  } else {
-                    setAuditPage(1);
-                    setAuditPageSize(nextSize);
-                  }
-                }}
-                className="h-9 rounded-lg border border-border bg-background px-2 text-sm text-foreground outline-none transition focus:border-primary"
-              >
-                {[10, 20, 50].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
+      if (activeTab === "activity") {
+        setActivityPage(1);
+        setActivityPageSize(nextSize);
+      } else {
+        setAuditPage(1);
+        setAuditPageSize(nextSize);
+      }
+    }}
+    options={[10, 20, 50].map((size) => ({
+      value: String(size),
+      label: String(size),
+    }))}
+    className="min-w-20"
+  />
             </label>
             <span className="text-sm text-muted-foreground">
               {t("pagination.page")}{" "}
