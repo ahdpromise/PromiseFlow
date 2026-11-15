@@ -63,3 +63,11 @@ Thumbs.db
 # Local code backups
 *.bak
 *.backup
+# PostgreSQL database backups
+/apps/api/backups/
+*.dump
+
+# Local frontend backup snapshots
+*-backup
+# Local PostgreSQL ACL inspection artifact
+/apps/api/promiseflow_f03_acl.list

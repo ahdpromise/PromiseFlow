@@ -304,7 +304,8 @@
       "allPriorities": "Todas las prioridades",
       "clear": "Borrar filtros",
       "noResults": "Ninguna tarea coincide con los filtros seleccionados."
-    }
+    },
+    "deleteSuccess": "Tarea eliminada correctamente"
   },
   "taskDetails": {
     "loading": "Cargando tarea...",
@@ -380,7 +381,12 @@
       "empty": "Todavía no hay archivos",
       "emptyDescription": "Sube el primer archivo para esta tarea.",
       "chooseFile": "Seleccionar archivo",
-      "noFileSelected": "Ningún archivo seleccionado"
+      "noFileSelected": "Ningún archivo seleccionado",
+      "delete": "Eliminar",
+      "deleting": "Eliminando...",
+      "deleteTitle": "Eliminar archivo",
+      "deleteConfirmation": "¿Seguro que quieres eliminar este archivo?",
+      "cancelDelete": "Cancelar"
     },
     "comments": {
       "title": "Comentarios",

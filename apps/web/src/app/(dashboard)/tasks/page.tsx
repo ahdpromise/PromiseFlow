@@ -52,6 +52,8 @@ export default function TasksPage() {
     null,
   );
 
+  const [successMessageKey, setSuccessMessageKey] = useState<"deleteSuccess" | null>(null);
+
   const [
     taskToDelete,
     setTaskToDelete,
@@ -169,6 +171,8 @@ export default function TasksPage() {
     errorMessageKey
       ? t(errorMessageKey)
       : "";
+
+  const successMessage = successMessageKey ? t(successMessageKey) : "";
 
   const openTasks = useMemo(
     () =>
@@ -410,6 +414,7 @@ export default function TasksPage() {
 
     setIsDeleting(true);
     setErrorMessageKey(null);
+    setSuccessMessageKey(null);
 
     try {
       await deleteTask(
@@ -426,6 +431,7 @@ export default function TasksPage() {
       );
 
       setTaskToDelete(null);
+      setSuccessMessageKey("deleteSuccess");
     } catch {
       setErrorMessageKey(
         "deleteError",
@@ -475,6 +481,12 @@ export default function TasksPage() {
         {errorMessage ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
             {errorMessage}
+          </div>
+        ) : null}
+
+        {successMessage ? (
+          <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+            {successMessage}
           </div>
         ) : null}
 

@@ -6,8 +6,16 @@ import {
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 
+type PostgresDriverError = {
+  code?: string;
+  constraint?: string;
+  table?: string;
+};
+
 @Catch(QueryFailedError)
-export class DatabaseExceptionFilter implements ExceptionFilter {
+export class DatabaseExceptionFilter
+  implements ExceptionFilter
+{
   catch(
     exception: QueryFailedError,
     host: ArgumentsHost,
@@ -16,29 +24,11 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
       host.switchToHttp().getResponse();
 
     const driverError =
-      exception.driverError as {
-        code?: string;
-        message?: string;
-        detail?: string;
-        constraint?: string;
-        table?: string;
-      };
+      exception.driverError as PostgresDriverError;
 
-    console.error(
-      '[DatabaseExceptionFilter]',
-      {
-        message: exception.message,
-        query: exception.query,
-        parameters: exception.parameters,
-        driverCode: driverError.code,
-        driverMessage: driverError.message,
-        detail: driverError.detail,
-        constraint: driverError.constraint,
-        table: driverError.table,
-      },
-    );
+    const code = driverError.code;
 
-    if (driverError.code === '42501') {
+    if (code === '42501') {
       return response
         .status(HttpStatus.FORBIDDEN)
         .json({
@@ -49,12 +39,28 @@ export class DatabaseExceptionFilter implements ExceptionFilter {
         });
     }
 
+    if (code === '23505') {
+      return response
+        .status(HttpStatus.CONFLICT)
+        .json({
+          message:
+            'A record with this value already exists',
+          error: 'Conflict',
+          statusCode: HttpStatus.CONFLICT,
+        });
+    }
+
+    console.error('[DatabaseExceptionFilter]', {
+      code: code ?? 'UNKNOWN',
+      table: driverError.table,
+      constraint: driverError.constraint,
+    });
+
     return response
-      .status(
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
       .json({
         message: 'Internal server error',
+        error: 'Internal Server Error',
         statusCode:
           HttpStatus.INTERNAL_SERVER_ERROR,
       });

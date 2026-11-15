@@ -1,3 +1,4 @@
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -6,6 +7,7 @@ import { AuthModule } from '../auth/auth.module';
 import { AutomationsModule } from '../automations/automations.module';
 import { AuditLogsModule } from '../audit-logs/audit-logs.module';
 import { Task } from '../entities/task.entity';
+import { MembershipsModule } from '../memberships/memberships.module';
 
 import { TasksController } from './tasks.controller';
 import { TasksService } from './tasks.service';
@@ -17,6 +19,7 @@ import { TasksService } from './tasks.service';
     AuditLogsModule,
     ActivitiesModule,
     AutomationsModule,
+    MembershipsModule,
   ],
 
   controllers: [TasksController],

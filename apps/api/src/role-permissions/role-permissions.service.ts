@@ -1,12 +1,22 @@
+
 import {
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { QueryFailedError } from 'typeorm';
 
 import { RlsContextService } from '../database/rls-context.service';
 import { Permission } from '../entities/permission.entity';
 import { RolePermission } from '../entities/role-permission.entity';
+
+type CreatedRolePermissionResult = {
+  id: string;
+};
+
+type PostgresError = {
+  code?: string;
+};
 
 @Injectable()
 export class RolePermissionsService {
@@ -47,14 +57,18 @@ export class RolePermissionsService {
         const rolePermissionsRepository =
           manager.getRepository(RolePermission);
 
-        const permission =
-          await manager.getRepository(Permission).findOne({
+        const permission = await manager
+          .getRepository(Permission)
+          .findOne({
             where: {
               id: permissionId,
             },
           });
 
-        if (!permission || permission.deleted_at !== null) {
+        if (
+          !permission ||
+          permission.deleted_at !== null
+        ) {
           throw new NotFoundException(
             'Permission not found',
           );
@@ -74,15 +88,47 @@ export class RolePermissionsService {
           );
         }
 
-        const rolePermission =
-          rolePermissionsRepository.create({
-            role_id: roleId,
-            permission_id: permissionId,
-          });
+        let result: CreatedRolePermissionResult[];
 
-        return rolePermissionsRepository.save(
-          rolePermission,
-        );
+        try {
+          result = await manager.query(
+            `
+              SELECT
+                public.assign_role_permission(
+                  $1::uuid,
+                  $2::uuid
+                ) AS id
+            `,
+            [roleId, permissionId],
+          );
+        } catch (error: unknown) {
+          if (
+            error instanceof QueryFailedError &&
+            (error.driverError as PostgresError)?.code ===
+              '23505'
+          ) {
+            throw new ConflictException(
+              'Permission is already assigned to this role',
+            );
+          }
+
+          throw error;
+        }
+
+        const assignmentId = result[0]?.id;
+
+        if (!assignmentId) {
+          throw new Error(
+            'Role permission assignment did not return an ID',
+          );
+        }
+
+        return rolePermissionsRepository.findOneOrFail({
+          where: {
+            id: assignmentId,
+            role_id: roleId,
+          },
+        });
       },
     );
   }

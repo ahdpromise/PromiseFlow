@@ -1,3 +1,4 @@
+
 import {
   Injectable,
   NotFoundException,
@@ -16,14 +17,11 @@ export class NotificationsService {
     private readonly rlsContextService: RlsContextService,
   ) {}
 
-  async findAll(
-    currentUserId: string,
-  ) {
+  async findAll(currentUserId: string) {
     return this.rlsContextService.run(
       currentUserId,
       async (manager) => {
-        const repository =
-          manager.getRepository(Notification);
+        const repository = manager.getRepository(Notification);
 
         return repository.find({
           where: {
@@ -49,67 +47,39 @@ export class NotificationsService {
     metadata?: Record<string, unknown>,
     manager?: EntityManager,
   ) {
-    const createNotification =
-      async (
-        entityManager:
-          EntityManager,
-      ) => {
-        const result: Array<{
-          notification_id: string;
-        }> =
-          await entityManager.query(
-            `
-              SELECT
-                public.create_notification(
-                  $1,
-                  $2,
-                  $3,
-                  $4,
-                  $5,
-                  $6::jsonb
-                ) AS notification_id
-            `,
-            [
-              organizationId,
-              recipientUserId,
-              type,
-              title,
-              message,
-              metadata
-                ? JSON.stringify(
-                    metadata,
-                  )
-                : null,
-            ],
-          );
+    const createNotification = async (
+      entityManager: EntityManager,
+    ) => {
+      const result: Array<{
+        notification_id: string;
+      }> = await entityManager.query(
+        `
+          SELECT public.create_notification(
+            $1::uuid,
+            $2::uuid,
+            $3::text,
+            $4::text,
+            $5::text,
+            $6::jsonb,
+            $7::text
+          ) AS notification_id
+        `,
+        [
+          organizationId,
+          recipientUserId,
+          type,
+          title,
+          message,
+          metadata ? JSON.stringify(metadata) : null,
+          targetPath ?? null,
+        ],
+      );
 
-        const notificationId =
-          result[0]?.notification_id;
-
-        if (
-          notificationId &&
-          targetPath
-        ) {
-          await entityManager.query(
-            `
-              UPDATE public.notifications
-              SET target_path = $1
-              WHERE id = $2
-            `,
-            [
-              targetPath,
-              notificationId,
-            ],
-          );
-        }
-
-        return result[0];
-      };
+      return result[0];
+    };
 
     if (manager) {
-      return createNotification(
-        manager,
-      );
+      return createNotification(manager);
     }
 
     return this.rlsContextService.run(
@@ -125,19 +95,15 @@ export class NotificationsService {
     return this.rlsContextService.run(
       currentUserId,
       async (manager) => {
-        const repository =
-          manager.getRepository(Notification);
+        const repository = manager.getRepository(Notification);
 
-        const notification =
-          await repository.findOne({
-            where: {
-              id,
-              user_id:
-                currentUserId,
-              deleted_at:
-                IsNull(),
-            },
-          });
+        const notification = await repository.findOne({
+          where: {
+            id,
+            user_id: currentUserId,
+            deleted_at: IsNull(),
+          },
+        });
 
         if (!notification) {
           throw new NotFoundException(
@@ -145,12 +111,22 @@ export class NotificationsService {
           );
         }
 
-        notification.read_at =
-          new Date();
+        const readAt = new Date();
 
-        return repository.save(
-          notification,
+        await repository.update(
+          {
+            id,
+            user_id: currentUserId,
+            deleted_at: IsNull(),
+          },
+          {
+            read_at: readAt,
+          },
         );
+
+        notification.read_at = readAt;
+
+        return notification;
       },
     );
   }
@@ -164,16 +140,14 @@ export class NotificationsService {
       async (manager) => {
         const result: Array<{
           deleted: boolean;
-        }> =
-          await manager.query(
-            `
-              SELECT
-                public.soft_delete_notification(
-                  $1
-                ) AS deleted
-            `,
-            [id],
-          );
+        }> = await manager.query(
+          `
+            SELECT public.soft_delete_notification(
+              $1
+            ) AS deleted
+          `,
+          [id],
+        );
 
         if (!result[0]?.deleted) {
           throw new NotFoundException(

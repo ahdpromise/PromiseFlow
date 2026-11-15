@@ -1,3 +1,4 @@
+
 import {
   Body,
   Controller,
@@ -11,6 +12,8 @@ import {
 import { JwtAuthGuard } from '../auth/jwt.guard';
 import { CurrentUser } from '../auth/current-user.decorator';
 
+import { CreateWebhookDto } from './dto/create-webhook.dto';
+import { UpdateWebhookDto } from './dto/update-webhook.dto';
 import { WebhooksService } from './webhooks.service';
 
 @Controller('webhooks')
@@ -24,13 +27,7 @@ export class WebhooksController {
   create(
     @CurrentUser()
     user: { userId: string; email: string },
-    @Body()
-    body: {
-      organization_id: string;
-      name: string;
-      url: string;
-      events: string;
-    },
+    @Body() body: CreateWebhookDto,
   ) {
     return this.webhooksService.create(
       user.userId,
@@ -73,13 +70,7 @@ export class WebhooksController {
     user: { userId: string; email: string },
     @Param('id')
     id: string,
-    @Body()
-    body: {
-      name?: string;
-      url?: string;
-      events?: string;
-      is_active?: boolean;
-    },
+    @Body() body: UpdateWebhookDto,
   ) {
     return this.webhooksService.update(
       user.userId,

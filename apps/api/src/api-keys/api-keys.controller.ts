@@ -1,3 +1,4 @@
+
 import {
   Body,
   Controller,
@@ -11,6 +12,7 @@ import {
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 
+import { CreateApiKeyDto } from './dto/create-api-key.dto';
 import { ApiKeysService } from './api-keys.service';
 
 @Controller('api-keys')
@@ -24,12 +26,7 @@ export class ApiKeysController {
   create(
     @CurrentUser()
     user: { userId: string; email: string },
-    @Body()
-    body: {
-      organization_id: string;
-      name: string;
-      expires_at?: string | null;
-    },
+    @Body() body: CreateApiKeyDto,
   ) {
     return this.apiKeysService.create(
       user.userId,

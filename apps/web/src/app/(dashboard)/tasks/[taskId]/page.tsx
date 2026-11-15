@@ -11,8 +11,8 @@ import {
   Upload,
 } from "lucide-react";
 import {
-  ChangeEvent,
-  FormEvent,
+  type ChangeEvent,
+  type FormEvent,
   useEffect,
   useRef,
   useState,
@@ -76,6 +76,71 @@ export default function TaskDetailsPage() {
   const locale = useLocale();
   const isRtl = locale === "ar";
 
+  const params = useParams<{ taskId: string }>();
+  const taskId = params.taskId;
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [task, setTask] = useState<Task | null>(null);
+  const [approvals, setApprovals] = useState<Approval[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [files, setFiles] = useState<TaskFile[]>([]);
+  const [directory, setDirectory] = useState<OrganizationMember[]>([]);
+
+  const [selectedApproverId, setSelectedApproverId] = useState("");
+  const [approvalComment, setApprovalComment] = useState("");
+  const [showApprovalForm, setShowApprovalForm] = useState(false);
+
+  const [commentContent, setCommentContent] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("pending");
+  const [priority, setPriority] = useState("medium");
+  const [dueAt, setDueAt] = useState("");
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isCreatingApproval, setIsCreatingApproval] = useState(false);
+  const [isCreatingComment, setIsCreatingComment] = useState(false);
+  const [isUploadingFile, setIsUploadingFile] = useState(false);
+
+  const [errorMessageKey, setErrorMessageKey] =
+    useState<ErrorMessageKey | null>(null);
+
+  const [backendError, setBackendError] = useState("");
+
+  const [successMessageKey, setSuccessMessageKey] =
+    useState<SuccessMessageKey | null>(null);
+
+  const errorMessage =
+    backendError ||
+    (errorMessageKey ? t(`errors.${errorMessageKey}`) : "");
+
+  const successMessage =
+    successMessageKey ? t(`success.${successMessageKey}`) : "";
+
+  function clearMessages() {
+    setErrorMessageKey(null);
+    setBackendError("");
+    setSuccessMessageKey(null);
+  }
+
+  function setCaughtError(
+    error: unknown,
+    fallbackKey: ErrorMessageKey,
+  ) {
+    if (error instanceof Error) {
+      setBackendError(error.message);
+      setErrorMessageKey(null);
+      return;
+    }
+
+    setBackendError("");
+    setErrorMessageKey(fallbackKey);
+  }
+
   function formatDate(value: string) {
     const date = new Date(value);
 
@@ -134,145 +199,51 @@ export default function TaskDetailsPage() {
       : mimeType || "File";
   }
 
-  const params = useParams<{
-    taskId: string;
-  }>();
+  function formatFileSize(value: number) {
+    const bytes = Number(value);
 
-  const taskId = params.taskId;
-
-  const fileInputRef =
-    useRef<HTMLInputElement | null>(null);
-
-  const [task, setTask] =
-    useState<Task | null>(null);
-
-  const [approvals, setApprovals] =
-    useState<Approval[]>([]);
-
-  const [comments, setComments] =
-    useState<Comment[]>([]);
-
-  const [files, setFiles] =
-    useState<TaskFile[]>([]);
-
-  const [directory, setDirectory] =
-    useState<OrganizationMember[]>([]);
-
-  const [
-    selectedApproverId,
-    setSelectedApproverId,
-  ] = useState("");
-
-  const [
-    approvalComment,
-    setApprovalComment,
-  ] = useState("");
-
-  const [
-    showApprovalForm,
-    setShowApprovalForm,
-  ] = useState(false);
-
-  const [
-    commentContent,
-    setCommentContent,
-  ] = useState("");
-
-  const [
-    selectedFile,
-    setSelectedFile,
-  ] = useState<File | null>(null);
-
-  const [title, setTitle] = useState("");
-
-  const [description, setDescription] =
-    useState("");
-
-  const [status, setStatus] =
-    useState("pending");
-
-  const [priority, setPriority] =
-    useState("medium");
-
-  const [dueAt, setDueAt] =
-    useState("");
-
-  const [isLoading, setIsLoading] =
-    useState(true);
-
-  const [isSaving, setIsSaving] =
-    useState(false);
-
-  const [
-    isCreatingApproval,
-    setIsCreatingApproval,
-  ] = useState(false);
-
-  const [
-    isCreatingComment,
-    setIsCreatingComment,
-  ] = useState(false);
-
-  const [
-    isUploadingFile,
-    setIsUploadingFile,
-  ] = useState(false);
-
-  const [
-    errorMessageKey,
-    setErrorMessageKey,
-  ] = useState<ErrorMessageKey | null>(
-    null,
-  );
-
-  const [
-    backendError,
-    setBackendError,
-  ] = useState("");
-
-  const [
-    successMessageKey,
-    setSuccessMessageKey,
-  ] = useState<SuccessMessageKey | null>(
-    null,
-  );
-
-  const errorMessage =
-    backendError ||
-    (errorMessageKey
-      ? t(`errors.${errorMessageKey}`)
-      : "");
-
-  const successMessage =
-    successMessageKey
-      ? t(`success.${successMessageKey}`)
-      : "";
-
-  function clearMessages() {
-    setErrorMessageKey(null);
-    setBackendError("");
-    setSuccessMessageKey(null);
-  }
-
-  function setCaughtError(
-    error: unknown,
-    fallbackKey: ErrorMessageKey,
-  ) {
-    if (error instanceof Error) {
-      setBackendError(error.message);
-      setErrorMessageKey(null);
-      return;
+    if (!Number.isFinite(bytes)) {
+      return t("files.unknownSize");
     }
 
-    setBackendError("");
-    setErrorMessageKey(fallbackKey);
+    if (bytes < 1024) {
+      return `${bytes} B`;
+    }
+
+    if (bytes < 1024 * 1024) {
+      return `${(bytes / 1024).toFixed(1)} KB`;
+    }
+
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  function translateStatus(value: string) {
+    switch (value) {
+      case "pending":
+        return t("status.pending");
+      case "in_progress":
+        return t("status.inProgress");
+      case "completed":
+        return t("status.completed");
+      case "canceled":
+        return t("status.canceled");
+      case "approved":
+        return t("status.approved");
+      case "rejected":
+        return t("status.rejected");
+      default:
+        return value;
+    }
+  }
+
+  function getMember(userId: string) {
+    return directory.find((member) => member.user_id === userId);
   }
 
   useEffect(() => {
     async function loadTask() {
       const token = getAccessToken();
-      const workspaceId =
-        getWorkspaceId();
+      const workspaceId = getWorkspaceId();
 
       if (!token || !workspaceId) {
         setIsLoading(false);
@@ -291,56 +262,35 @@ export default function TaskDetailsPage() {
           getApprovals(token, taskId),
           getComments(token, taskId),
           getFiles(token, taskId),
-          getOrganizationMemberDirectory(
-            token,
-            workspaceId,
-          ),
+          getOrganizationMemberDirectory(token, workspaceId),
         ]);
 
         setTask(item);
         setApprovals(taskApprovals);
         setComments(taskComments);
         setFiles(taskFiles);
-        setDirectory(
-          organizationMembers,
-        );
+        setDirectory(organizationMembers);
 
         setTitle(item.title);
-
-        setDescription(
-          item.description ?? "",
-        );
-
+        setDescription(item.description ?? "");
         setStatus(item.status);
         setPriority(item.priority);
 
         if (item.due_at) {
-          const date = new Date(
-            item.due_at,
-          );
+          const date = new Date(item.due_at);
 
           const localValue = new Date(
-            date.getTime() -
-              date.getTimezoneOffset() *
-                60000,
+            date.getTime() - date.getTimezoneOffset() * 60000,
           )
             .toISOString()
             .slice(0, 16);
 
           setDueAt(localValue);
+        } else {
+          setDueAt("");
         }
       } catch (error) {
-        if (error instanceof Error) {
-          setBackendError(
-            error.message,
-          );
-          setErrorMessageKey(null);
-        } else {
-          setBackendError("");
-          setErrorMessageKey(
-            "loadTask",
-          );
-        }
+        setCaughtError(error, "loadTask");
       } finally {
         setIsLoading(false);
       }
@@ -349,9 +299,7 @@ export default function TaskDetailsPage() {
     void loadTask();
   }, [taskId]);
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>,
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const token = getAccessToken();
@@ -364,31 +312,18 @@ export default function TaskDetailsPage() {
     setIsSaving(true);
 
     try {
-      const updatedTask =
-        await updateTask(
-          token,
-          task.id,
-          {
-            title,
-            description:
-              description.trim() ||
-              null,
-            status,
-            priority,
-            due_at: dueAt || null,
-          },
-        );
+      const updatedTask = await updateTask(token, task.id, {
+        title,
+        description: description.trim() || null,
+        status,
+        priority,
+        due_at: dueAt || null,
+      });
 
       setTask(updatedTask);
-
-      setSuccessMessageKey(
-        "taskUpdated",
-      );
+      setSuccessMessageKey("taskUpdated");
     } catch (error) {
-      setCaughtError(
-        error,
-        "updateTask",
-      );
+      setCaughtError(error, "updateTask");
     } finally {
       setIsSaving(false);
     }
@@ -407,9 +342,7 @@ export default function TaskDetailsPage() {
 
     if (!selectedApproverId) {
       setBackendError("");
-      setErrorMessageKey(
-        "selectApprover",
-      );
+      setErrorMessageKey("selectApprover");
       return;
     }
 
@@ -417,38 +350,20 @@ export default function TaskDetailsPage() {
     setIsCreatingApproval(true);
 
     try {
-      const approval =
-        await createApproval(
-          token,
-          {
-            task_id: task.id,
-            approver_user_id:
-              selectedApproverId,
-            comment:
-              approvalComment.trim() ||
-              undefined,
-          },
-        );
+      const approval = await createApproval(token, {
+        task_id: task.id,
+        approver_user_id: selectedApproverId,
+        comment: approvalComment.trim() || undefined,
+      });
 
-      setApprovals(
-        (currentApprovals) => [
-          approval,
-          ...currentApprovals,
-        ],
-      );
+      setApprovals((current) => [approval, ...current]);
 
       setSelectedApproverId("");
       setApprovalComment("");
       setShowApprovalForm(false);
-
-      setSuccessMessageKey(
-        "approvalCreated",
-      );
+      setSuccessMessageKey("approvalCreated");
     } catch (error) {
-      setCaughtError(
-        error,
-        "createApproval",
-      );
+      setCaughtError(error, "createApproval");
     } finally {
       setIsCreatingApproval(false);
     }
@@ -467,9 +382,7 @@ export default function TaskDetailsPage() {
 
     if (!commentContent.trim()) {
       setBackendError("");
-      setErrorMessageKey(
-        "emptyComment",
-      );
+      setErrorMessageKey("emptyComment");
       return;
     }
 
@@ -477,44 +390,23 @@ export default function TaskDetailsPage() {
     setIsCreatingComment(true);
 
     try {
-      const comment =
-        await createComment(
-          token,
-          {
-            task_id: task.id,
-            content:
-              commentContent.trim(),
-          },
-        );
+      const comment = await createComment(token, {
+        task_id: task.id,
+        content: commentContent.trim(),
+      });
 
-      setComments(
-        (currentComments) => [
-          ...currentComments,
-          comment,
-        ],
-      );
-
+      setComments((current) => [...current, comment]);
       setCommentContent("");
-
-      setSuccessMessageKey(
-        "commentAdded",
-      );
+      setSuccessMessageKey("commentAdded");
     } catch (error) {
-      setCaughtError(
-        error,
-        "addComment",
-      );
+      setCaughtError(error, "addComment");
     } finally {
       setIsCreatingComment(false);
     }
   }
 
-  function handleFileChange(
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
-    const file =
-      event.target.files?.[0] ??
-      null;
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
 
     clearMessages();
 
@@ -527,14 +419,10 @@ export default function TaskDetailsPage() {
       setSelectedFile(null);
 
       if (fileInputRef.current) {
-        fileInputRef.current.value =
-          "";
+        fileInputRef.current.value = "";
       }
 
-      setErrorMessageKey(
-        "fileSize",
-      );
-
+      setErrorMessageKey("fileSize");
       return;
     }
 
@@ -548,22 +436,13 @@ export default function TaskDetailsPage() {
 
     const token = getAccessToken();
 
-    if (
-      !token ||
-      !task ||
-      !selectedFile
-    ) {
+    if (!token || !task || !selectedFile) {
       return;
     }
 
-    if (
-      selectedFile.size >
-      MAX_FILE_SIZE
-    ) {
+    if (selectedFile.size > MAX_FILE_SIZE) {
       setBackendError("");
-      setErrorMessageKey(
-        "fileSize",
-      );
+      setErrorMessageKey("fileSize");
       return;
     }
 
@@ -571,129 +450,24 @@ export default function TaskDetailsPage() {
     setIsUploadingFile(true);
 
     try {
-      const uploadedFile =
-        await uploadFile(
-          token,
-          task.id,
-          selectedFile,
-        );
-
-      setFiles(
-        (currentFiles) => [
-          uploadedFile,
-          ...currentFiles,
-        ],
+      const uploadedFile = await uploadFile(
+        token,
+        task.id,
+        selectedFile,
       );
 
+      setFiles((current) => [uploadedFile, ...current]);
       setSelectedFile(null);
 
       if (fileInputRef.current) {
-        fileInputRef.current.value =
-          "";
+        fileInputRef.current.value = "";
       }
 
-      setSuccessMessageKey(
-        "fileUploaded",
-      );
+      setSuccessMessageKey("fileUploaded");
     } catch (error) {
-      setCaughtError(
-        error,
-        "uploadFile",
-      );
+      setCaughtError(error, "uploadFile");
     } finally {
       setIsUploadingFile(false);
-    }
-  }
-
-  function getApprover(
-    userId: string,
-  ) {
-    return directory.find(
-      (member) =>
-        member.user_id === userId,
-    );
-  }
-
-  function getCommentAuthor(
-    userId: string,
-  ) {
-    return directory.find(
-      (member) =>
-        member.user_id === userId,
-    );
-  }
-
-  function getFileUploader(
-    userId: string,
-  ) {
-    return directory.find(
-      (member) =>
-        member.user_id === userId,
-    );
-  }
-
-  function formatFileSize(
-    value: number,
-  ) {
-    const bytes = Number(value);
-
-    if (!Number.isFinite(bytes)) {
-      return t("files.unknownSize");
-    }
-
-    if (bytes < 1024) {
-      return `${bytes} B`;
-    }
-
-    if (
-      bytes <
-      1024 * 1024
-    ) {
-      return `${(
-        bytes / 1024
-      ).toFixed(1)} KB`;
-    }
-
-    return `${(
-      bytes /
-      (1024 * 1024)
-    ).toFixed(1)} MB`;
-  }
-
-  function translateStatus(
-    value: string,
-  ) {
-    switch (value) {
-      case "pending":
-        return t("status.pending");
-
-      case "in_progress":
-        return t(
-          "status.inProgress",
-        );
-
-      case "completed":
-        return t(
-          "status.completed",
-        );
-
-      case "canceled":
-        return t(
-          "status.canceled",
-        );
-
-      case "approved":
-        return t(
-          "status.approved",
-        );
-
-      case "rejected":
-        return t(
-          "status.rejected",
-        );
-
-      default:
-        return value;
     }
   }
 
@@ -712,7 +486,10 @@ export default function TaskDetailsPage() {
           href="/tasks"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
         >
-          <ArrowLeft size={16} className={isRtl ? "rotate-180" : ""} />
+          <ArrowLeft
+            size={16}
+            className={isRtl ? "rotate-180" : ""}
+          />
           {t("backToTasks")}
         </Link>
 
@@ -729,12 +506,16 @@ export default function TaskDetailsPage() {
 
   return (
     <div className="min-w-0 space-y-8">
+      {/* Task header */}
       <section className="min-w-0">
         <Link
           href="/tasks"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
         >
-          <ArrowLeft size={16} className={isRtl ? "rotate-180" : ""} />
+          <ArrowLeft
+            size={16}
+            className={isRtl ? "rotate-180" : ""}
+          />
           {t("backToTasks")}
         </Link>
 
@@ -756,53 +537,50 @@ export default function TaskDetailsPage() {
           <button
             type="button"
             onClick={() => {
-              setShowApprovalForm(
-                (current) => !current,
-              );
-
+              setShowApprovalForm((current) => !current);
               clearMessages();
             }}
             className="h-10 shrink-0 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
           >
             {showApprovalForm
               ? t("cancel")
-              : t(
-                  "requestApproval",
-                )}
+              : t("requestApproval")}
           </button>
         </div>
       </section>
 
+      {/* Messages */}
       {errorMessage ? (
-        <div className="break-words rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div
+          role="alert"
+          className="break-words rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700"
+        >
           {errorMessage}
         </div>
       ) : null}
 
       {successMessage ? (
-        <div className="break-words rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700">
+        <div
+          role="status"
+          className="break-words rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-700"
+        >
           {successMessage}
         </div>
       ) : null}
 
+      {/* Approval creation */}
       {showApprovalForm ? (
         <section className="min-w-0 rounded-xl border border-border bg-surface p-6 shadow-sm">
           <h2 className="font-semibold">
-            {t(
-              "approvalForm.title",
-            )}
+            {t("approvalForm.title")}
           </h2>
 
           <p className="mt-1 break-words text-sm text-muted-foreground">
-            {t(
-              "approvalForm.description",
-            )}
+            {t("approvalForm.description")}
           </p>
 
           <form
-            onSubmit={
-              handleCreateApproval
-            }
+            onSubmit={handleCreateApproval}
             className="mt-6 min-w-0 space-y-5"
           >
             <div className="min-w-0">
@@ -810,52 +588,31 @@ export default function TaskDetailsPage() {
                 htmlFor="approval-approver"
                 className="mb-2 block text-sm font-medium"
               >
-                {t(
-                  "approvalForm.approver",
-                )}
+                {t("approvalForm.approver")}
               </label>
 
               <select
                 id="approval-approver"
-                value={
-                  selectedApproverId
-                }
-                disabled={
-                  isCreatingApproval
-                }
+                value={selectedApproverId}
+                disabled={isCreatingApproval}
                 onChange={(event) =>
-                  setSelectedApproverId(
-                    event.target.value,
-                  )
+                  setSelectedApproverId(event.target.value)
                 }
                 className="h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary disabled:opacity-60"
               >
                 <option value="">
-                  {t(
-                    "approvalForm.selectApprover",
-                  )}
+                  {t("approvalForm.selectApprover")}
                 </option>
 
-                {directory.map(
-                  (member) => (
-                    <option
-                      key={
-                        member.membership_id
-                      }
-                      value={
-                        member.user_id
-                      }
-                    >
-                      {
-                        member.first_name
-                      }{" "}
-                      {
-                        member.last_name
-                      }{" "}
-                      — {member.email}
-                    </option>
-                  ),
-                )}
+                {directory.map((member) => (
+                  <option
+                    key={member.membership_id}
+                    value={member.user_id}
+                  >
+                    {member.first_name} {member.last_name} —{" "}
+                    {member.email}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -864,28 +621,18 @@ export default function TaskDetailsPage() {
                 htmlFor="approval-comment"
                 className="mb-2 block text-sm font-medium"
               >
-                {t(
-                  "approvalForm.comment",
-                )}
+                {t("approvalForm.comment")}
               </label>
 
               <textarea
                 id="approval-comment"
                 rows={3}
-                value={
-                  approvalComment
-                }
-                disabled={
-                  isCreatingApproval
-                }
+                value={approvalComment}
+                disabled={isCreatingApproval}
                 onChange={(event) =>
-                  setApprovalComment(
-                    event.target.value,
-                  )
+                  setApprovalComment(event.target.value)
                 }
-                placeholder={t(
-                  "approvalForm.commentPlaceholder",
-                )}
+                placeholder={t("approvalForm.commentPlaceholder")}
                 className="w-full min-w-0 rounded-lg border border-border bg-surface px-3 py-3 text-sm outline-none transition focus:border-primary disabled:opacity-60"
               />
             </div>
@@ -894,24 +641,20 @@ export default function TaskDetailsPage() {
               <button
                 type="submit"
                 disabled={
-                  isCreatingApproval ||
-                  !selectedApproverId
+                  isCreatingApproval || !selectedApproverId
                 }
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isCreatingApproval
-                  ? t(
-                      "approvalForm.creating",
-                    )
-                  : t(
-                      "approvalForm.create",
-                    )}
+                  ? t("approvalForm.creating")
+                  : t("approvalForm.create")}
               </button>
             </div>
           </form>
         </section>
       ) : null}
 
+      {/* Task editing */}
       <section className="min-w-0 rounded-xl border border-border bg-surface p-6 shadow-sm">
         <form
           onSubmit={handleSubmit}
@@ -931,11 +674,7 @@ export default function TaskDetailsPage() {
               required
               disabled={isSaving}
               value={title}
-              onChange={(event) =>
-                setTitle(
-                  event.target.value,
-                )
-              }
+              onChange={(event) => setTitle(event.target.value)}
               className="h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60"
             />
           </div>
@@ -945,9 +684,7 @@ export default function TaskDetailsPage() {
               htmlFor="task-description"
               className="mb-2 block text-sm font-medium"
             >
-              {t(
-                "form.description",
-              )}
+              {t("form.description")}
             </label>
 
             <textarea
@@ -956,9 +693,7 @@ export default function TaskDetailsPage() {
               disabled={isSaving}
               value={description}
               onChange={(event) =>
-                setDescription(
-                  event.target.value,
-                )
+                setDescription(event.target.value)
               }
               className="w-full min-w-0 rounded-lg border border-border bg-surface px-3 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60"
             />
@@ -978,34 +713,21 @@ export default function TaskDetailsPage() {
                 value={status}
                 disabled={isSaving}
                 onChange={(event) =>
-                  setStatus(
-                    event.target.value,
-                  )
+                  setStatus(event.target.value)
                 }
                 className="h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary disabled:opacity-60"
               >
                 <option value="pending">
-                  {t(
-                    "status.pending",
-                  )}
+                  {t("status.pending")}
                 </option>
-
                 <option value="in_progress">
-                  {t(
-                    "status.inProgress",
-                  )}
+                  {t("status.inProgress")}
                 </option>
-
                 <option value="completed">
-                  {t(
-                    "status.completed",
-                  )}
+                  {t("status.completed")}
                 </option>
-
                 <option value="canceled">
-                  {t(
-                    "status.canceled",
-                  )}
+                  {t("status.canceled")}
                 </option>
               </select>
             </div>
@@ -1015,9 +737,7 @@ export default function TaskDetailsPage() {
                 htmlFor="task-priority"
                 className="mb-2 block text-sm font-medium"
               >
-                {t(
-                  "form.priority",
-                )}
+                {t("form.priority")}
               </label>
 
               <select
@@ -1025,34 +745,21 @@ export default function TaskDetailsPage() {
                 value={priority}
                 disabled={isSaving}
                 onChange={(event) =>
-                  setPriority(
-                    event.target.value,
-                  )
+                  setPriority(event.target.value)
                 }
                 className="h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary disabled:opacity-60"
               >
                 <option value="low">
-                  {t(
-                    "priority.low",
-                  )}
+                  {t("priority.low")}
                 </option>
-
                 <option value="medium">
-                  {t(
-                    "priority.medium",
-                  )}
+                  {t("priority.medium")}
                 </option>
-
                 <option value="high">
-                  {t(
-                    "priority.high",
-                  )}
+                  {t("priority.high")}
                 </option>
-
                 <option value="urgent">
-                  {t(
-                    "priority.urgent",
-                  )}
+                  {t("priority.urgent")}
                 </option>
               </select>
             </div>
@@ -1062,9 +769,7 @@ export default function TaskDetailsPage() {
                 htmlFor="task-due-at"
                 className="mb-2 block text-sm font-medium"
               >
-                {t(
-                  "form.dueDate",
-                )}
+                {t("form.dueDate")}
               </label>
 
               <input
@@ -1074,9 +779,7 @@ export default function TaskDetailsPage() {
                 disabled={isSaving}
                 value={dueAt}
                 onChange={(event) =>
-                  setDueAt(
-                    event.target.value,
-                  )
+                  setDueAt(event.target.value)
                 }
                 className="h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-sm outline-none transition focus:border-primary disabled:opacity-60"
               />
@@ -1091,27 +794,22 @@ export default function TaskDetailsPage() {
             >
               {isSaving
                 ? t("form.saving")
-                : t(
-                    "form.saveChanges",
-                  )}
+                : t("form.saveChanges")}
             </button>
           </div>
         </form>
       </section>
 
+      {/* Approvals list */}
       <section className="min-w-0 rounded-xl border border-border bg-surface">
         <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <div className="min-w-0">
             <h2 className="font-semibold">
-              {t(
-                "approvals.title",
-              )}
+              {t("approvals.title")}
             </h2>
 
             <p className="mt-1 break-words text-sm text-muted-foreground">
-              {t(
-                "approvals.description",
-              )}
+              {t("approvals.description")}
             </p>
           </div>
 
@@ -1123,68 +821,56 @@ export default function TaskDetailsPage() {
 
         {approvals.length > 0 ? (
           <div className="divide-y divide-border">
-            {approvals.map(
-              (approval) => {
-                const approver =
-                  getApprover(
-                    approval.approver_user_id,
-                  );
+            {approvals.map((approval) => {
+              const approver = getMember(
+                approval.approver_user_id,
+              );
 
-                return (
-                  <div
-                    key={approval.id}
-                    className="flex min-w-0 flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="min-w-0">
-                      <p className="break-words font-medium">
-                        {approver
-                          ? `${approver.first_name} ${approver.last_name}`
-                          : t(
-                              "workspaceMember",
-                            )}
+              return (
+                <div
+                  key={approval.id}
+                  className="flex min-w-0 flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="min-w-0">
+                    <p className="break-words font-medium">
+                      {approver
+                        ? `${approver.first_name} ${approver.last_name}`
+                        : t("workspaceMember")}
+                    </p>
+
+                    <p className="mt-1 break-all text-sm text-muted-foreground">
+                      {approver?.email ??
+                        approval.approver_user_id}
+                    </p>
+
+                    {approval.comment ? (
+                      <p className="mt-2 break-words text-sm text-muted-foreground">
+                        {approval.comment}
                       </p>
-
-                      <p className="mt-1 break-all text-sm text-muted-foreground">
-                        {approver?.email ??
-                          approval.approver_user_id}
-                      </p>
-
-                      {approval.comment ? (
-                        <p className="mt-2 break-words text-sm text-muted-foreground">
-                          {
-                            approval.comment
-                          }
-                        </p>
-                      ) : null}
-                    </div>
-
-                    <span className="shrink-0 rounded-full bg-surface-muted px-3 py-1 text-sm font-medium">
-                      {translateStatus(
-                        approval.status,
-                      )}
-                    </span>
+                    ) : null}
                   </div>
-                );
-              },
-            )}
+
+                  <span className="shrink-0 rounded-full bg-surface-muted px-3 py-1 text-sm font-medium">
+                    {translateStatus(approval.status)}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="p-8 text-center">
             <p className="text-sm font-medium">
-              {t(
-                "approvals.empty",
-              )}
+              {t("approvals.empty")}
             </p>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              {t(
-                "approvals.emptyDescription",
-              )}
+              {t("approvals.emptyDescription")}
             </p>
           </div>
         )}
       </section>
 
+      {/* Files */}
       <section className="min-w-0 rounded-xl border border-border bg-surface">
         <div className="flex min-w-0 flex-col gap-4 border-b border-border px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex min-w-0 items-center gap-3">
@@ -1199,17 +885,13 @@ export default function TaskDetailsPage() {
               </h2>
 
               <p className="mt-1 break-words text-sm text-muted-foreground">
-                {t(
-                  "files.description",
-                )}
+                {t("files.description")}
               </p>
             </div>
           </div>
 
           <form
-            onSubmit={
-              handleUploadFile
-            }
+            onSubmit={handleUploadFile}
             className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center"
           >
             <input
@@ -1239,21 +921,14 @@ export default function TaskDetailsPage() {
 
             <button
               type="submit"
-              disabled={
-                isUploadingFile ||
-                !selectedFile
-              }
+              disabled={isUploadingFile || !selectedFile}
               className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Upload size={16} />
 
               {isUploadingFile
-                ? t(
-                    "files.uploading",
-                  )
-                : t(
-                    "files.upload",
-                  )}
+                ? t("files.uploading")
+                : t("files.upload")}
             </button>
           </form>
         </div>
@@ -1265,10 +940,9 @@ export default function TaskDetailsPage() {
         {files.length > 0 ? (
           <div className="divide-y divide-border">
             {files.map((file) => {
-              const uploader =
-                getFileUploader(
-                  file.uploaded_by_user_id,
-                );
+              const uploader = getMember(
+                file.uploaded_by_user_id,
+              );
 
               return (
                 <div
@@ -1285,23 +959,19 @@ export default function TaskDetailsPage() {
 
                     <div className="min-w-0">
                       <p className="break-all font-medium">
-                        {
-                          file.file_name
-                        }
+                        {file.file_name}
                       </p>
 
                       <p className="mt-1 break-words text-sm text-muted-foreground">
-                        {formatFileType(file.file_name, file.mime_type)}{" "}
-                        ·{" "}
-                        {formatFileSize(
-                          file.file_size,
-                        )}
+                        {formatFileType(
+                          file.file_name,
+                          file.mime_type,
+                        )}{" "}
+                        · {formatFileSize(file.file_size)}
                       </p>
 
                       <p className="mt-1 break-all text-xs text-muted-foreground">
-                        {t(
-                          "files.uploadedBy",
-                        )}{" "}
+                        {t("files.uploadedBy")}{" "}
                         {uploader
                           ? `${uploader.first_name} ${uploader.last_name}`
                           : file.uploaded_by_user_id}
@@ -1309,12 +979,14 @@ export default function TaskDetailsPage() {
                     </div>
                   </div>
 
-                  <p
+                  <div className="flex shrink-0 flex-wrap items-center gap-3">
+                    <p
                       dir={isRtl ? "rtl" : "ltr"}
-                      className="shrink-0 text-xs text-muted-foreground [unicode-bidi:isolate]"
+                      className="text-xs text-muted-foreground [unicode-bidi:isolate]"
                     >
                       {formatDate(file.created_at)}
                     </p>
+                  </div>
                 </div>
               );
             })}
@@ -1326,27 +998,22 @@ export default function TaskDetailsPage() {
             </p>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              {t(
-                "files.emptyDescription",
-              )}
+              {t("files.emptyDescription")}
             </p>
           </div>
         )}
       </section>
 
+      {/* Comments */}
       <section className="min-w-0 rounded-xl border border-border bg-surface">
         <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <div className="min-w-0">
             <h2 className="font-semibold">
-              {t(
-                "comments.title",
-              )}
+              {t("comments.title")}
             </h2>
 
             <p className="mt-1 break-words text-sm text-muted-foreground">
-              {t(
-                "comments.description",
-              )}
+              {t("comments.description")}
             </p>
           </div>
 
@@ -1358,98 +1025,74 @@ export default function TaskDetailsPage() {
 
         {comments.length > 0 ? (
           <div className="divide-y divide-border">
-            {comments.map(
-              (comment) => {
-                const author =
-                  getCommentAuthor(
-                    comment.user_id,
-                  );
+            {comments.map((comment) => {
+              const author = getMember(comment.user_id);
 
-                return (
-                  <div
-                    key={comment.id}
-                    className="min-w-0 p-5"
-                  >
-                    <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="min-w-0">
-                        <p className="break-words font-medium">
-                          {author
-                            ? `${author.first_name} ${author.last_name}`
-                            : t(
-                                "workspaceMember",
-                              )}
-                        </p>
+              return (
+                <div
+                  key={comment.id}
+                  className="min-w-0 p-5"
+                >
+                  <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <p className="break-words font-medium">
+                        {author
+                          ? `${author.first_name} ${author.last_name}`
+                          : t("workspaceMember")}
+                      </p>
 
-                        <p className="mt-1 break-all text-xs text-muted-foreground">
-                          {author?.email ??
-                            comment.user_id}
-                        </p>
-                      </div>
+                      <p className="mt-1 break-all text-xs text-muted-foreground">
+                        {author?.email ?? comment.user_id}
+                      </p>
+                    </div>
 
-                      <p
+                    <p
                       dir={isRtl ? "rtl" : "ltr"}
                       className="shrink-0 text-xs text-muted-foreground [unicode-bidi:isolate]"
                     >
                       {formatDate(comment.created_at)}
                     </p>
-                    </div>
-
-                    <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-6">
-                      {
-                        comment.content
-                      }
-                    </p>
                   </div>
-                );
-              },
-            )}
+
+                  <p className="mt-4 whitespace-pre-wrap break-words text-sm leading-6">
+                    {comment.content}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="p-8 text-center">
             <p className="text-sm font-medium">
-              {t(
-                "comments.empty",
-              )}
+              {t("comments.empty")}
             </p>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              {t(
-                "comments.emptyDescription",
-              )}
+              {t("comments.emptyDescription")}
             </p>
           </div>
         )}
 
         <form
-          onSubmit={
-            handleCreateComment
-          }
+          onSubmit={handleCreateComment}
           className="min-w-0 border-t border-border p-5"
         >
           <label
             htmlFor="task-comment"
             className="mb-2 block text-sm font-medium"
           >
-            {t(
-              "comments.add",
-            )}
+            {t("comments.add")}
           </label>
 
           <textarea
             id="task-comment"
             rows={4}
             value={commentContent}
-            disabled={
-              isCreatingComment
-            }
+            disabled={isCreatingComment}
             onChange={(event) =>
-              setCommentContent(
-                event.target.value,
-              )
+              setCommentContent(event.target.value)
             }
-            placeholder={t(
-              "comments.placeholder",
-            )}
+            placeholder={t("comments.placeholder")}
             className="w-full min-w-0 rounded-lg border border-border bg-surface px-3 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15 disabled:opacity-60"
           />
 
@@ -1457,18 +1100,13 @@ export default function TaskDetailsPage() {
             <button
               type="submit"
               disabled={
-                isCreatingComment ||
-                !commentContent.trim()
+                isCreatingComment || !commentContent.trim()
               }
               className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isCreatingComment
-                ? t(
-                    "comments.adding",
-                  )
-                : t(
-                    "comments.add",
-                  )}
+                ? t("comments.adding")
+                : t("comments.add")}
             </button>
           </div>
         </form>

@@ -1,3 +1,4 @@
+
 import {
   Injectable,
   NotFoundException,
@@ -10,6 +11,7 @@ import { AuditLogsService } from '../audit-logs/audit-logs.service';
 import { RlsContextService } from '../database/rls-context.service';
 import { Project } from '../entities/project.entity';
 import { Task } from '../entities/task.entity';
+import { OrganizationAccessService } from '../memberships/organization-access.service';
 
 @Injectable()
 export class TasksService {
@@ -18,6 +20,7 @@ export class TasksService {
     private readonly automationExecutionService: AutomationExecutionService,
     private readonly auditLogsService: AuditLogsService,
     private readonly rlsContextService: RlsContextService,
+    private readonly organizationAccessService: OrganizationAccessService,
   ) {}
 
   async findAll(
@@ -268,7 +271,7 @@ export class TasksService {
           {
             title: savedTask.title,
             project_id:
-              savedTask.project_id,
+              task.project_id,
             status: savedTask.status,
             priority:
               savedTask.priority,
@@ -287,7 +290,7 @@ export class TasksService {
           {
             title: savedTask.title,
             project_id:
-              savedTask.project_id,
+              task.project_id,
             status: savedTask.status,
             priority:
               savedTask.priority,
@@ -361,6 +364,13 @@ export class TasksService {
             'Project not found or inaccessible',
           );
         }
+
+        await this.organizationAccessService.assertPermission(
+          manager,
+          userId,
+          project.organization_id,
+          'tasks.delete',
+        );
 
         const result: Array<{
           soft_delete_task: boolean;

@@ -1,18 +1,35 @@
+
 import 'reflect-metadata';
 import 'dotenv/config';
 
+import { join } from 'node:path';
+
 import { DataSource } from 'typeorm';
+import { getPostgresConnectionOptions } from './postgres-connection.options';
+
+const isCompiled = __filename.endsWith('.js');
+
+const fileExtension = isCompiled ? 'js' : 'ts';
 
 export default new DataSource({
-  type: 'postgres',
-  host: process.env.DATABASE_HOST,
-  port: Number(process.env.DATABASE_PORT),
-  username: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
+  ...getPostgresConnectionOptions(),
 
-  entities: ['src/entities/**/*.entity.ts'],
-  migrations: ['src/database/migrations/*.ts'],
+  entities: [
+    join(
+      __dirname,
+      '..',
+      'entities',
+      `**/*.entity.${fileExtension}`,
+    ),
+  ],
+
+  migrations: [
+    join(
+      __dirname,
+      'migrations',
+      `*.${fileExtension}`,
+    ),
+  ],
 
   synchronize: false,
 });

@@ -1,3 +1,4 @@
+
 import {
   ConflictException,
   Injectable,
@@ -190,7 +191,22 @@ export class WebhooksService {
           }
         }
 
-        Object.assign(webhook, data);
+        // Allow only explicitly supported fields.
+        if (data.name !== undefined) {
+          webhook.name = data.name;
+        }
+
+        if (data.url !== undefined) {
+          webhook.url = data.url;
+        }
+
+        if (data.events !== undefined) {
+          webhook.events = data.events;
+        }
+
+        if (data.is_active !== undefined) {
+          webhook.is_active = data.is_active;
+        }
 
         return webhooksRepository.save(
           webhook,

@@ -304,7 +304,8 @@
       "allPriorities": "Alle Prioritäten",
       "clear": "Filter zurücksetzen",
       "noResults": "Keine Aufgaben entsprechen den ausgewählten Filtern."
-    }
+    },
+    "deleteSuccess": "Aufgabe erfolgreich gelöscht"
   },
   "taskDetails": {
     "loading": "Aufgabe wird geladen...",
@@ -380,7 +381,12 @@
       "empty": "Noch keine Dateien",
       "emptyDescription": "Lade die erste Datei für diese Aufgabe hoch.",
       "chooseFile": "Datei auswählen",
-      "noFileSelected": "Keine Datei ausgewählt"
+      "noFileSelected": "Keine Datei ausgewählt",
+      "delete": "Löschen",
+      "deleting": "Wird gelöscht...",
+      "deleteTitle": "Datei löschen",
+      "deleteConfirmation": "Möchtest du diese Datei wirklich löschen?",
+      "cancelDelete": "Abbrechen"
     },
     "comments": {
       "title": "Kommentare",

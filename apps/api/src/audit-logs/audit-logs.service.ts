@@ -1,3 +1,4 @@
+
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 
@@ -150,27 +151,45 @@ export class AuditLogsService {
     ipAddress?: string,
     userAgent?: string,
     manager?: EntityManager,
-  ) {
+  ): Promise<{ id: string }> {
     if (!manager) {
       throw new Error(
         'Audit log creation requires an active transaction manager',
       );
     }
 
-    const repository =
-      manager.getRepository(AuditLog);
+    const result: Array<{ id: string }> =
+      await manager.query(
+        `
+          SELECT public.create_audit_log(
+            $1::uuid,
+            $2::uuid,
+            $3::text,
+            $4::text,
+            $5::uuid,
+            $6::jsonb,
+            $7::inet,
+            $8::text
+          ) AS id
+        `,
+        [
+          organizationId,
+          userId,
+          action,
+          entityType,
+          entityId,
+          metadata ? JSON.stringify(metadata) : null,
+          ipAddress ?? null,
+          userAgent ?? null,
+        ],
+      );
 
-    const auditLog = repository.create({
-      organization_id: organizationId,
-      user_id: userId,
-      action,
-      entity_type: entityType,
-      entity_id: entityId,
-      metadata: metadata ?? null,
-      ip_address: ipAddress ?? null,
-      user_agent: userAgent ?? null,
-    });
+    if (!result[0]?.id) {
+      throw new Error(
+        'Audit log creation did not return an ID',
+      );
+    }
 
-    return repository.save(auditLog);
+    return { id: result[0].id };
   }
 }

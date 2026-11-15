@@ -6,14 +6,29 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { randomBytes } from 'crypto';
+import { EntityManager } from 'typeorm';
 
 import { ActivitiesService } from '../activities/activities.service';
 import { AuditLogsService } from '../audit-logs/audit-logs.service';
 import { RlsContextService } from '../database/rls-context.service';
 import { EmailService } from '../email/email.service';
 import { Invitation } from '../entities/invitation.entity';
+import { OrganizationAccessService } from '../memberships/organization-access.service';
 
 type InvitationResponse = Omit<Invitation, 'token'>;
+
+type InvitationRole = {
+  id: string;
+  slug: string;
+};
+
+type AcceptedInvitationDetails = {
+  membership_id: string;
+  organization_id: string;
+  invitation_id: string;
+  email: string;
+  role_id: string;
+};
 
 @Injectable()
 export class InvitationsService {
@@ -22,11 +37,61 @@ export class InvitationsService {
     private readonly auditLogsService: AuditLogsService,
     private readonly rlsContextService: RlsContextService,
     private readonly emailService: EmailService,
+    private readonly organizationAccessService: OrganizationAccessService,
   ) {}
 
   private toResponse(invitation: Invitation): InvitationResponse {
     const { token: _token, ...safeInvitation } = invitation;
     return safeInvitation;
+  }
+
+  private async assertCanManageInvitations(
+    manager: EntityManager,
+    currentUserId: string,
+    organizationId: string,
+  ): Promise<void> {
+    await this.organizationAccessService.assertPermission(
+      manager,
+      currentUserId,
+      organizationId,
+      'members.manage',
+    );
+  }
+
+  private async assertCanAssignRole(
+    manager: EntityManager,
+    currentUserId: string,
+    organizationId: string,
+    roleId: string,
+  ): Promise<void> {
+    const roles: InvitationRole[] = await manager.query(
+      `
+        SELECT id, slug
+        FROM public.roles
+        WHERE id = $1
+          AND organization_id = $2
+          AND deleted_at IS NULL
+        LIMIT 1
+      `,
+      [roleId, organizationId],
+    );
+
+    const role = roles[0];
+
+    if (!role) {
+      throw new BadRequestException(
+        'Invalid invitation role for this organization',
+      );
+    }
+
+    if (role.slug === 'administrator') {
+      await this.organizationAccessService.assertPermission(
+        manager,
+        currentUserId,
+        organizationId,
+        'roles.manage',
+      );
+    }
   }
 
   private handleAcceptanceError(error: unknown): never {
@@ -99,6 +164,12 @@ export class InvitationsService {
     return this.rlsContextService.run(
       currentUserId,
       async (manager) => {
+        await this.assertCanManageInvitations(
+          manager,
+          currentUserId,
+          organizationId,
+        );
+
         const repository = manager.getRepository(Invitation);
 
         const invitations = await repository.find({
@@ -127,6 +198,19 @@ export class InvitationsService {
     const invitation = await this.rlsContextService.run(
       currentUserId,
       async (manager) => {
+        await this.assertCanManageInvitations(
+          manager,
+          currentUserId,
+          organizationId,
+        );
+
+        await this.assertCanAssignRole(
+          manager,
+          currentUserId,
+          organizationId,
+          roleId,
+        );
+
         const repository = manager.getRepository(Invitation);
 
         const token = randomBytes(32).toString('hex');
@@ -142,7 +226,9 @@ export class InvitationsService {
           deleted_at: null,
         });
 
-        const savedInvitation = await repository.save(newInvitation);
+        const savedInvitation = await repository.save(
+          newInvitation,
+        );
 
         const metadata = {
           email: savedInvitation.email,
@@ -195,55 +281,39 @@ export class InvitationsService {
       return await this.rlsContextService.run(
         currentUserId,
         async (manager) => {
-          const result: Array<{ membership_id: string }> =
+          const result: AcceptedInvitationDetails[] =
             await manager.query(
               `
-                SELECT public.accept_invitation($1)
-                  AS membership_id;
+                SELECT
+                  membership_id,
+                  organization_id,
+                  invitation_id,
+                  email,
+                  role_id
+                FROM public.accept_invitation_with_details($1);
               `,
               [token],
             );
 
-          const membershipId = result[0].membership_id;
+          const acceptedInvitation = result[0];
 
-          const membershipResult: Array<{
-            organization_id: string;
-          }> = await manager.query(
-            `
-              SELECT organization_id
-              FROM public.memberships
-              WHERE id = $1
-                AND user_id = $2
-                AND deleted_at IS NULL
-              LIMIT 1;
-            `,
-            [membershipId, currentUserId],
-          );
-
-          if (membershipResult.length === 0) {
+          if (!acceptedInvitation) {
             throw new Error(
-              'Accepted membership could not be loaded',
+              'Accepted invitation details could not be loaded',
             );
           }
 
-          const organizationId =
-            membershipResult[0].organization_id;
-
-          const repository = manager.getRepository(Invitation);
-
-          const invitation = await repository.findOne({
-            where: { token },
-          });
-
-          if (!invitation) {
-            throw new NotFoundException(
-              'Accepted invitation could not be loaded',
-            );
-          }
+          const {
+            membership_id: membershipId,
+            organization_id: organizationId,
+            invitation_id: invitationId,
+            email,
+            role_id: roleId,
+          } = acceptedInvitation;
 
           const metadata = {
-            email: invitation.email,
-            role_id: invitation.role_id,
+            email,
+            role_id: roleId,
             membership_id: membershipId,
           };
 
@@ -252,7 +322,7 @@ export class InvitationsService {
             organizationId,
             'accepted',
             'invitation',
-            invitation.id,
+            invitationId,
             metadata,
             manager,
           );
@@ -262,7 +332,7 @@ export class InvitationsService {
             currentUserId,
             'accepted',
             'invitation',
-            invitation.id,
+            invitationId,
             metadata,
             undefined,
             undefined,
@@ -297,6 +367,12 @@ export class InvitationsService {
           throw new NotFoundException('Invitation not found');
         }
 
+        await this.assertCanManageInvitations(
+          manager,
+          currentUserId,
+          invitation.organization_id,
+        );
+
         if (invitation.accepted_at) {
           throw new BadRequestException(
             'Accepted invitations cannot be revoked',
@@ -317,7 +393,9 @@ export class InvitationsService {
 
         invitation.revoked_at = new Date();
 
-        const savedInvitation = await repository.save(invitation);
+        const savedInvitation = await repository.save(
+          invitation,
+        );
 
         const metadata = {
           email: savedInvitation.email,
@@ -368,6 +446,19 @@ export class InvitationsService {
         if (!existingInvitation) {
           throw new NotFoundException('Invitation not found');
         }
+
+        await this.assertCanManageInvitations(
+          manager,
+          currentUserId,
+          existingInvitation.organization_id,
+        );
+
+        await this.assertCanAssignRole(
+          manager,
+          currentUserId,
+          existingInvitation.organization_id,
+          existingInvitation.role_id,
+        );
 
         if (existingInvitation.accepted_at) {
           throw new BadRequestException(

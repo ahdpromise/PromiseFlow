@@ -1,3 +1,4 @@
+
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -5,7 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { validateEnv } from './config/validate-env';
 import { DatabaseModule } from './database/database.module';
+import { getPostgresConnectionOptions } from './database/postgres-connection.options';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -56,17 +59,13 @@ import { WebhookDeliveriesModule } from './webhook-deliveries/webhook-deliveries
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate: validateEnv,
     }),
 
     DatabaseModule,
 
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DATABASE_HOST,
-      port: Number(process.env.DATABASE_PORT),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
+      ...getPostgresConnectionOptions(),
       autoLoadEntities: true,
       synchronize: false,
     }),

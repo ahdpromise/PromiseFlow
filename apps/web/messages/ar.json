@@ -304,7 +304,8 @@
       "allPriorities": "جميع الأولويات",
       "clear": "مسح الفلاتر",
       "noResults": "لا توجد مهام تطابق الفلاتر المحددة."
-    }
+    },
+    "deleteSuccess": "تم حذف المهمة بنجاح"
   },
   "taskDetails": {
     "loading": "جارٍ تحميل المهمة...",
@@ -380,7 +381,12 @@
       "empty": "لا توجد ملفات حتى الآن",
       "emptyDescription": "ارفع أول ملف لهذه المهمة.",
       "chooseFile": "اختيار ملف",
-      "noFileSelected": "لم يتم اختيار ملف"
+      "noFileSelected": "لم يتم اختيار ملف",
+      "delete": "حذف",
+      "deleting": "جارٍ الحذف...",
+      "deleteTitle": "حذف الملف",
+      "deleteConfirmation": "هل أنت متأكد أنك تريد حذف هذا الملف؟",
+      "cancelDelete": "إلغاء"
     },
     "comments": {
       "title": "التعليقات",

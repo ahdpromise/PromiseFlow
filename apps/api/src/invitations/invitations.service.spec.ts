@@ -1,10 +1,20 @@
 
-import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest,
+} from '@jest/globals';
+import {
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 
+import { Invitation } from '../entities/invitation.entity';
 import { InvitationsService } from './invitations.service';
-import type { Invitation } from '../entities/invitation.entity';
 
-describe('InvitationsService - Token Security', () => {
+describe('InvitationsService - Token Security and RBAC', () => {
   const token = 'secret-test-token';
 
   const makeInvitation = (): Invitation =>
@@ -29,55 +39,92 @@ describe('InvitationsService - Token Security', () => {
   };
 
   const manager = {
-    getRepository: jest.fn(() => repository),
+    getRepository: jest.fn<() => typeof repository>(),
+    query: jest.fn<() => Promise<Array<{
+      id: string;
+      slug: string;
+    }>>>(),
   };
 
   type MockManager = typeof manager;
 
   const rlsContextService = {
-    run: jest.fn(
-      async (
-        _userId: string,
+    run: jest.fn<
+      (
+        userId: string,
         callback: (entityManager: MockManager) => Promise<unknown>,
-      ): Promise<unknown> => callback(manager),
-    ),
+      ) => Promise<unknown>
+    >(),
   };
 
   const activitiesService = {
-    create: jest.fn(async () => undefined),
+    create: jest.fn<() => Promise<void>>(),
   };
 
   const auditLogsService = {
-    create: jest.fn(async () => undefined),
+    create: jest.fn<() => Promise<void>>(),
   };
 
   const emailService = {
-    sendInvitation: jest.fn(
-      async (_email: string, _token: string) => undefined,
-    ),
+    sendInvitation: jest.fn<
+      (email: string, invitationToken: string) => Promise<void>
+    >(),
+  };
+
+  const organizationAccessService = {
+    assertPermission: jest.fn<
+      (
+        entityManager: MockManager,
+        userId: string,
+        organizationId: string,
+        permission: string,
+      ) => Promise<void>
+    >(),
   };
 
   let service: InvitationsService;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
 
-    service = new InvitationsService(
-      activitiesService as never,
-      auditLogsService as never,
-      rlsContextService as never,
-      emailService as never,
+    manager.getRepository.mockReturnValue(repository);
+
+    manager.query.mockResolvedValue([
+      {
+        id: 'role-1',
+        slug: 'project-manager',
+      },
+    ]);
+
+    rlsContextService.run.mockImplementation(
+      async (_userId, callback) => callback(manager),
+    );
+
+    activitiesService.create.mockResolvedValue(undefined);
+    auditLogsService.create.mockResolvedValue(undefined);
+    emailService.sendInvitation.mockResolvedValue(undefined);
+
+    organizationAccessService.assertPermission.mockResolvedValue(
+      undefined,
     );
 
     repository.find.mockResolvedValue([makeInvitation()]);
     repository.findOne.mockResolvedValue(makeInvitation());
 
     repository.create.mockImplementation(
-      (data: Invitation) => data,
+      (data) => data,
     );
 
     repository.save.mockImplementation(
-      async (data: Invitation) => data,
+      async (data) => data,
+    );
+
+    service = new InvitationsService(
+      activitiesService as never,
+      auditLogsService as never,
+      rlsContextService as never,
+      emailService as never,
+      organizationAccessService as never,
     );
   });
 
@@ -151,5 +198,218 @@ describe('InvitationsService - Token Security', () => {
     expect(JSON.stringify(result)).not.toContain(
       emailArguments[1],
     );
+  });
+
+  it('requires members.manage to list invitations', async () => {
+    await service.findAll('user-1', 'organization-1');
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'members.manage',
+    );
+  });
+
+  it('requires members.manage to create invitations', async () => {
+    await service.create(
+      'user-1',
+      'organization-1',
+      'test@example.invalid',
+      'role-1',
+      new Date(Date.now() + 86400000),
+    );
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'members.manage',
+    );
+  });
+
+  it('requires roles.manage for administrator invitations', async () => {
+    manager.query.mockResolvedValue([
+      {
+        id: 'role-1',
+        slug: 'administrator',
+      },
+    ]);
+
+    await service.create(
+      'user-1',
+      'organization-1',
+      'test@example.invalid',
+      'role-1',
+      new Date(Date.now() + 86400000),
+    );
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'members.manage',
+    );
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'roles.manage',
+    );
+  });
+
+  it('rejects invitation roles from another organization', async () => {
+    manager.query.mockResolvedValue([]);
+
+    await expect(
+      service.create(
+        'user-1',
+        'organization-1',
+        'test@example.invalid',
+        'role-from-another-organization',
+        new Date(Date.now() + 86400000),
+      ),
+    ).rejects.toBeInstanceOf(BadRequestException);
+
+    expect(repository.save).not.toHaveBeenCalled();
+    expect(emailService.sendInvitation).not.toHaveBeenCalled();
+  });
+
+  it('rejects unauthorized invitation creation', async () => {
+    organizationAccessService.assertPermission.mockRejectedValue(
+      new ForbiddenException('Permission denied'),
+    );
+
+    await expect(
+      service.create(
+        'user-1',
+        'organization-1',
+        'test@example.invalid',
+        'role-1',
+        new Date(Date.now() + 86400000),
+      ),
+    ).rejects.toBeInstanceOf(ForbiddenException);
+
+    expect(repository.save).not.toHaveBeenCalled();
+    expect(emailService.sendInvitation).not.toHaveBeenCalled();
+  });
+
+  it('rejects administrator invitation without roles.manage', async () => {
+    manager.query.mockResolvedValue([
+      {
+        id: 'role-1',
+        slug: 'administrator',
+      },
+    ]);
+
+    organizationAccessService.assertPermission.mockImplementation(
+      async (
+        _manager,
+        _userId,
+        _organizationId,
+        permission,
+      ) => {
+        if (permission === 'roles.manage') {
+          throw new ForbiddenException('Permission denied');
+        }
+      },
+    );
+
+    await expect(
+      service.create(
+        'user-1',
+        'organization-1',
+        'test@example.invalid',
+        'role-1',
+        new Date(Date.now() + 86400000),
+      ),
+    ).rejects.toBeInstanceOf(ForbiddenException);
+
+    expect(repository.save).not.toHaveBeenCalled();
+    expect(emailService.sendInvitation).not.toHaveBeenCalled();
+  });
+
+  it('requires members.manage to revoke invitations', async () => {
+    await service.revoke('user-1', 'invitation-1');
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'members.manage',
+    );
+  });
+
+  it('requires members.manage to resend invitations', async () => {
+    await service.resend('user-1', 'invitation-1');
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'members.manage',
+    );
+  });
+
+  it('requires roles.manage to resend administrator invitations', async () => {
+    manager.query.mockResolvedValue([
+      {
+        id: 'role-1',
+        slug: 'administrator',
+      },
+    ]);
+
+    await service.resend('user-1', 'invitation-1');
+
+    expect(
+      organizationAccessService.assertPermission,
+    ).toHaveBeenCalledWith(
+      manager,
+      'user-1',
+      'organization-1',
+      'roles.manage',
+    );
+  });
+
+  it('does not send email when administrator resend is forbidden', async () => {
+    manager.query.mockResolvedValue([
+      {
+        id: 'role-1',
+        slug: 'administrator',
+      },
+    ]);
+
+    organizationAccessService.assertPermission.mockImplementation(
+      async (
+        _manager,
+        _userId,
+        _organizationId,
+        permission,
+      ) => {
+        if (permission === 'roles.manage') {
+          throw new ForbiddenException('Permission denied');
+        }
+      },
+    );
+
+    await expect(
+      service.resend('user-1', 'invitation-1'),
+    ).rejects.toBeInstanceOf(ForbiddenException);
+
+    expect(repository.save).not.toHaveBeenCalled();
+    expect(emailService.sendInvitation).not.toHaveBeenCalled();
   });
 });

@@ -304,7 +304,8 @@
       "allPriorities": "All priorities",
       "clear": "Clear filters",
       "noResults": "No tasks match the selected filters."
-    }
+    },
+    "deleteSuccess": "Task deleted successfully"
   },
   "taskDetails": {
     "loading": "Loading task...",
@@ -380,7 +381,12 @@
       "empty": "No files yet",
       "emptyDescription": "Upload the first file for this task.",
       "chooseFile": "Choose file",
-      "noFileSelected": "No file selected"
+      "noFileSelected": "No file selected",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "deleteTitle": "Delete file",
+      "deleteConfirmation": "Are you sure you want to delete this file?",
+      "cancelDelete": "Cancel"
     },
     "comments": {
       "title": "Comments",
