@@ -1,8 +1,7 @@
+
 import {
-  Body,
   Controller,
   Get,
-  Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -44,24 +43,6 @@ export class MembershipsController {
     return this.membershipsService.getOrganizationMemberDirectory(
       user.userId,
       organizationId,
-    );
-  }
-
-  @Post()
-  create(
-    @Body()
-    body: {
-      organization_id: string;
-    },
-    @CurrentUser()
-    user: {
-      userId: string;
-      email: string;
-    },
-  ) {
-    return this.membershipsService.create(
-      user.userId,
-      body.organization_id,
     );
   }
 }

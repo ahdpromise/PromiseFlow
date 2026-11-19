@@ -1,7 +1,7 @@
-
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -120,6 +120,19 @@ export class InvitationsService {
         case 'User is already a member of this organization':
           throw new ConflictException(
             'User is already a member of this organization',
+          );
+
+        case 'Organization member limit reached':
+          throw new ConflictException(
+            'Organization member limit reached. Your plan does not allow additional active members.',
+          );
+
+        case 'Organization not found or inactive':
+          throw new NotFoundException('Organization not found or inactive');
+
+        case 'An active subscription is required to accept invitations':
+          throw new ForbiddenException(
+            'An active subscription is required to accept invitations',
           );
 
         case 'Invitation has been revoked':

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 
@@ -62,9 +63,7 @@ export class MembershipsService {
   async getOrganizationMemberDirectory(
     userId: string,
     organizationId: string,
-  ): Promise<
-    OrganizationMemberDirectoryItem[]
-  > {
+  ): Promise<OrganizationMemberDirectoryItem[]> {
     return this.rlsContextService.run(
       userId,
       async (manager) => {
@@ -74,32 +73,7 @@ export class MembershipsService {
             FROM public.get_organization_member_directory($1)
           `,
           [organizationId],
-        ) as Promise<
-          OrganizationMemberDirectoryItem[]
-        >;
-      },
-    );
-  }
-
-  async create(
-    userId: string,
-    organizationId: string,
-  ) {
-    return this.rlsContextService.run(
-      userId,
-      async (manager) => {
-        const repository =
-          manager.getRepository(Membership);
-
-        const membership =
-          repository.create({
-            user_id: userId,
-            organization_id: organizationId,
-          });
-
-        return repository.save(
-          membership,
-        );
+        ) as Promise<OrganizationMemberDirectoryItem[]>;
       },
     );
   }

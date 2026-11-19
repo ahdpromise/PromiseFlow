@@ -1,4 +1,3 @@
-
 import {
   beforeEach,
   describe,
@@ -8,7 +7,9 @@ import {
 } from '@jest/globals';
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
+  NotFoundException,
 } from '@nestjs/common';
 
 import { Invitation } from '../entities/invitation.entity';
@@ -412,4 +413,84 @@ describe('InvitationsService - Token Security and RBAC', () => {
     expect(repository.save).not.toHaveBeenCalled();
     expect(emailService.sendInvitation).not.toHaveBeenCalled();
   });
+
+  describe('accept - PostgreSQL errors and audit', () => {
+    const accepted = {
+      membership_id: 'membership-1',
+      organization_id: 'organization-1',
+      invitation_id: 'invitation-1',
+      email: 'test@example.invalid',
+      role_id: 'role-1',
+    };
+
+    const pgError = (message: string, code = 'P0001') => ({
+      driverError: { code, message },
+    });
+
+    it('returns membership details and records activity and audit', async () => {
+      manager.query.mockResolvedValue([accepted] as never);
+
+      await expect(service.accept('user-1', token)).resolves.toEqual({
+        membership_id: 'membership-1',
+        organization_id: 'organization-1',
+      });
+      expect(manager.query).toHaveBeenCalledWith(
+        expect.stringContaining('public.accept_invitation_with_details($1)'),
+        [token],
+      );
+      expect(activitiesService.create).toHaveBeenCalledTimes(1);
+      expect(auditLogsService.create).toHaveBeenCalledTimes(1);
+      expect(emailService.sendInvitation).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      ['Organization member limit reached', ConflictException, 409],
+      ['User is already a member of this organization', ConflictException, 409],
+      ['Invitation has already been accepted', ConflictException, 409],
+      ['Invitation has expired', BadRequestException, 400],
+      ['Invitation has been revoked', BadRequestException, 400],
+      ['Invitation not found', NotFoundException, 404],
+      ['Organization not found or inactive', NotFoundException, 404],
+      [
+        'An active subscription is required to accept invitations',
+        ForbiddenException,
+        403,
+      ],
+    ])('maps PostgreSQL error %s', async (message, exceptionType, status) => {
+      manager.query.mockRejectedValue(pgError(message));
+      try {
+        await service.accept('user-1', token);
+        throw new Error('Expected acceptance to reject');
+      } catch (error) {
+        expect(error).toBeInstanceOf(exceptionType);
+        expect((error as { getStatus(): number }).getStatus()).toBe(status);
+      }
+      expect(activitiesService.create).not.toHaveBeenCalled();
+      expect(auditLogsService.create).not.toHaveBeenCalled();
+    });
+
+    it.each([
+      'Invalid subscription configuration',
+      'Invalid max_members feature configuration',
+      'Invalid max_members limit configuration',
+    ])('does not disguise invalid configuration: %s', async (message) => {
+      const error = pgError(message);
+      manager.query.mockRejectedValue(error);
+      await expect(service.accept('user-1', token)).rejects.toBe(error);
+    });
+
+    it('preserves unexpected PostgreSQL failures', async () => {
+      const error = pgError('unexpected database failure', 'XX000');
+      manager.query.mockRejectedValue(error);
+      await expect(service.accept('user-1', token)).rejects.toBe(error);
+    });
+
+    it('rejects missing accepted invitation details', async () => {
+      manager.query.mockResolvedValue([]);
+      await expect(service.accept('user-1', token)).rejects.toThrow(
+        'Accepted invitation details could not be loaded',
+      );
+    });
+  });
+
 });
