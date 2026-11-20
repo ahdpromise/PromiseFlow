@@ -41,7 +41,7 @@ describe('InvitationsService - Token Security and RBAC', () => {
 
   const manager = {
     getRepository: jest.fn<() => typeof repository>(),
-    query: jest.fn<() => Promise<Array<{
+    query: jest.fn<(sql: string, parameters: unknown[]) => Promise<Array<{
       id: string;
       slug: string;
     }>>>(),
