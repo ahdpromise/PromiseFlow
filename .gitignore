@@ -71,3 +71,6 @@ Thumbs.db
 *-backup
 # Local PostgreSQL ACL inspection artifact
 /apps/api/promiseflow_f03_acl.list
+
+# Local database backups
+/backups/
