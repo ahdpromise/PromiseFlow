@@ -1,4 +1,3 @@
-
 type Environment = Record<string, unknown>;
 
 const requiredProductionVariables = [
@@ -12,6 +11,24 @@ const requiredProductionVariables = [
   'RESEND_FROM_EMAIL',
   'FRONTEND_URL',
 ] as const;
+
+function isLocalHostname(hostname: string): boolean {
+  const normalizedHostname = hostname
+    .toLowerCase()
+    .replace(/^\[|\]$/g, '')
+    .replace(/\.+$/, '');
+
+  return (
+    normalizedHostname === 'localhost' ||
+    normalizedHostname.endsWith('.localhost') ||
+    normalizedHostname.startsWith('127.') &&
+      /^\d+\.\d+\.\d+\.\d+$/.test(normalizedHostname) ||
+    normalizedHostname === '0.0.0.0' ||
+    normalizedHostname === '::1' ||
+    normalizedHostname === '::' ||
+    normalizedHostname.startsWith('::ffff:')
+  );
+}
 
 export function validateEnv(
   config: Environment,
@@ -47,9 +64,7 @@ export function validateEnv(
 
   if (
     parsedUrl.protocol !== 'https:' ||
-    parsedUrl.hostname === 'localhost' ||
-    parsedUrl.hostname === '127.0.0.1' ||
-    parsedUrl.hostname === '::1'
+    isLocalHostname(parsedUrl.hostname)
   ) {
     throw new Error(
       'Production FRONTEND_URL must use HTTPS and a non-local hostname',

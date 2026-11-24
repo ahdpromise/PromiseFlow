@@ -1,4 +1,3 @@
-
 import { describe, expect, it } from '@jest/globals';
 
 import { validateEnv } from './validate-env';
@@ -69,6 +68,19 @@ describe('validateEnv', () => {
     'https://localhost:3000',
     'https://127.0.0.1:3000',
     'not-a-url',
+
+    // Additional local hostname protection
+    'https://[::1]:3000',
+    'https://127.0.0.2:3000',
+    'https://localhost.:3000',
+    'https://0.0.0.0:3000',
+    'https://127.255.255.254:3000',
+    'https://app.localhost:3000',
+    'https://LOCALHOST:3000',
+    'https://[::]:3000',
+    'https://[::ffff:127.0.0.1]:3000',
+    'https://127.1:3000',
+    'https://2130706433:3000',
   ])('rejects unsafe FRONTEND_URL: %s', (url) => {
     const config = {
       ...validProductionEnv(),
@@ -78,6 +90,28 @@ describe('validateEnv', () => {
     expect(() => validateEnv(config)).toThrow(
       /Production FRONTEND_URL/,
     );
+  });
+
+  it.each([
+    'https://promiseflow.com',
+    'https://app.promiseflow.com',
+    'https://127.example.com',
+  ])('allows safe FRONTEND_URL: %s', (url) => {
+    const config = {
+      ...validProductionEnv(),
+      FRONTEND_URL: url,
+    };
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it('allows localhost in development', () => {
+    const config = {
+      NODE_ENV: 'development',
+      FRONTEND_URL: 'http://localhost:3000',
+    };
+
+    expect(validateEnv(config)).toBe(config);
   });
 
   it.each([
