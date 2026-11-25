@@ -1,74 +1,135 @@
 "use client";
 
 import Link from "next/link";
+import {
+  Building2,
+  Mail,
+  UserCheck,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from "react";
 
 import { getAccessToken } from "@/lib/auth-storage";
-import { getWorkspaceId } from "@/lib/workspace-storage";
+
+import {
+  getWorkspaceId,
+  setWorkspaceId,
+  subscribeToWorkspace,
+} from "@/lib/workspace-storage";
+
 import {
   getDashboardData,
+  getOrganizations,
   type DashboardData,
 } from "@/services/dashboard.service";
 
-type ErrorMessageKey =
-  | "loadError";
+type DashboardState =
+  | { status: "loading" }
+  | { status: "welcome" }
+  | { status: "error" }
+  | {
+      status: "ready";
+      workspaceId: string;
+      data: DashboardData;
+    };
+
+function getServerSnapshot() {
+  return null;
+}
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
 
-  const [data, setData] =
-    useState<DashboardData | null>(null);
-
-  const [
-    errorMessageKey,
-    setErrorMessageKey,
-  ] = useState<ErrorMessageKey | null>(
-    null,
+  const workspaceId = useSyncExternalStore(
+    subscribeToWorkspace,
+    getWorkspaceId,
+    getServerSnapshot,
   );
 
-  const [isLoading, setIsLoading] =
-    useState(true);
+  const [state, setState] =
+    useState<DashboardState>({
+      status: "loading",
+    });
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadDashboard() {
       const token = getAccessToken();
-      const workspaceId =
-        getWorkspaceId();
 
-      if (!token || !workspaceId) {
-        setIsLoading(false);
+      if (!token) {
+        if (!cancelled) {
+          setState({ status: "error" });
+        }
+
         return;
       }
 
       try {
+        if (!workspaceId) {
+          const organizations =
+            await getOrganizations(token);
+
+          if (cancelled) {
+            return;
+          }
+
+          if (getWorkspaceId()) {
+            return;
+          }
+
+          const selected =
+            organizations.find(
+              (item) =>
+                item.slug === "promiseflow",
+            ) ?? organizations[0];
+
+          if (selected) {
+            setWorkspaceId(selected.id);
+            return;
+          }
+
+          setState({ status: "welcome" });
+          return;
+        }
+
         const dashboardData =
           await getDashboardData(
             token,
             workspaceId,
           );
 
-        setData(dashboardData);
+        if (!cancelled) {
+          setState({
+            status: "ready",
+            workspaceId,
+            data: dashboardData,
+          });
+        }
       } catch {
-        setErrorMessageKey(
-          "loadError",
-        );
-      } finally {
-        setIsLoading(false);
+        if (!cancelled) {
+          setState({ status: "error" });
+        }
       }
     }
 
     void loadDashboard();
-  }, []);
 
-  const errorMessage =
-    errorMessageKey
-      ? t(errorMessageKey)
-      : "";
+    return () => {
+      cancelled = true;
+    };
+  }, [workspaceId]);
+
+  const data =
+    state.status === "ready" &&
+    state.workspaceId === workspaceId
+      ? state.data
+      : null;
 
   const pendingApprovals = useMemo(
     () =>
@@ -92,61 +153,124 @@ export default function DashboardPage() {
     {
       label: t("activeProjects"),
       value: data?.projects.length ?? 0,
-      change: data
-        ? t("totalProjects", {
-            count: data.projects.length,
-          })
-        : t("loading"),
+      change: t("totalProjects", {
+        count: data?.projects.length ?? 0,
+      }),
     },
     {
       label: t("openTasks"),
       value: openTasks,
-      change: data
-        ? t("totalTasks", {
-            count: data.tasks.length,
-          })
-        : t("loading"),
+      change: t("totalTasks", {
+        count: data?.tasks.length ?? 0,
+      }),
     },
     {
       label: t("teams"),
       value: data?.teams.length ?? 0,
-      change: data
-        ? t("activeTeams", {
-            count: data.teams.length,
-          })
-        : t("loading"),
+      change: t("activeTeams", {
+        count: data?.teams.length ?? 0,
+      }),
     },
     {
       label: t("pendingApprovals"),
       value: pendingApprovals,
-      change: data
-        ? t("totalApprovals", {
-            count: data.approvals.length,
-          })
-        : t("loading"),
+      change: t("totalApprovals", {
+        count: data?.approvals.length ?? 0,
+      }),
     },
   ];
 
-  if (isLoading) {
+  if (state.status === "error") {
     return (
-      <div className="rounded-xl border border-border bg-surface p-6 text-sm text-muted-foreground">
-        {t("loading")}
+      <div
+        role="alert"
+        className="rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700"
+      >
+        {t("loadError")}
       </div>
     );
   }
 
-  if (errorMessage) {
+  if (
+    state.status === "welcome" &&
+    !workspaceId
+  ) {
     return (
-      <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
-        {errorMessage}
+      <div className="mx-auto max-w-3xl py-8 sm:py-16">
+        <section className="rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-10">
+          <div className="text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <Building2
+                size={32}
+                strokeWidth={1.7}
+              />
+            </div>
+
+            <h1 className="mt-6 text-2xl font-semibold tracking-tight sm:text-3xl">
+              {t("welcome.title")}
+            </h1>
+
+            <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
+              {t("welcome.description")}
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-4 border-t border-border pt-8">
+            <article className="flex items-start gap-4 rounded-xl border border-border p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Mail size={22} />
+              </div>
+
+              <div>
+                <h2 className="font-semibold">
+                  {t("welcome.invitationTitle")}
+                </h2>
+
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {t("welcome.invitationDescription")}
+                </p>
+              </div>
+            </article>
+
+            <article className="flex items-start gap-4 rounded-xl border border-border p-5">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-green-500/10 text-green-600">
+                <UserCheck size={22} />
+              </div>
+
+              <div>
+                <h2 className="font-semibold">
+                  {t("welcome.accountTitle")}
+                </h2>
+
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {t("welcome.accountDescription")}
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <p className="mt-8 text-center text-xs leading-6 text-muted-foreground">
+            {t("welcome.footer")}
+          </p>
+        </section>
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="rounded-xl border border-border bg-surface p-6 text-sm text-muted-foreground">
-        {t("noData")}
+      <div
+        role="status"
+        className="rounded-xl border border-border bg-surface p-6 text-sm text-muted-foreground"
+      >
+        <div className="flex items-center gap-3">
+          <span
+            aria-hidden="true"
+            className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"
+          />
+
+          {t("loading")}
+        </div>
       </div>
     );
   }
@@ -214,9 +338,7 @@ export default function DashboardPage() {
               </h2>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                {t(
-                  "recentProjectsDescription",
-                )}
+                {t("recentProjectsDescription")}
               </p>
             </div>
 

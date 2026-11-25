@@ -160,7 +160,16 @@
     "workspaceSummary": "Workspace summary",
     "liveData": "Live data from {organization}.",
     "projects": "Projects",
-    "tasks": "Tasks"
+    "tasks": "Tasks",
+    "welcome": {
+      "title": "Welcome to PromiseFlow!",
+      "description": "Your account is ready. Join a workspace to start managing projects, tasks, teams, and workflows.",
+      "invitationTitle": "Join a workspace",
+      "invitationDescription": "Ask your organization administrator to send you an invitation. Open the invitation link to join your team.",
+      "accountTitle": "Your account is ready",
+      "accountDescription": "You can join a workspace as soon as you receive an invitation.",
+      "footer": "PromiseFlow — Bring your teams, projects, and workflows together."
+    }
   },
   "projects": {
     "workspace": "Workspace",
@@ -1143,6 +1152,40 @@
       "previous": "Previous",
       "next": "Next",
       "pageSize": "Records per page"
+    }
+  },
+  "register": {
+    "title": "Create your account",
+    "description": "Create an account to get started with PromiseFlow.",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "passwordHint": "Use at least 8 characters.",
+    "submit": "Create account",
+    "registering": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "success": "Your account has been created successfully. You can now sign in.",
+    "errors": {
+      "passwordMismatch": "Passwords do not match.",
+      "registration": "Unable to create your account. Please check your details or try signing in.",
+      "invalidName": "First and last names must contain at least 2 characters."
+    },
+    "verification": {
+      "description": "Enter your email address to receive a verification link.",
+      "send": "Send verification link",
+      "sending": "Sending verification link...",
+      "sent": "If registration is available, a verification link will be sent to your email. Please check your inbox and spam folder.",
+      "tryAgain": "Try again or change email",
+      "requestError": "Unable to request verification. Please try again later.",
+      "completeTitle": "Complete your registration",
+      "completeDescription": "Enter the same email address and complete your account details.",
+      "invalidToken": "This verification link is invalid or incomplete. Please request a new link.",
+      "passwordLength": "Your password must contain at least 8 characters and must not exceed 72 bytes.",
+      "newLink": "Request a new verification link",
+      "invitationHint": "If you received an organization invitation, reopen the original invitation link after signing in."
     }
   }
 }

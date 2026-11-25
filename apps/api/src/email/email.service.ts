@@ -97,4 +97,91 @@ export class EmailService {
       );
     }
   }
+
+  async sendEmailVerification(
+    email: string,
+    verificationToken: string,
+  ): Promise<void> {
+    const verificationUrl =
+      `${this.frontendUrl}` +
+      `/verify-email#token=` +
+      encodeURIComponent(
+        verificationToken,
+      );
+
+    const { error } =
+      await this.resend.emails.send({
+        from: this.fromEmail,
+        to: email,
+        subject:
+          'Verify your PromiseFlow email address',
+        html: `
+          <div style="
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #111827;
+          ">
+            <h2>Welcome to PromiseFlow</h2>
+
+            <p>
+              Thank you for choosing PromiseFlow.
+            </p>
+
+            <p>
+              Please verify your email address
+              to complete your registration.
+            </p>
+
+            <p>
+              <a
+                href="${verificationUrl}"
+                style="
+                  display: inline-block;
+                  padding: 12px 20px;
+                  background: #111827;
+                  color: #ffffff;
+                  text-decoration: none;
+                  border-radius: 6px;
+                "
+              >
+                Verify email address
+              </a>
+            </p>
+
+            <p>
+              This verification link expires
+              in 30 minutes and can only be used once.
+            </p>
+
+            <p>
+              If the button does not work,
+              copy and open this link:
+            </p>
+
+            <p style="word-break: break-all;">
+              ${verificationUrl}
+            </p>
+
+            <p>
+              If you did not request this registration,
+              you can safely ignore this email.
+            </p>
+
+            <hr />
+
+            <p>
+              The PromiseFlow Team
+            </p>
+          </div>
+        `,
+      });
+
+    if (error) {
+      throw new InternalServerErrorException(
+        'Verification email could not be sent',
+      );
+    }
+  }
 }

@@ -195,6 +195,7 @@ export default function LoginPage() {
         {t("newToPromiseFlow")}{" "}
         <button
           type="button"
+          onClick={() => router.push("/register")}
           className="font-medium text-primary hover:underline"
         >
           {t("createAccount")}

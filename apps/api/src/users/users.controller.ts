@@ -2,15 +2,20 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
 
+import { ThrottlerGuard } from '@nestjs/throttler';
+
 import { CurrentUser } from '../auth/current-user.decorator';
 import { JwtAuthGuard } from '../auth/jwt.guard';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { RequestEmailVerificationDto } from './dto/request-email-verification.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -22,7 +27,20 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) {}
 
+  @Post('request-email-verification')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(ThrottlerGuard)
+  requestEmailVerification(
+    @Body()
+    dto: RequestEmailVerificationDto,
+  ) {
+    return this.usersService.requestEmailVerification(
+      dto,
+    );
+  }
+
   @Post()
+  @UseGuards(ThrottlerGuard)
   create(
     @Body()
     dto: CreateUserDto,

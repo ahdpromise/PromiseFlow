@@ -160,7 +160,16 @@
     "workspaceSummary": "Resumen del espacio de trabajo",
     "liveData": "Datos actualizados de {organization}.",
     "projects": "Proyectos",
-    "tasks": "Tareas"
+    "tasks": "Tareas",
+    "welcome": {
+      "title": "¡Bienvenido a PromiseFlow!",
+      "description": "Tu cuenta está lista. Únete a un espacio de trabajo para gestionar proyectos, tareas, equipos y flujos de trabajo.",
+      "invitationTitle": "Únete a un espacio de trabajo",
+      "invitationDescription": "Solicita una invitación al administrador de tu organización. Abre el enlace de invitación para unirte a tu equipo.",
+      "accountTitle": "Tu cuenta está lista",
+      "accountDescription": "Puedes unirte a un espacio de trabajo en cuanto recibas una invitación.",
+      "footer": "PromiseFlow — Reúne tus equipos, proyectos y flujos de trabajo."
+    }
   },
   "projects": {
     "workspace": "Espacio de trabajo",
@@ -1143,6 +1152,40 @@
       "previous": "Anterior",
       "next": "Siguiente",
       "pageSize": "Registros por página"
+    }
+  },
+  "register": {
+    "title": "Crea tu cuenta",
+    "description": "Crea una cuenta para empezar a utilizar PromiseFlow.",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordHint": "Utiliza al menos 8 caracteres.",
+    "submit": "Crear cuenta",
+    "registering": "Creando cuenta...",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión",
+    "success": "Tu cuenta se ha creado correctamente. Ya puedes iniciar sesión.",
+    "errors": {
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "registration": "No se pudo crear la cuenta. Comprueba tus datos o intenta iniciar sesión.",
+      "invalidName": "El nombre y el apellido deben contener al menos 2 caracteres."
+    },
+    "verification": {
+      "description": "Introduce tu correo electrónico para recibir un enlace de verificación.",
+      "send": "Enviar enlace de verificación",
+      "sending": "Enviando enlace de verificación...",
+      "sent": "Si el registro está disponible, recibirás un enlace de verificación por correo electrónico. Revisa también la carpeta de correo no deseado.",
+      "tryAgain": "Volver a intentar o cambiar el correo",
+      "requestError": "No se pudo solicitar la verificación. Inténtalo más tarde.",
+      "completeTitle": "Completa tu registro",
+      "completeDescription": "Introduce el mismo correo electrónico y completa los datos de tu cuenta.",
+      "invalidToken": "Este enlace de verificación no es válido o está incompleto. Solicita uno nuevo.",
+      "passwordLength": "La contraseña debe contener al menos 8 caracteres y no superar los 72 bytes.",
+      "newLink": "Solicitar un nuevo enlace de verificación",
+      "invitationHint": "Si recibiste una invitación a una organización, vuelve a abrir el enlace original después de iniciar sesión."
     }
   }
 }

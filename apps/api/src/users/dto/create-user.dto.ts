@@ -3,6 +3,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  Matches,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -22,6 +23,10 @@ export class CreateUserDto {
 
   @IsString()
   @MinLength(8)
-  @MaxLength(128)
+  @MaxLength(72)
   password: string;
+
+  @IsString()
+  @Matches(/^[0-9a-f]{64}$/)
+  verification_token: string;
 }

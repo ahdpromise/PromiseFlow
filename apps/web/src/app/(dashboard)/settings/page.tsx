@@ -110,21 +110,29 @@ export default function SettingsPage() {
       const token = getAccessToken();
       const currentWorkspaceId = getWorkspaceId();
 
-      if (!token || !currentWorkspaceId) {
+      if (!token) {
         setErrorMessageKey("authenticationMissing");
         setIsLoading(false);
         return;
       }
 
       try {
+        const currentUser = await getCurrentUser(token);
+
+        setUser(currentUser);
+        setFirstName(currentUser.first_name);
+        setLastName(currentUser.last_name);
+
+        if (!currentWorkspaceId) {
+          return;
+        }
+
         const [
-          currentUser,
           organizationItems,
           membershipItems,
           memberDirectory,
           roleItems,
         ] = await Promise.all([
-          getCurrentUser(token),
           getOrganizations(token),
           getMemberships(token),
           getOrganizationMemberDirectory(
@@ -140,9 +148,6 @@ export default function SettingsPage() {
               organization.id === currentWorkspaceId,
           );
 
-        setUser(currentUser);
-        setFirstName(currentUser.first_name);
-        setLastName(currentUser.last_name);
         setOrganizations(organizationItems);
         setMemberships(membershipItems);
         setDirectory(memberDirectory);
