@@ -85,6 +85,13 @@
     "createAccount": "Create an account",
     "errors": {
       "signIn": "Unable to sign in"
+    },
+    "demo": {
+      "or": "or",
+      "button": "Try Live Demo",
+      "loading": "Opening demo...",
+      "description": "Explore PromiseFlow without creating an account.",
+      "error": "Unable to open the demo. Please try again later."
     }
   },
   "approvals": {
@@ -1187,5 +1194,18 @@
       "newLink": "Request a new verification link",
       "invitationHint": "If you received an organization invitation, reopen the original invitation link after signing in."
     }
+  },
+  "demo": {
+    "title": "Live Demo",
+    "description": "You are exploring a read-only workspace with sample data.",
+    "readOnly": "Read-only mode",
+    "exit": "Exit Demo",
+    "session": "Demo sessions last 60 minutes.",
+    "restricted": "This feature is not available in demo mode.",
+    "expired": "Your demo session has expired. Please start a new session.",
+    "fullVersionTitle": "Available in the full version",
+    "fullVersionDescription": "This feature is part of PromiseFlow but is restricted in Live Demo mode for security reasons.",
+    "backToDashboard": "Back to Dashboard",
+    "actionRestricted": "This action is disabled in Live Demo mode."
   }
 }

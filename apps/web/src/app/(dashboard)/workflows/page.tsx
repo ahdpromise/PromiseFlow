@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import CustomSelect from "@/components/ui/custom-select";
 
 import Link from "next/link";
@@ -326,7 +328,7 @@ export default function WorkflowsPage() {
           </p>
         </div>
 
-        <button
+        <DemoActionButton
           type="button"
           onClick={() => {
             setShowCreateForm(
@@ -343,7 +345,7 @@ export default function WorkflowsPage() {
           {showCreateForm
             ? t("cancel")
             : t("newWorkflow")}
-        </button>
+        </DemoActionButton>
       </section>
 
       {errorMessage ? (
@@ -477,7 +479,7 @@ export default function WorkflowsPage() {
           </div>
 
           <div className="mt-6 flex justify-end">
-            <button
+            <DemoActionButton
               type="submit"
               disabled={isCreating}
               className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -489,7 +491,7 @@ export default function WorkflowsPage() {
                 : t(
                     "create.submit",
                   )}
-            </button>
+            </DemoActionButton>
           </div>
         </form>
       ) : null}

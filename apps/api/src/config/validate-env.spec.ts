@@ -13,6 +13,7 @@ const validProductionEnv = () => ({
   RESEND_API_KEY: 'test-api-key-not-real',
   RESEND_FROM_EMAIL: 'noreply@example.com',
   FRONTEND_URL: 'https://app.example.com',
+  TRUSTED_PROXY_IP: '172.19.0.1',
 });
 
 describe('validateEnv', () => {
@@ -40,6 +41,7 @@ describe('validateEnv', () => {
     'RESEND_API_KEY',
     'RESEND_FROM_EMAIL',
     'FRONTEND_URL',
+    'TRUSTED_PROXY_IP',
   ])('rejects missing %s in production', (key) => {
     const config: Record<string, unknown> =
       validProductionEnv();
@@ -128,5 +130,156 @@ describe('validateEnv', () => {
     expect(() => validateEnv(config)).toThrow(
       'Production DATABASE_PORT must be a valid port',
     );
+  });
+});
+
+describe('Production Demo environment validation', () => {
+  const demoConfig = () => ({
+    ...validProductionEnv(),
+    DEMO_ENABLED: 'true',
+    DEMO_USER_ID: '11111111-1111-4111-8111-111111111111',
+    DEMO_ORGANIZATION_ID:
+      '22222222-2222-4222-8222-222222222222',
+  });
+
+  it('allows production without demo configuration', () => {
+    const config = validProductionEnv();
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it('allows explicitly disabled demo mode', () => {
+    const config = {
+      ...validProductionEnv(),
+      DEMO_ENABLED: 'false',
+    };
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it('allows enabled demo with valid UUIDs', () => {
+    const config = demoConfig();
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it.each([
+    'DEMO_USER_ID',
+    'DEMO_ORGANIZATION_ID',
+  ] as const)('rejects missing %s', (key) => {
+    const config: Record<string, unknown> = demoConfig();
+
+    delete config[key];
+
+    expect(() => validateEnv(config)).toThrow(
+      `Production ${key} must be a valid UUID`,
+    );
+  });
+
+  it.each([
+    'DEMO_USER_ID',
+    'DEMO_ORGANIZATION_ID',
+  ] as const)('rejects invalid %s', (key) => {
+    const config = {
+      ...demoConfig(),
+      [key]: 'invalid-uuid',
+    };
+
+    expect(() => validateEnv(config)).toThrow(
+      `Production ${key} must be a valid UUID`,
+    );
+  });
+
+  it.each([
+    '',
+    'yes',
+    '1',
+    'TRUE',
+  ])('rejects invalid DEMO_ENABLED: %s', (value) => {
+    const config = {
+      ...validProductionEnv(),
+      DEMO_ENABLED: value,
+    };
+
+    expect(() => validateEnv(config)).toThrow(
+      'Production DEMO_ENABLED must be true or false',
+    );
+  });
+});
+
+describe('Production Trusted Proxy environment validation', () => {
+  it.each([
+    '172.19.0.1',
+    '127.0.0.1',
+    '10.0.0.1',
+    '192.168.1.1',
+  ])('allows a single IPv4 address: %s', (ip) => {
+    const config = {
+      ...validProductionEnv(),
+      TRUSTED_PROXY_IP: ip,
+    };
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it.each([
+    '',
+    '   ',
+  ])('rejects an empty TRUSTED_PROXY_IP: "%s"', (ip) => {
+    const config = {
+      ...validProductionEnv(),
+      TRUSTED_PROXY_IP: ip,
+    };
+
+    expect(() => validateEnv(config)).toThrow(
+      'Production environment variable TRUSTED_PROXY_IP is required',
+    );
+  });
+
+  it.each([
+    'true',
+    'false',
+    '*',
+    '0.0.0.0',
+    '255.255.255.255',
+    '172.19.0.0/16',
+    '172.19.0.1/32',
+    '172.19.0.1,172.19.0.2',
+    '172.19.0.1:3001',
+    'localhost',
+    'loopback',
+    'linklocal',
+    'uniquelocal',
+    '256.19.0.1',
+    '172.19.0',
+    '::1',
+    '::ffff:172.19.0.1',
+  ])('rejects invalid TRUSTED_PROXY_IP: %s', (ip) => {
+    const config = {
+      ...validProductionEnv(),
+      TRUSTED_PROXY_IP: ip,
+    };
+
+    expect(() => validateEnv(config)).toThrow(
+      'Production TRUSTED_PROXY_IP must be a valid single IPv4 address',
+    );
+  });
+
+  it('allows development without TRUSTED_PROXY_IP', () => {
+    const config = {
+      NODE_ENV: 'development',
+    };
+
+    expect(validateEnv(config)).toBe(config);
+  });
+
+  it('allows production with the current Hetzner configuration', () => {
+    const config = {
+      ...validProductionEnv(),
+      FRONTEND_URL: 'https://promiseflow.duckdns.org',
+      TRUSTED_PROXY_IP: '172.19.0.1',
+    };
+
+    expect(validateEnv(config)).toBe(config);
   });
 });

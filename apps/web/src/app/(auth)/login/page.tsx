@@ -3,23 +3,47 @@
 import {
   FormEvent,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { saveAuthSession } from "@/lib/auth-storage";
-import { login } from "@/services/auth.service";
+import { login, demoLogin } from "@/services/auth.service";
+import { clearWorkspaceId } from "@/lib/workspace-storage";
 
 type ErrorMessageKey =
-  | "errors.signIn";
+  | "errors.signIn"
+  | "demo.error";
 
 const PENDING_INVITATION_TOKEN_KEY =
   "promiseflow_pending_invitation_token";
 
+function subscribeToExpirationNotice() {
+  return () => {};
+}
+
+function getExpirationNotice() {
+  return new URLSearchParams(
+    window.location.search,
+  ).get("demo") === "expired";
+}
+
+function getServerExpirationNotice() {
+  return false;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const t = useTranslations("login");
+  const tDemo = useTranslations("demo");
+
+  const showExpirationNotice = useSyncExternalStore(
+    subscribeToExpirationNotice,
+    getExpirationNotice,
+    getServerExpirationNotice,
+  );
 
   const [email, setEmail] =
     useState("");
@@ -37,6 +61,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] =
     useState(false);
 
+  const [isDemoLoading, setIsDemoLoading] =
+    useState(false);
+
   const errorMessage =
     errorMessageKey
       ? t(errorMessageKey)
@@ -47,6 +74,10 @@ export default function LoginPage() {
   ) {
     event.preventDefault();
 
+    if (isLoading || isDemoLoading) {
+      return;
+    }
+
     setErrorMessageKey(null);
     setIsLoading(true);
 
@@ -55,6 +86,8 @@ export default function LoginPage() {
         email,
         password,
       });
+
+      clearWorkspaceId();
 
       saveAuthSession(
         result.access_token,
@@ -85,6 +118,44 @@ export default function LoginPage() {
     }
   }
 
+  async function handleDemoLogin() {
+    if (isLoading || isDemoLoading) {
+      return;
+    }
+
+    setErrorMessageKey(null);
+    setIsDemoLoading(true);
+
+    try {
+      const result = await demoLogin();
+
+      if (
+        result.user.email.trim().toLowerCase() !==
+        "demo@promiseflow.invalid"
+      ) {
+        throw new Error("Invalid demo identity");
+      }
+
+      clearWorkspaceId();
+
+      sessionStorage.removeItem(
+        PENDING_INVITATION_TOKEN_KEY,
+      );
+
+      saveAuthSession(
+        result.access_token,
+        result.user,
+      );
+
+      setPassword("");
+      router.replace("/dashboard");
+    } catch {
+      setErrorMessageKey("demo.error");
+    } finally {
+      setIsDemoLoading(false);
+    }
+  }
+
   return (
     <div>
       <div className="mb-6 flex justify-end">
@@ -105,6 +176,15 @@ export default function LoginPage() {
         </p>
       </div>
 
+      {showExpirationNotice ? (
+        <div
+          role="status"
+          className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950"
+        >
+          {tDemo("expired")}
+        </div>
+      ) : null}
+
       <form
         onSubmit={handleSubmit}
         className="space-y-5"
@@ -123,7 +203,7 @@ export default function LoginPage() {
             type="email"
             autoComplete="email"
             required
-            disabled={isLoading}
+            disabled={isLoading || isDemoLoading}
             value={email}
             onChange={(event) =>
               setEmail(
@@ -160,7 +240,7 @@ export default function LoginPage() {
             type="password"
             autoComplete="current-password"
             required
-            disabled={isLoading}
+            disabled={isLoading || isDemoLoading}
             value={password}
             onChange={(event) =>
               setPassword(
@@ -182,7 +262,7 @@ export default function LoginPage() {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || isDemoLoading}
           className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading
@@ -190,6 +270,31 @@ export default function LoginPage() {
             : t("signIn")}
         </button>
       </form>
+
+      <div className="mt-5 space-y-3">
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-border" />
+          <span className="text-xs text-muted-foreground">
+            {t("demo.or")}
+          </span>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+
+        <button
+          type="button"
+          onClick={handleDemoLogin}
+          disabled={isLoading || isDemoLoading}
+          className="flex h-11 w-full items-center justify-center rounded-lg border border-primary px-4 text-sm font-semibold text-primary transition hover:bg-primary/10 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isDemoLoading
+            ? t("demo.loading")
+            : t("demo.button")}
+        </button>
+
+        <p className="text-center text-xs leading-5 text-muted-foreground">
+          {t("demo.description")}
+        </p>
+      </div>
 
       <p className="mt-8 text-center text-sm text-muted-foreground">
         {t("newToPromiseFlow")}{" "}

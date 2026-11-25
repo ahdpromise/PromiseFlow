@@ -37,6 +37,60 @@ export function getStoredUser(): AuthUser | null {
   }
 }
 
+export function isDemoSession(): boolean {
+  return getStoredUser()?.email?.trim().toLowerCase() ===
+    "demo@promiseflow.invalid";
+}
+
+export function getDemoSessionExpiresAt(): number | null {
+  if (!isDemoSession()) {
+    return null;
+  }
+
+  const token = getAccessToken();
+
+  if (!token) {
+    return 0;
+  }
+
+  try {
+    const payload = token.split(".")[1];
+
+    if (!payload) {
+      return 0;
+    }
+
+    const normalized = payload
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+
+    const padded = normalized.padEnd(
+      Math.ceil(normalized.length / 4) * 4,
+      "=",
+    );
+
+    const decoded = JSON.parse(atob(padded));
+
+    if (
+      typeof decoded.exp !== "number" ||
+      !Number.isFinite(decoded.exp)
+    ) {
+      return 0;
+    }
+
+    return decoded.exp * 1000;
+  } catch {
+    return 0;
+  }
+}
+
+export function isDemoSessionExpired(): boolean {
+  const expiresAt = getDemoSessionExpiresAt();
+
+  return expiresAt !== null &&
+    Date.now() >= expiresAt;
+}
+
 export function saveAuthSession(
   accessToken: string,
   user: AuthUser,

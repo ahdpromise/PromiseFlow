@@ -48,7 +48,15 @@ export class UsersController {
     return this.usersService.create(dto);
   }
 
+  @Post('demo-login')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(ThrottlerGuard)
+  demoLogin() {
+    return this.usersService.demoLogin();
+  }
+
   @Post('login')
+  @UseGuards(ThrottlerGuard)
   login(
     @Body()
     dto: LoginUserDto,

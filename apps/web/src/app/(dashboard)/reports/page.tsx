@@ -1,5 +1,7 @@
 "use client";
 
+import { isDemoSession } from "@/lib/auth-storage";
+
 import {
   useCallback,
   useEffect,
@@ -189,14 +191,14 @@ export default function ReportsPage() {
             workspaceId,
             dateRange,
           ),
-          getActivities(
+          (isDemoSession() ? Promise.resolve([]) : getActivities(
             token,
             workspaceId,
-          ),
-          getAuditLogs(
+          )),
+          (isDemoSession() ? Promise.resolve([]) : getAuditLogs(
             token,
             workspaceId,
-          ),
+          )),
         ]);
 
         setOverview(overviewData);

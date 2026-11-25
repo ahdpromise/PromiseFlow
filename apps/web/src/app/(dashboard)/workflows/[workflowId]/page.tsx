@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import CustomSelect from "@/components/ui/custom-select";
 
 import Link from "next/link";
@@ -829,7 +831,7 @@ export default function WorkflowDetailsPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={openDeleteModal}
                 disabled={
@@ -843,9 +845,9 @@ export default function WorkflowDetailsPage() {
                 className="h-10 rounded-lg border border-red-300 px-4 text-sm font-semibold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {t("deleteWorkflow")}
-              </button>
+              </DemoActionButton>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   if (showEditForm) {
@@ -866,9 +868,9 @@ export default function WorkflowDetailsPage() {
                 {showEditForm
                   ? t("cancel")
                   : t("editWorkflow")}
-              </button>
+              </DemoActionButton>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   setShowCreateForm(
@@ -893,7 +895,7 @@ export default function WorkflowDetailsPage() {
                 {showCreateForm
                   ? t("cancel")
                   : t("newStep")}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </section>
@@ -1018,7 +1020,7 @@ export default function WorkflowDetailsPage() {
                 {t("cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={isUpdating}
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -1026,7 +1028,7 @@ export default function WorkflowDetailsPage() {
                 {isUpdating
                   ? t("edit.saving")
                   : t("edit.submit")}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         ) : null}
@@ -1127,7 +1129,7 @@ export default function WorkflowDetailsPage() {
             </div>
 
             <div className="mt-6 flex justify-end">
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={isCreating}
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -1139,7 +1141,7 @@ export default function WorkflowDetailsPage() {
                   : t(
                       "create.submit",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         ) : null}
@@ -1373,7 +1375,7 @@ export default function WorkflowDetailsPage() {
                             )}
                           </button>
 
-                          <button
+                          <DemoActionButton
                             type="submit"
                             disabled={
                               isUpdatingStep
@@ -1387,7 +1389,7 @@ export default function WorkflowDetailsPage() {
                               : t(
                                   "editStep.submit",
                                 )}
-                          </button>
+                          </DemoActionButton>
                         </div>
                       </form>
                     ) : (
@@ -1426,7 +1428,7 @@ export default function WorkflowDetailsPage() {
                             {step.slug}
                           </span>
 
-                          <button
+                          <DemoActionButton
                             type="button"
                             onClick={() => {
                               void handleMoveStep(
@@ -1452,9 +1454,9 @@ export default function WorkflowDetailsPage() {
                             <ArrowUp
                               size={16}
                             />
-                          </button>
+                          </DemoActionButton>
 
-                          <button
+                          <DemoActionButton
                             type="button"
                             onClick={() => {
                               void handleMoveStep(
@@ -1482,9 +1484,9 @@ export default function WorkflowDetailsPage() {
                             <ArrowDown
                               size={16}
                             />
-                          </button>
+                          </DemoActionButton>
 
-                          <button
+                          <DemoActionButton
                             type="button"
                             onClick={() =>
                               openEditStepForm(
@@ -1502,9 +1504,9 @@ export default function WorkflowDetailsPage() {
                             {t(
                               "editStep.button",
                             )}
-                          </button>
+                          </DemoActionButton>
 
-                          <button
+                          <DemoActionButton
                             type="button"
                             onClick={() =>
                               openDeleteStepModal(
@@ -1522,7 +1524,7 @@ export default function WorkflowDetailsPage() {
                             {t(
                               "deleteStep.button",
                             )}
-                          </button>
+                          </DemoActionButton>
                         </div>
                       </div>
                     )}
@@ -1581,7 +1583,7 @@ export default function WorkflowDetailsPage() {
                 {t("delete.cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   void handleDeleteWorkflow();
@@ -1592,7 +1594,7 @@ export default function WorkflowDetailsPage() {
                 {isDeleting
                   ? t("delete.deleting")
                   : t("delete.confirm")}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>
@@ -1639,7 +1641,7 @@ export default function WorkflowDetailsPage() {
                 )}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   void handleDeleteStep();
@@ -1656,7 +1658,7 @@ export default function WorkflowDetailsPage() {
                   : t(
                       "deleteStep.confirm",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>

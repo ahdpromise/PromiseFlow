@@ -1,5 +1,9 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
+import { isDemoSession } from "@/lib/auth-storage";
+
 import CustomSelect from "@/components/ui/custom-select";
 
 import Link from "next/link";
@@ -8,11 +12,12 @@ import {
   useRouter,
 } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ArrowLeft, Users } from "lucide-react";
+import { ArrowLeft, LockKeyhole, Users } from "lucide-react";
 import {
   FormEvent,
   useEffect,
   useState,
+  useSyncExternalStore,
 } from "react";
 
 import { getAccessToken } from "@/lib/auth-storage";
@@ -51,8 +56,23 @@ type SuccessMessageKey =
   | "memberRemoved"
   | "updated";
 
+function subscribeDemoSession() {
+  return () => {};
+}
+
+function getServerDemoSnapshot() {
+  return false;
+}
+
 export default function TeamDetailsPage() {
   const t = useTranslations("teamDetails");
+  const tDemo = useTranslations("demo");
+
+  const isDemo = useSyncExternalStore(
+    subscribeDemoSession,
+    isDemoSession,
+    getServerDemoSnapshot,
+  );
   const router = useRouter();
 
   const params = useParams<{
@@ -154,10 +174,10 @@ export default function TeamDetailsPage() {
             token,
             workspaceId,
           ),
-          getOrganizationMemberDirectory(
+          (isDemoSession() ? Promise.resolve([]) : getOrganizationMemberDirectory(
             token,
             workspaceId,
-          ),
+          )),
         ]);
 
         const selectedTeam =
@@ -175,10 +195,10 @@ export default function TeamDetailsPage() {
         }
 
         const teamMembers =
-          await getTeamMembers(
+          await (isDemoSession() ? Promise.resolve([]) : getTeamMembers(
             token,
             selectedTeam.id,
-          );
+          ));
 
         setTeam(selectedTeam);
         setMembers(teamMembers);
@@ -508,7 +528,7 @@ export default function TeamDetailsPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   if (showEditForm) {
@@ -523,9 +543,9 @@ export default function TeamDetailsPage() {
                 {showEditForm
                   ? t("cancel")
                   : t("editTeam")}
-              </button>
+              </DemoActionButton>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   setShowAddMember(
@@ -542,9 +562,9 @@ export default function TeamDetailsPage() {
                 {showAddMember
                   ? t("cancel")
                   : t("addMember")}
-              </button>
+              </DemoActionButton>
 
-              <button
+              <DemoActionButton
                 type="button"
                 onClick={() => {
                   setShowDeleteConfirmation(
@@ -558,7 +578,7 @@ export default function TeamDetailsPage() {
                 className="h-10 rounded-lg border border-red-200 px-4 text-sm font-semibold text-red-600 transition hover:bg-red-50"
               >
                 {t("deleteTeam")}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </section>
@@ -677,7 +697,7 @@ export default function TeamDetailsPage() {
                 {t("cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={isUpdating}
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -685,7 +705,7 @@ export default function TeamDetailsPage() {
                 {isUpdating
                   ? t("edit.saving")
                   : t("edit.submit")}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         ) : null}
@@ -739,7 +759,7 @@ export default function TeamDetailsPage() {
                 </div>
 
                 <div className="flex justify-end">
-                  <button
+                  <DemoActionButton
                     type="submit"
                     disabled={
                       isAdding ||
@@ -754,7 +774,7 @@ export default function TeamDetailsPage() {
                       : t(
                           "addMemberForm.submit",
                         )}
-                  </button>
+                  </DemoActionButton>
                 </div>
               </form>
             ) : (
@@ -774,7 +794,7 @@ export default function TeamDetailsPage() {
             </p>
 
             <p className="mt-3 text-3xl font-semibold tracking-tight">
-              {members.length}
+              {isDemo ? "—" : members.length}
             </p>
           </article>
 
@@ -797,9 +817,9 @@ export default function TeamDetailsPage() {
               </h2>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                {t(
-                  "members.description",
-                )}
+                {isDemo
+                  ? tDemo("restricted")
+                  : t("members.description")}
               </p>
             </div>
 
@@ -809,7 +829,21 @@ export default function TeamDetailsPage() {
             />
           </div>
 
-          {members.length > 0 ? (
+          {isDemo ? (
+            <div className="p-8 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-surface-muted text-muted-foreground">
+                <LockKeyhole size={24} strokeWidth={1.6} />
+              </div>
+
+              <p className="text-sm font-semibold">
+                {tDemo("fullVersionTitle")}
+              </p>
+
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted-foreground">
+                {tDemo("fullVersionDescription")}
+              </p>
+            </div>
+          ) : members.length > 0 ? (
             <div className="divide-y divide-border">
               {members.map((member) => {
                 const details =
@@ -837,7 +871,7 @@ export default function TeamDetailsPage() {
                       </p>
                     </div>
 
-                    <button
+                    <DemoActionButton
                       type="button"
                       onClick={() => {
                         setMemberToRemove(
@@ -855,7 +889,7 @@ export default function TeamDetailsPage() {
                       {t(
                         "removeMember.button",
                       )}
-                    </button>
+                    </DemoActionButton>
                   </div>
                 );
               })}
@@ -907,7 +941,7 @@ export default function TeamDetailsPage() {
                 {t("delete.cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 disabled={isDeleting}
                 onClick={() =>
@@ -922,7 +956,7 @@ export default function TeamDetailsPage() {
                   : t(
                       "delete.confirm",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>
@@ -974,7 +1008,7 @@ export default function TeamDetailsPage() {
                 )}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 disabled={isRemoving}
                 onClick={() =>
@@ -989,7 +1023,7 @@ export default function TeamDetailsPage() {
                   : t(
                       "removeMember.confirm",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>

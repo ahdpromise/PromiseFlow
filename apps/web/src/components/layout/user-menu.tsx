@@ -91,6 +91,10 @@ export function UserMenu() {
     }
   }, [storedUser]);
 
+  const isDemo =
+    user?.email?.trim().toLowerCase() ===
+    "demo@promiseflow.invalid";
+
   const userId = user?.id;
 
   useEffect(() => {
@@ -289,6 +293,7 @@ export function UserMenu() {
           </div>
 
           <div className="p-1.5">
+            {!isDemo ? (
             <button
               type="button"
               onClick={handleSettings}
@@ -300,6 +305,7 @@ export function UserMenu() {
               />
               {t("settings")}
             </button>
+            ) : null}
 
             <button
               type="button"

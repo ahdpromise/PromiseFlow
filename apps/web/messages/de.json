@@ -85,6 +85,13 @@
     "createAccount": "Konto erstellen",
     "errors": {
       "signIn": "Anmeldung nicht möglich"
+    },
+    "demo": {
+      "or": "oder",
+      "button": "Live-Demo ausprobieren",
+      "loading": "Demo wird geöffnet...",
+      "description": "Entdecken Sie PromiseFlow ohne Registrierung.",
+      "error": "Die Demo konnte nicht geöffnet werden. Bitte versuchen Sie es später erneut."
     }
   },
   "approvals": {
@@ -1187,5 +1194,18 @@
       "newLink": "Neuen Bestätigungslink anfordern",
       "invitationHint": "Wenn Sie eine Organisationseinladung erhalten haben, öffnen Sie nach der Anmeldung erneut den ursprünglichen Einladungslink."
     }
+  },
+  "demo": {
+    "title": "Live-Demo",
+    "description": "Sie erkunden einen schreibgeschützten Arbeitsbereich mit Beispieldaten.",
+    "readOnly": "Schreibgeschützter Modus",
+    "exit": "Demo verlassen",
+    "session": "Eine Demo-Sitzung dauert 60 Minuten.",
+    "restricted": "Diese Funktion ist im Demo-Modus nicht verfügbar.",
+    "expired": "Ihre Demo-Sitzung ist abgelaufen. Bitte starten Sie eine neue Sitzung.",
+    "fullVersionTitle": "In der Vollversion verfügbar",
+    "fullVersionDescription": "Diese Funktion ist Teil von PromiseFlow, aber aus Sicherheitsgründen im Live-Demo-Modus eingeschränkt.",
+    "backToDashboard": "Zurück zum Dashboard",
+    "actionRestricted": "Diese Aktion ist im Live-Demo-Modus deaktiviert."
   }
 }

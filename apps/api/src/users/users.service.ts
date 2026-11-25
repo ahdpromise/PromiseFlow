@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -222,6 +223,95 @@ export class UsersService {
     }
   }
 
+  async demoLogin() {
+    const demoEmail = 'demo@promiseflow.invalid';
+
+    const demoUserId =
+      process.env.DEMO_USER_ID?.trim();
+
+    const demoOrganizationId =
+      process.env.DEMO_ORGANIZATION_ID?.trim();
+
+    if (
+      process.env.DEMO_ENABLED !== 'true' ||
+      !demoUserId ||
+      !demoOrganizationId
+    ) {
+      throw new ForbiddenException(
+        'Demo access is disabled',
+      );
+    }
+
+    const user = await this.rlsContextService.run(
+      demoUserId,
+      async (manager) => {
+        const users = await manager.query(
+          `
+            SELECT
+              u.id,
+              u.first_name,
+              u.last_name,
+              u.email
+            FROM public.users u
+            JOIN public.memberships m
+              ON m.user_id = u.id
+            JOIN public.organizations o
+              ON o.id = m.organization_id
+            JOIN public.roles r
+              ON r.id = m.role_id
+              AND r.organization_id = o.id
+            WHERE u.id = $1
+              AND u.email = $2
+              AND u.deleted_at IS NULL
+              AND m.deleted_at IS NULL
+              AND o.id = $3
+              AND o.slug = 'promiseflow-demo'
+              AND o.deleted_at IS NULL
+              AND r.slug = 'demo-viewer'
+              AND r.deleted_at IS NULL
+              AND NOT EXISTS (
+                SELECT 1
+                FROM public.memberships other
+                WHERE other.user_id = u.id
+                  AND other.organization_id <> o.id
+                  AND other.deleted_at IS NULL
+              )
+          `,
+          [demoUserId, demoEmail, demoOrganizationId],
+        );
+
+        return users[0];
+      },
+    );
+
+    if (!user) {
+      throw new ForbiddenException(
+        'Demo account is unavailable',
+      );
+    }
+
+    const accessToken = this.jwtService.sign(
+      {
+        sub: user.id,
+        email: user.email,
+      },
+      {
+        expiresIn: '1h',
+      },
+    );
+
+    return {
+      message: 'Demo login successful',
+      access_token: accessToken,
+      user: {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      },
+    };
+  }
+
   async login(
     loginUserDto: LoginUserDto,
   ) {
@@ -237,7 +327,11 @@ export class UsersService {
     const user =
       result[0] as LoginUserRecord | undefined;
 
-    if (!user) {
+    if (
+      !user ||
+      user.email.trim().toLowerCase() ===
+        'demo@promiseflow.invalid'
+    ) {
       throw new UnauthorizedException(
         'Invalid email or password',
       );

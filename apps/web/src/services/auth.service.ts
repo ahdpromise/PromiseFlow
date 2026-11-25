@@ -48,6 +48,15 @@ export async function login(
   );
 }
 
+export async function demoLogin() {
+  return apiRequest<LoginResponse>(
+    "/users/demo-login",
+    {
+      method: "POST",
+    },
+  );
+}
+
 export async function requestEmailVerification(
   payload: RequestEmailVerificationPayload,
 ) {

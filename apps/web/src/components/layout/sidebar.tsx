@@ -1,7 +1,7 @@
 
 "use client";
 
-import { X } from "lucide-react";
+import { Lock, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "@/i18n/locale-provider";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, type ReactNode } from "react";
 
 type SidebarProps = {
+  isDemo?: boolean;
   isMobileOpen?: boolean;
   onMobileClose?: () => void;
 };
@@ -314,10 +315,12 @@ function AnimatedSidebarIcon({
 }
 
 export function Sidebar({
+  isDemo = false,
   isMobileOpen = false,
   onMobileClose = () => {},
 }: SidebarProps) {
   const pathname = usePathname();
+  const tDemo = useTranslations("demo");
   const { locale } = useLocale();
   const isRtl = locale === "ar";
 
@@ -400,6 +403,14 @@ export function Sidebar({
 
         <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-5">
           {navigation.map((item) => {
+            const isLocked = isDemo && ![
+              "dashboard",
+              "projects",
+              "tasks",
+              "teams",
+              "workflows",
+              "reports",
+            ].includes(item.key);
             const isActive =
               pathname === item.href ||
               pathname.startsWith(
@@ -421,7 +432,19 @@ export function Sidebar({
                   name={item.key}
                 />
 
-                {tNavigation(item.key)}
+                <span className="min-w-0 flex-1">
+                  {tNavigation(item.key)}
+                </span>
+
+                {isLocked ? (
+                  <span title={tDemo("fullVersionTitle")}>
+                    <Lock
+                      size={14}
+                      className="shrink-0 opacity-70"
+                      aria-label={tDemo("fullVersionTitle")}
+                    />
+                  </span>
+                ) : null}
               </Link>
             );
           })}
@@ -443,7 +466,19 @@ export function Sidebar({
               name="settings"
             />
 
-            {tNavigation("settings")}
+            <span className="min-w-0 flex-1">
+              {tNavigation("settings")}
+            </span>
+
+            {isDemo ? (
+              <span title={tDemo("fullVersionTitle")}>
+                <Lock
+                  size={14}
+                  className="shrink-0 opacity-70"
+                  aria-label={tDemo("fullVersionTitle")}
+                />
+              </span>
+            ) : null}
           </Link>
         </div>
       </>

@@ -80,6 +80,13 @@ export function WorkspaceSwitcher() {
             selected.id,
           );
         }
+      } catch (error) {
+        if (getAccessToken() === token) {
+          console.warn(
+            "Unable to load workspaces:",
+            error,
+          );
+        }
       } finally {
         setIsLoading(false);
       }

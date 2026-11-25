@@ -1,5 +1,9 @@
 "use client";
 
+import { DemoActionButton, DemoSelect, DemoTextarea, DemoInput } from "@/components/demo/demo-controls";
+
+import { isDemoSession } from "@/lib/auth-storage";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
@@ -259,10 +263,10 @@ export default function TaskDetailsPage() {
           organizationMembers,
         ] = await Promise.all([
           getTask(token, taskId),
-          getApprovals(token, taskId),
-          getComments(token, taskId),
-          getFiles(token, taskId),
-          getOrganizationMemberDirectory(token, workspaceId),
+          (isDemoSession() ? Promise.resolve([]) : getApprovals(token, taskId)),
+          (isDemoSession() ? Promise.resolve([]) : getComments(token, taskId)),
+          (isDemoSession() ? Promise.resolve([]) : getFiles(token, taskId)),
+          (isDemoSession() ? Promise.resolve([]) : getOrganizationMemberDirectory(token, workspaceId)),
         ]);
 
         setTask(item);
@@ -534,7 +538,7 @@ export default function TaskDetailsPage() {
             </p>
           </div>
 
-          <button
+          <DemoActionButton
             type="button"
             onClick={() => {
               setShowApprovalForm((current) => !current);
@@ -545,7 +549,7 @@ export default function TaskDetailsPage() {
             {showApprovalForm
               ? t("cancel")
               : t("requestApproval")}
-          </button>
+          </DemoActionButton>
         </div>
       </section>
 
@@ -591,7 +595,7 @@ export default function TaskDetailsPage() {
                 {t("approvalForm.approver")}
               </label>
 
-              <select
+              <DemoSelect
                 id="approval-approver"
                 value={selectedApproverId}
                 disabled={isCreatingApproval}
@@ -613,7 +617,7 @@ export default function TaskDetailsPage() {
                     {member.email}
                   </option>
                 ))}
-              </select>
+              </DemoSelect>
             </div>
 
             <div className="min-w-0">
@@ -624,7 +628,7 @@ export default function TaskDetailsPage() {
                 {t("approvalForm.comment")}
               </label>
 
-              <textarea
+              <DemoTextarea
                 id="approval-comment"
                 rows={3}
                 value={approvalComment}
@@ -638,7 +642,7 @@ export default function TaskDetailsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={
                   isCreatingApproval || !selectedApproverId
@@ -648,7 +652,7 @@ export default function TaskDetailsPage() {
                 {isCreatingApproval
                   ? t("approvalForm.creating")
                   : t("approvalForm.create")}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         </section>
@@ -668,7 +672,7 @@ export default function TaskDetailsPage() {
               {t("form.title")}
             </label>
 
-            <input
+            <DemoInput
               id="task-title"
               type="text"
               required
@@ -687,7 +691,7 @@ export default function TaskDetailsPage() {
               {t("form.description")}
             </label>
 
-            <textarea
+            <DemoTextarea
               id="task-description"
               rows={5}
               disabled={isSaving}
@@ -708,7 +712,7 @@ export default function TaskDetailsPage() {
                 {t("form.status")}
               </label>
 
-              <select
+              <DemoSelect
                 id="task-status"
                 value={status}
                 disabled={isSaving}
@@ -729,7 +733,7 @@ export default function TaskDetailsPage() {
                 <option value="canceled">
                   {t("status.canceled")}
                 </option>
-              </select>
+              </DemoSelect>
             </div>
 
             <div className="min-w-0">
@@ -740,7 +744,7 @@ export default function TaskDetailsPage() {
                 {t("form.priority")}
               </label>
 
-              <select
+              <DemoSelect
                 id="task-priority"
                 value={priority}
                 disabled={isSaving}
@@ -761,7 +765,7 @@ export default function TaskDetailsPage() {
                 <option value="urgent">
                   {t("priority.urgent")}
                 </option>
-              </select>
+              </DemoSelect>
             </div>
 
             <div className="min-w-0">
@@ -772,7 +776,7 @@ export default function TaskDetailsPage() {
                 {t("form.dueDate")}
               </label>
 
-              <input
+              <DemoInput
                 id="task-due-at"
                 type="datetime-local"
                 dir="ltr"
@@ -787,7 +791,7 @@ export default function TaskDetailsPage() {
           </div>
 
           <div className="flex justify-end">
-            <button
+            <DemoActionButton
               type="submit"
               disabled={isSaving}
               className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
@@ -795,7 +799,7 @@ export default function TaskDetailsPage() {
               {isSaving
                 ? t("form.saving")
                 : t("form.saveChanges")}
-            </button>
+            </DemoActionButton>
           </div>
         </form>
       </section>
@@ -894,7 +898,7 @@ export default function TaskDetailsPage() {
             onSubmit={handleUploadFile}
             className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center"
           >
-            <input
+            <DemoInput
               ref={fileInputRef}
               id="task-file-upload"
               type="file"
@@ -919,7 +923,7 @@ export default function TaskDetailsPage() {
                 : t("files.noFileSelected")}
             </span>
 
-            <button
+            <DemoActionButton
               type="submit"
               disabled={isUploadingFile || !selectedFile}
               className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -929,7 +933,7 @@ export default function TaskDetailsPage() {
               {isUploadingFile
                 ? t("files.uploading")
                 : t("files.upload")}
-            </button>
+            </DemoActionButton>
           </form>
         </div>
 
@@ -1084,7 +1088,7 @@ export default function TaskDetailsPage() {
             {t("comments.add")}
           </label>
 
-          <textarea
+          <DemoTextarea
             id="task-comment"
             rows={4}
             value={commentContent}
@@ -1097,7 +1101,7 @@ export default function TaskDetailsPage() {
           />
 
           <div className="mt-3 flex justify-end">
-            <button
+            <DemoActionButton
               type="submit"
               disabled={
                 isCreatingComment || !commentContent.trim()
@@ -1107,7 +1111,7 @@ export default function TaskDetailsPage() {
               {isCreatingComment
                 ? t("comments.adding")
                 : t("comments.add")}
-            </button>
+            </DemoActionButton>
           </div>
         </form>
       </section>

@@ -85,6 +85,13 @@
     "createAccount": "Crear una cuenta",
     "errors": {
       "signIn": "No se pudo iniciar sesión"
+    },
+    "demo": {
+      "or": "o",
+      "button": "Probar demo en vivo",
+      "loading": "Abriendo demo...",
+      "description": "Explora PromiseFlow sin crear una cuenta.",
+      "error": "No se pudo abrir la demo. Inténtalo de nuevo más tarde."
     }
   },
   "approvals": {
@@ -1187,5 +1194,18 @@
       "newLink": "Solicitar un nuevo enlace de verificación",
       "invitationHint": "Si recibiste una invitación a una organización, vuelve a abrir el enlace original después de iniciar sesión."
     }
+  },
+  "demo": {
+    "title": "Demo en vivo",
+    "description": "Estás explorando un espacio de trabajo de solo lectura con datos de ejemplo.",
+    "readOnly": "Modo de solo lectura",
+    "exit": "Salir de la demo",
+    "session": "Las sesiones de demostración duran 60 minutos.",
+    "restricted": "Esta función no está disponible en el modo de demostración.",
+    "expired": "Tu sesión de demostración ha caducado. Inicia una nueva sesión.",
+    "fullVersionTitle": "Disponible en la versión completa",
+    "fullVersionDescription": "Esta función forma parte de PromiseFlow, pero está restringida en el modo de demostración por motivos de seguridad.",
+    "backToDashboard": "Volver al panel",
+    "actionRestricted": "Esta acción está desactivada en el modo de demostración."
   }
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
@@ -210,7 +212,7 @@ export default function TeamsPage() {
           </p>
         </div>
 
-        <button
+        <DemoActionButton
           type="button"
           onClick={() => {
             setShowCreateForm(
@@ -226,7 +228,7 @@ export default function TeamsPage() {
           {showCreateForm
             ? t("cancel")
             : t("newTeam")}
-        </button>
+        </DemoActionButton>
       </section>
 
       {errorMessage ? (
@@ -317,7 +319,7 @@ export default function TeamsPage() {
           </div>
 
           <div className="mt-6 flex justify-end">
-            <button
+            <DemoActionButton
               type="submit"
               disabled={isCreating}
               className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -329,7 +331,7 @@ export default function TeamsPage() {
                 : t(
                     "create.submit",
                   )}
-            </button>
+            </DemoActionButton>
           </div>
         </form>
       ) : null}

@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
@@ -356,7 +358,7 @@ export default function ProjectsPage() {
           </p>
         </div>
 
-        <button
+        <DemoActionButton
           type="button"
           onClick={() =>
             setShowCreateForm(
@@ -369,7 +371,7 @@ export default function ProjectsPage() {
           {showCreateForm
             ? t("cancel")
             : t("newProject")}
-        </button>
+        </DemoActionButton>
       </section>
 
       {errorMessage ? (
@@ -486,7 +488,7 @@ export default function ProjectsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={
                   isCreating
@@ -500,7 +502,7 @@ export default function ProjectsPage() {
                   : t(
                       "createProject",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         </section>
@@ -608,7 +610,7 @@ export default function ProjectsPage() {
                 {t("cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={isSaving}
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
@@ -618,7 +620,7 @@ export default function ProjectsPage() {
                   : t(
                       "saveChanges",
                     )}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         </section>
@@ -663,7 +665,7 @@ export default function ProjectsPage() {
                 </Link>
 
                 <div className="mt-5 flex flex-wrap gap-2 border-t border-border pt-4">
-                  <button
+                  <DemoActionButton
                     type="button"
                     onClick={() =>
                       handleStartEdit(
@@ -673,9 +675,9 @@ export default function ProjectsPage() {
                     className="h-9 rounded-lg border border-border px-3 text-sm font-medium transition hover:bg-surface-muted"
                   >
                     {t("edit")}
-                  </button>
+                  </DemoActionButton>
 
-                  <button
+                  <DemoActionButton
                     type="button"
                     onClick={() =>
                       handleStartDelete(
@@ -685,7 +687,7 @@ export default function ProjectsPage() {
                     className="h-9 rounded-lg border border-red-200 px-3 text-sm font-medium text-red-600 transition hover:bg-red-50"
                   >
                     {t("delete")}
-                  </button>
+                  </DemoActionButton>
                 </div>
               </article>
             ),
@@ -742,7 +744,7 @@ export default function ProjectsPage() {
                 {t("cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 disabled={isDeleting}
                 onClick={() =>
@@ -753,7 +755,7 @@ export default function ProjectsPage() {
                 {isDeleting
                   ? t("deleting")
                   : t("delete")}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>

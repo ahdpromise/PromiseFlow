@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { ArrowLeft, CheckSquare } from "lucide-react";
@@ -299,7 +301,7 @@ export default function ProjectDetailsPage() {
             </p>
           </div>
 
-          <button
+          <DemoActionButton
             type="button"
             onClick={() =>
               setShowCreateForm(
@@ -311,7 +313,7 @@ export default function ProjectDetailsPage() {
             {showCreateForm
               ? t("cancel")
               : t("newTask")}
-          </button>
+          </DemoActionButton>
         </div>
       </section>
 
@@ -485,7 +487,7 @@ export default function ProjectDetailsPage() {
             </div>
 
             <div className="flex justify-end">
-              <button
+              <DemoActionButton
                 type="submit"
                 disabled={isCreating}
                 className="h-10 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
@@ -493,7 +495,7 @@ export default function ProjectDetailsPage() {
                 {isCreating
                   ? t("createTask.creating")
                   : t("createTask.submit")}
-              </button>
+              </DemoActionButton>
             </div>
           </form>
         </section>

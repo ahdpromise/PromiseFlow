@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import { Bell, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -12,7 +14,7 @@ import {
 } from "react";
 
 import { useLocale } from "@/i18n/locale-provider";
-import { getAccessToken } from "@/lib/auth-storage";
+import { getAccessToken, isDemoSession } from "@/lib/auth-storage";
 import {
   deleteNotification,
   getNotifications,
@@ -169,7 +171,7 @@ export function NotificationBell() {
     }
 
     try {
-      if (!notification.read_at) {
+      if (!notification.read_at && !isDemoSession()) {
         const updatedNotification =
           await markNotificationAsRead(
             token,
@@ -368,7 +370,7 @@ export function NotificationBell() {
                         </div>
                       </button>
 
-                      <button
+                      <DemoActionButton
                         type="button"
                         onClick={() =>
                           void handleDeleteNotification(
@@ -386,7 +388,7 @@ export function NotificationBell() {
                           size={16}
                           strokeWidth={1.8}
                         />
-                      </button>
+                      </DemoActionButton>
                     </div>
                   );
                 })}

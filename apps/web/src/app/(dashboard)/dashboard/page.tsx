@@ -14,7 +14,11 @@ import {
   useSyncExternalStore,
 } from "react";
 
-import { getAccessToken } from "@/lib/auth-storage";
+import {
+  getAccessToken,
+  isDemoSession,
+} from "@/lib/auth-storage";
+import { DemoActionButton } from "@/components/demo/demo-controls";
 
 import {
   getWorkspaceId,
@@ -42,8 +46,22 @@ function getServerSnapshot() {
   return null;
 }
 
+function subscribeToDemoSession() {
+  return () => {};
+}
+
+function getServerDemoSnapshot() {
+  return false;
+}
+
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
+
+  const isDemo = useSyncExternalStore(
+    subscribeToDemoSession,
+    isDemoSession,
+    getServerDemoSnapshot,
+  );
 
   const workspaceId = useSyncExternalStore(
     subscribeToWorkspace,
@@ -299,12 +317,22 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <Link
-            href="/projects"
-            className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
-          >
-            {t("newProject")}
-          </Link>
+          {isDemo ? (
+            <DemoActionButton
+              type="button"
+              disabled
+              className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground"
+            >
+              {t("newProject")}
+            </DemoActionButton>
+          ) : (
+            <Link
+              href="/projects"
+              className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition hover:opacity-90"
+            >
+              {t("newProject")}
+            </Link>
+          )}
         </div>
       </section>
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { DemoActionButton } from "@/components/demo/demo-controls";
+
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import {
@@ -468,14 +470,14 @@ export default function TasksPage() {
             </p>
           </div>
 
-          <button
+          <DemoActionButton
             type="button"
             onClick={openCreateModal}
             disabled={projects.length === 0}
             className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {t("newTask")}
-          </button>
+          </DemoActionButton>
         </section>
 
         {errorMessage ? (
@@ -730,7 +732,7 @@ export default function TasksPage() {
                         )}
                       </span>
 
-                      <button
+                      <DemoActionButton
                         type="button"
                         onClick={() =>
                           setTaskToDelete(
@@ -740,7 +742,7 @@ export default function TasksPage() {
                         className="rounded-lg border border-red-200 px-3 py-1.5 font-medium text-red-600 transition hover:bg-red-50"
                       >
                         {t("delete")}
-                      </button>
+                      </DemoActionButton>
                     </div>
                   </div>
                 ),
@@ -987,7 +989,7 @@ export default function TasksPage() {
                   {t("cancel")}
                 </button>
 
-                <button
+                <DemoActionButton
                   type="submit"
                   disabled={isCreating}
                   className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
@@ -999,7 +1001,7 @@ export default function TasksPage() {
                     : t(
                         "create.submit",
                       )}
-                </button>
+                </DemoActionButton>
               </div>
             </form>
           </div>
@@ -1033,7 +1035,7 @@ export default function TasksPage() {
                 {t("cancel")}
               </button>
 
-              <button
+              <DemoActionButton
                 type="button"
                 disabled={isDeleting}
                 onClick={() =>
@@ -1044,7 +1046,7 @@ export default function TasksPage() {
                 {isDeleting
                   ? t("deleting")
                   : t("delete")}
-              </button>
+              </DemoActionButton>
             </div>
           </div>
         </div>
